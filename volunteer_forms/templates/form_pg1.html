@@ -1,9 +1,20 @@
-{% extends 'base.html' %}
+{% extends 'baseVolunteer.html' %}
 
 {% block body %}
 
-<h1>form page 1</h1>
+<h1>Volunteer Application Form</h1>
 
-{{ form.as_p }}
+<form action="{% url 'add' %}" method="post">
+    {% csrf_token %}
+    <h3>Volunteer Information</h3>
+    {{ v_form.as_p }}
+    <h3>Insurance Information</h3>
+    {{ i_form.as_p }}
+    <h3>License Information</h3>
+    {{ li_form.as_p }}
+    <h3>Student Information</h3>
+    {{ s_form.as_p }}
+    <input type="submit" value="Add Volunteer">
+</form>
 
 {% endblock %}

@@ -64,17 +64,20 @@ class Volunteer(models.Model):
     specification = models.CharField(max_length=50)
 
     occuChoices = [
-        ('PY', 'Physician'),
-        ('NR', 'Nurse'),
-        ('PH', 'Pharmacist'),
-        ('DE', 'Dentist'),
-        ('EN', 'ENT'),
-        ('TE', 'Teacher'),
-        ('OT', 'Other')
+        ('Physician', 'Physician'),
+        ('Nurse', 'Nurse'),
+        ('Pharmacist', 'Pharmacist'),
+        ('Dentist', 'Dentist'),
+        ('ENT', 'ENT'),
+        ('Teacher', 'Teacher'),
+        ('Other', 'Other')
     ]
 
-    occupation = models.CharField(max_length=2, choices=occuChoices)
+    occupation = models.CharField(max_length=50, choices=occuChoices)
     otherOccu = models.CharField(max_length=50)
-    license = models.ForeignKey(License, on_delete=models.CASCADE, related_name="license")
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="student")
-    insurance = models.ForeignKey(Insurance, on_delete=models.CASCADE, related_name="insurance")
+    license = models.ForeignKey(License, on_delete=models.CASCADE, related_name="license", blank=True, null=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="student", blank=True, null=True)
+    insurance = models.ForeignKey(Insurance, on_delete=models.CASCADE, related_name="insurance", blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
