@@ -1,0 +1,15 @@
+{% extends 'base_partner.html' %}
+
+{% block content %}
+    {% csrf_token %}
+
+    <script>
+        alert('Hello World!');
+    </script>
+
+    <form action="{% url 'add_partner' %}" method="POST"> 
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit">
+    </form>
+{% endblock %}
