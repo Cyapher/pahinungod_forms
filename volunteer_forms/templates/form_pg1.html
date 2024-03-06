@@ -4,35 +4,147 @@
 
 <h1>Volunteer Application Form</h1>
 
-<form action="{% url 'add' %}" method="post">
-    {% csrf_token %}
+{% load crispy_forms_tags %}
 
-    <h3>Volunteer Information</h3>
-
-    {% for field in v_form %}
-
-        {% if field.name in volunteerFields %}
-
-            <div class="fieldWrapper">
-
-                {{ field.label_tag }}
-                {{ field }}
-                <br><br>
-
-            </div>
-
-        {% endif %}
-
-    {% endfor %}
+<div align="center">
+    <form action="{% url 'add' %}" method="post" class="w-50">
+        {% csrf_token %}
+    
+        <div>
+            <h3>Volunteer Information</h3>
         
-    <input type="checkbox" id="alumni_check" onchange="toggleAlumni()">Are you an alumnus of UP?</input>
-
-    <br>
-    <div id="alumni_div" style="display: none;">
-        <h3>Alumni Information</h3>
+            {% for field in v_form  %}
+        
+                {% if field.name in volunteerFields %}
+        
+                    <div class="fieldWrapper">
+        
+                        {{ field.label_tag }}
+                        {{ field }}
+                        <br><br>
+        
+                    </div>
+        
+                {% endif %}
+        
+            {% endfor %}
+        </div>
+    
+        <input type="checkbox" id="alumni_check" onchange="toggleAlumni()">Are you an alumnus of UP?</input>
+    
+        <br>
+        <div id="alumni_div" style="display: none;">
+            <h3>Alumni Information</h3>
+            {% for field in v_form %}
+        
+                {% if field.name in alumnusFields %}
+        
+                    <div class="fieldWrapper">
+        
+                        {{ field.label_tag }}
+                        {{ field }}
+                        <br><br>
+        
+                    </div>
+        
+                {% endif %}
+        
+            {% endfor %}
+        </div>
+    
+        <input type="checkbox" id="pgh_check" onchange="togglePGH()">Are presently connected with UP-PGH?</input>
+    
+        <br>
+        <div id="pgh_div" style="display: none;">
+            <h3>PGH Connection Information</h3>
+            {% for field in v_form %}
+        
+                {% if field.name in pghFields %}
+        
+                    <div class="fieldWrapper">
+        
+                        {{ field.label_tag }}
+                        {{ field }}
+                        <br><br>
+        
+                    </div>
+        
+                {% endif %}
+        
+            {% endfor %}
+        </div>
+    
+        <input type="checkbox" id="work_check" onchange="toggleWork()">Are you presently working?</input>
+    
+        <br>
+        <div id="work_div" style="display: none;">
+            <h3>Occupation Information</h3>
+            {% for field in v_form %}
+    
+                {% if field.name in workFields %}
+    
+                    <div class="fieldWrapper">
+    
+                        {{ field.label_tag }}
+                        {{ field }}
+                        <br><br>
+    
+                    </div>
+    
+                {% endif %}
+    
+            {% endfor %}
+        </div>
+        
+        <input type="checkbox" id="license_check" onchange="toggleLicense()">Are you licensed?</input>
+    
+        <br>
+        <div id="license_div" style="display: none;">
+            <h3>Licensure Information</h3>
+            {% for field in v_form %}
+        
+                {% if field.name in licenseFields %}
+        
+                    <div class="fieldWrapper">
+        
+                        {{ field.label_tag }}
+                        {{ field }}
+                        <br><br>
+        
+                    </div>
+        
+                {% endif %}
+        
+            {% endfor %}
+        </div>
+        
+        <input type="checkbox" id="up_check", onchange="toggleUP()">Are you currently a student of UP?</input>
+    
+        <br>
+        <div id="up_div" style="display: none;">
+            <h3>Student Information</h3>
+            {% for field in v_form %}
+        
+                {% if field.name in studentFields %}
+        
+                    <div class="fieldWrapper">
+        
+                        {{ field.label_tag }}
+                        {{ field }}
+                        <br><br>
+        
+                    </div>
+        
+                {% endif %}
+        
+            {% endfor %}
+        </div>
+        
+        <br>
+        <h3>Insurance Information</h3>
         {% for field in v_form %}
     
-            {% if field.name in alumnusFields %}
+            {% if field.name in insuranceFields %}
     
                 <div class="fieldWrapper">
     
@@ -45,116 +157,10 @@
             {% endif %}
     
         {% endfor %}
-    </div>
-
-    <input type="checkbox" id="pgh_check" onchange="togglePGH()">Are presently connected with UP-PGH?</input>
-
-    <br>
-    <div id="pgh_div" style="display: none;">
-        <h3>PGH Connection Information</h3>
-        {% for field in v_form %}
     
-            {% if field.name in pghFields %}
-    
-                <div class="fieldWrapper">
-    
-                    {{ field.label_tag }}
-                    {{ field }}
-                    <br><br>
-    
-                </div>
-    
-            {% endif %}
-    
-        {% endfor %}
-    </div>
-
-    <input type="checkbox" id="work_check" onchange="toggleWork()">Are you presently working?</input>
-
-    <br>
-    <div id="work_div" style="display: none;">
-        <h3>Occupation Information</h3>
-        {% for field in v_form %}
-
-            {% if field.name in workFields %}
-
-                <div class="fieldWrapper">
-
-                    {{ field.label_tag }}
-                    {{ field }}
-                    <br><br>
-
-                </div>
-
-            {% endif %}
-
-        {% endfor %}
-    </div>
-    
-    <input type="checkbox" id="license_check" onchange="toggleLicense()">Are you licensed?</input>
-
-    <br>
-    <div id="license_div" style="display: none;">
-        <h3>Licensure Information</h3>
-        {% for field in v_form %}
-    
-            {% if field.name in licenseFields %}
-    
-                <div class="fieldWrapper">
-    
-                    {{ field.label_tag }}
-                    {{ field }}
-                    <br><br>
-    
-                </div>
-    
-            {% endif %}
-    
-        {% endfor %}
-    </div>
-    
-    <input type="checkbox" id="up_check", onchange="toggleUP()">Are you currently a student of UP?</input>
-
-    <br>
-    <div id="up_div" style="display: none;">
-        <h3>Student Information</h3>
-        {% for field in v_form %}
-    
-            {% if field.name in studentFields %}
-    
-                <div class="fieldWrapper">
-    
-                    {{ field.label_tag }}
-                    {{ field }}
-                    <br><br>
-    
-                </div>
-    
-            {% endif %}
-    
-        {% endfor %}
-    </div>
-    
-    <br>
-    <h3>Insurance Information</h3>
-    {% for field in v_form %}
-
-        {% if field.name in insuranceFields %}
-
-            <div class="fieldWrapper">
-
-                {{ field.label_tag }}
-                {{ field }}
-                <br><br>
-
-            </div>
-
-        {% endif %}
-
-    {% endfor %}
-
-    <input type="submit" value="Add Volunteer">
-</form>
+        <input type="submit" value="Add Volunteer">
+    </form>
+</div>
 
 <script>
     function toggleAlumni() {
