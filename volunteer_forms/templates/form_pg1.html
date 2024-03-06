@@ -6,15 +6,211 @@
 
 <form action="{% url 'add' %}" method="post">
     {% csrf_token %}
+
     <h3>Volunteer Information</h3>
-    {{ v_form.as_p }}
+
+    {% for field in v_form %}
+
+        {% if field.name in volunteerFields %}
+
+            <div class="fieldWrapper">
+
+                {{ field.label_tag }}
+                {{ field }}
+                <br><br>
+
+            </div>
+
+        {% endif %}
+
+    {% endfor %}
+        
+    <input type="checkbox" id="alumni_check" onchange="toggleAlumni()">Are you an alumnus of UP?</input>
+
+    <br>
+    <div id="alumni_div" style="display: none;">
+        <h3>Alumni Information</h3>
+        {% for field in v_form %}
+    
+            {% if field.name in alumnusFields %}
+    
+                <div class="fieldWrapper">
+    
+                    {{ field.label_tag }}
+                    {{ field }}
+                    <br><br>
+    
+                </div>
+    
+            {% endif %}
+    
+        {% endfor %}
+    </div>
+
+    <input type="checkbox" id="pgh_check" onchange="togglePGH()">Are presently connected with UP-PGH?</input>
+
+    <br>
+    <div id="pgh_div" style="display: none;">
+        <h3>PGH Connection Information</h3>
+        {% for field in v_form %}
+    
+            {% if field.name in pghFields %}
+    
+                <div class="fieldWrapper">
+    
+                    {{ field.label_tag }}
+                    {{ field }}
+                    <br><br>
+    
+                </div>
+    
+            {% endif %}
+    
+        {% endfor %}
+    </div>
+
+    <input type="checkbox" id="work_check" onchange="toggleWork()">Are you presently working?</input>
+
+    <br>
+    <div id="work_div" style="display: none;">
+        <h3>Occupation Information</h3>
+        {% for field in v_form %}
+
+            {% if field.name in workFields %}
+
+                <div class="fieldWrapper">
+
+                    {{ field.label_tag }}
+                    {{ field }}
+                    <br><br>
+
+                </div>
+
+            {% endif %}
+
+        {% endfor %}
+    </div>
+    
+    <input type="checkbox" id="license_check" onchange="toggleLicense()">Are you licensed?</input>
+
+    <br>
+    <div id="license_div" style="display: none;">
+        <h3>Licensure Information</h3>
+        {% for field in v_form %}
+    
+            {% if field.name in licenseFields %}
+    
+                <div class="fieldWrapper">
+    
+                    {{ field.label_tag }}
+                    {{ field }}
+                    <br><br>
+    
+                </div>
+    
+            {% endif %}
+    
+        {% endfor %}
+    </div>
+    
+    <input type="checkbox" id="up_check", onchange="toggleUP()">Are you currently a student of UP?</input>
+
+    <br>
+    <div id="up_div" style="display: none;">
+        <h3>Student Information</h3>
+        {% for field in v_form %}
+    
+            {% if field.name in studentFields %}
+    
+                <div class="fieldWrapper">
+    
+                    {{ field.label_tag }}
+                    {{ field }}
+                    <br><br>
+    
+                </div>
+    
+            {% endif %}
+    
+        {% endfor %}
+    </div>
+    
+    <br>
     <h3>Insurance Information</h3>
-    {{ i_form.as_p }}
-    <h3>License Information</h3>
-    {{ li_form.as_p }}
-    <h3>Student Information</h3>
-    {{ s_form.as_p }}
+    {% for field in v_form %}
+
+        {% if field.name in insuranceFields %}
+
+            <div class="fieldWrapper">
+
+                {{ field.label_tag }}
+                {{ field }}
+                <br><br>
+
+            </div>
+
+        {% endif %}
+
+    {% endfor %}
+
     <input type="submit" value="Add Volunteer">
 </form>
 
+<script>
+    function toggleAlumni() {
+        var alumniCheck = document.getElementById("alumni_check");
+        var alumniDiv = document.getElementById("alumni_div");
+
+        if (alumniCheck.checked) {
+            alumniDiv.style.display = "block";
+        } else {
+            alumniDiv.style.display = "none";
+        }
+    }
+
+    function togglePGH() {
+        var pghCheck = document.getElementById("pgh_check");
+        var pghDiv = document.getElementById("pgh_div");
+
+        if (pghCheck.checked) {
+            pghDiv.style.display = "block";
+        } else {
+            pghDiv.style.display = "none";
+        }
+    }
+
+    function toggleWork() {
+        var workCheck = document.getElementById("work_check");
+        var workDiv = document.getElementById("work_div");
+
+        if (workCheck.checked) {
+            workDiv.style.display = "block";
+        } else {
+            workDiv.style.display = "none";
+        }
+    }
+
+    function toggleLicense() {
+        var licenseCheck = document.getElementById("license_check");
+        var licenseDiv = document.getElementById("license_div");
+
+        if (licenseCheck.checked) {
+            licenseDiv.style.display = "block";
+        } else {
+            licenseDiv.style.display = "none";
+        }
+    }
+
+    function toggleUP() {
+        var upCheck = document.getElementById("up_check");
+        var upDiv = document.getElementById("up_div");
+
+        if (upCheck.checked) {
+            upDiv.style.display = "block";
+        } else {
+            upDiv.style.display = "none";
+        }
+    }
+    
+</script>
 {% endblock %}

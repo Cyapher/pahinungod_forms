@@ -4,58 +4,28 @@
 
 <h1>Volunteers Page</h1>
 
-<ul>
-    {% for volunteer in volunteers %}
-    <li>{{ volunteer }}</li>
-    {% endfor %}
-</ul>
-
 <table border="1px">
     <thead>
-        <th>First Name</th>
-        <th>Middle Name</th>
-        <th>Last Name</th>
-        <th>Address</th>
-        <th>Mobile #</th>
-        <th>Telephone #</th>
-        <th>Email</th>
-        <th>Birthdate</th>
-        <th>Age</th>
-        <th>Civil Status</th>
-        <th>Sex</th>
-        <th>Blood Type</th>
-        <th>Religion</th>
-        <th>Health Conditions</th>
-        <th>Skills & Hobbies</th>
-        <th>Food Restrictions</th>
-        <th>Constituent Unit</th>
-        <th>Specification</th>
+        <th>Name</th>
+        <th>Volunteer Information</th>
+        <th>Constituent Unit (For UP Alumni)</th>
+        <th>PGH Specificataion</th>
         <th>Occupation</th>
-        <th>Other Occupation</th>
+        <th>License Information</th>
+        <th>Insurance Information</th>
+        <th>Student Information (UP Students)</th>
     </thead>
     <tbody>
         {% for volunteer in volunteers %}
         <tr>
-            <td>{{ volunteer.first_name }}</td>
-            <td>{{ volunteer.middle_name }}</td>
-            <td>{{ volunteer.last_name }}</td>
-            <td>{{ volunteer.address }}</td>
-            <td>{{ volunteer.mobile }}</td>
-            <td>{{ volunteer.telephone }}</td>
-            <td>{{ volunteer.email }}</td>
-            <td>{{ volunteer.birthdate }}</td>
-            <td>{{ volunteer.age }}</td>
-            <td>{{ volunteer.civilStatus }}</td>
-            <td>{{ volunteer.sex }}</td>
-            <td>{{ volunteer.bloodType }}</td>
-            <td>{{ volunteer.religion }}</td>
-            <td>{{ volunteer.healthConditions }}</td>
-            <td>{{ volunteer.skillsHobbies }}</td>
-            <td>{{ volunteer.foodRestrictions }}</td>
+            <td>{{ volunteer.first_name }} {{ volunteer.last_name }}</td>
+            <td><p>url here...</p></td>
             <td>{{ volunteer.constituentUnit }}</td>
             <td>{{ volunteer.specification }}</td>
-            <td>{{ volunteer.occupation }}</td>
-            <td>{{ volunteer.otherOccu }}</td>
+            <td>{{ volunteer.occupation }}<br>{{ volunteer.otherOccu }}</td>
+            <td><p>url here...</p></td>
+            <td><p>url here...</p></td>
+            <td><p>url here...</p></td>
         </tr>
         {% endfor %}
     </tbody>
