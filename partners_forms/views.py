@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from partners_forms.forms import PartnerForm
@@ -21,4 +21,11 @@ def add_partner(request):
             return HttpResponseRedirect(reverse('index'))
         else:
             return render(request, 'partners_forms.html', {'form': form})
+        
+def del_all(request):
+    form = Partner.objects.all()
+    form.delete()
+    return render(request, 'index.html')
 
+def get_second_category_options(request):
+    print('here in get_secondary')
