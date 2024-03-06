@@ -1,0 +1,34 @@
+{% extends 'baseVolunteer.html' %}
+
+{% block body %}
+
+<h1>Volunteers Page</h1>
+
+<table border="1px">
+    <thead>
+        <th>Name</th>
+        <th>Volunteer Information</th>
+        <th>Constituent Unit (For UP Alumni)</th>
+        <th>PGH Specificataion</th>
+        <th>Occupation</th>
+        <th>License Information</th>
+        <th>Insurance Information</th>
+        <th>Student Information (UP Students)</th>
+    </thead>
+    <tbody>
+        {% for volunteer in volunteers %}
+        <tr>
+            <td>{{ volunteer.first_name }} {{ volunteer.last_name }}</td>
+            <td><p>url here...</p></td>
+            <td>{{ volunteer.constituentUnit }}</td>
+            <td>{{ volunteer.specification }}</td>
+            <td>{{ volunteer.occupation }}<br>{{ volunteer.otherOccu }}</td>
+            <td><p>url here...</p></td>
+            <td><p>url here...</p></td>
+            <td><p>url here...</p></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

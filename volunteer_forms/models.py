@@ -2,34 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-class License(models.Model):
-    prcLicense = models.CharField(max_length=7)
-    dept = models.CharField(max_length=50)
-    company = models.CharField(max_length=50)
-    officeAdd = models.CharField(max_length=50)
-    telephone = models.CharField(max_length=10)
-    email = models.CharField(max_length=50)
-    workSched = models.CharField(max_length=50)
-
-yrChoices = [
-    ('1', '1st Year'),
-    ('2', '2nd Year'),
-    ('3', '3rd Year'),
-    ('4', '4th Year'),
-    ('5', '5th Year')
-]
-
-class Student(models.Model):
-    idNum = models.CharField(max_length=50)
-    course = models.CharField(max_length=50)
-    college = models.CharField(max_length=50)
-    yearLvl = models.CharField(max_length=1, choices=yrChoices)
-
-class Insurance(models.Model):
-    beneficiaries = models.CharField(max_length=50)
-    relation = models.CharField(max_length=50)
-    contact = models.CharField(max_length=50)
-
 class Volunteer(models.Model):
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50)
@@ -60,21 +32,48 @@ class Volunteer(models.Model):
     skillsHobbies = models.CharField(max_length=50)
     foodRestrictions = models.CharField(max_length=50)
 
-    constituentUnit = models.CharField(max_length=50)
-    specification = models.CharField(max_length=50)
+    constituentUnit = models.CharField(max_length=50, blank=True, null=True)
+    specification = models.CharField(max_length=50, blank=True, null=True)
 
     occuChoices = [
-        ('PY', 'Physician'),
-        ('NR', 'Nurse'),
-        ('PH', 'Pharmacist'),
-        ('DE', 'Dentist'),
-        ('EN', 'ENT'),
-        ('TE', 'Teacher'),
-        ('OT', 'Other')
+        ('Physician', 'Physician'),
+        ('Nurse', 'Nurse'),
+        ('Pharmacist', 'Pharmacist'),
+        ('Dentist', 'Dentist'),
+        ('ENT', 'ENT'),
+        ('Teacher', 'Teacher'),
+        ('Other', 'Other')
     ]
 
-    occupation = models.CharField(max_length=2, choices=occuChoices)
-    otherOccu = models.CharField(max_length=50)
-    license = models.ForeignKey(License, on_delete=models.CASCADE, related_name="license")
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="student")
-    insurance = models.ForeignKey(Insurance, on_delete=models.CASCADE, related_name="insurance")
+    occupation = models.CharField(max_length=50, choices=occuChoices, blank=True, null=True)
+    otherOccu = models.CharField(max_length=50, blank=True, null=True)
+
+    beneficiaries = models.CharField(max_length=50)
+    relation = models.CharField(max_length=50)
+    contact = models.CharField(max_length=50)
+
+    # license
+    prcLicense = models.CharField(max_length=7, blank=True, null=True)
+    dept = models.CharField(max_length=50, blank=True, null=True)
+    company = models.CharField(max_length=50, blank=True, null=True)
+    officeAdd = models.CharField(max_length=50, blank=True, null=True)
+    telephone = models.CharField(max_length=10, blank=True, null=True)
+    email = models.CharField(max_length=50, blank=True, null=True)
+    workSched = models.CharField(max_length=50, blank=True, null=True)
+
+    # student
+    yrChoices = [
+    ('1', '1st Year'),
+    ('2', '2nd Year'),
+    ('3', '3rd Year'),
+    ('4', '4th Year'),
+    ('5', '5th Year')
+    ]
+
+    idNum = models.CharField(max_length=50, blank=True, null=True)
+    course = models.CharField(max_length=50, blank=True, null=True)
+    college = models.CharField(max_length=50, blank=True, null=True)
+    yearLvl = models.CharField(max_length=1, choices=yrChoices, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
