@@ -1,0 +1,68 @@
+{% extends 'base_partner.html' %}
+
+{% block content %}
+    {% csrf_token %}
+
+    <form action="{% url 'add_partner' %}" method="POST"> 
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit">
+    </form>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            //Get second_category_element
+            const selectElement_second = document.getElementById('id_second_category');
+
+            //Hide all second_category_element
+            const options = selectElement_second.options;
+            for (let i = 0; i < options.length; i++) {
+            const option = options[i];
+                option.style.display = 'none';
+          
+            }
+
+            //
+            const selectElement = document.getElementById('id_stakeholder_category');
+            selectElement.addEventListener('change', function(event) {
+                const selectedValue = event.target.value;
+                if(selectedValue == 'P'){
+                    const selectElement_second = document.getElementById('id_second_category');
+                    const options = selectElement_second.options;
+                    for (let i = 0; i < options.length; i++) {
+                    const option = options[i];
+                        if (option.value === '2') {
+                            option.style.display = 'none';
+                        }else{
+                            option.style.display = 'block';
+                        }
+                    }
+                }
+                else if(selectedValue == 'G'){
+                    const selectElement_second = document.getElementById('id_second_category');
+                    const options = selectElement_second.options;
+                    for (let i = 0; i < options.length; i++) {
+                    const option = options[i];
+                    if (option.value === '1') {
+                            option.style.display = 'none';
+                        }else{
+                            option.style.display = 'block';
+                        }
+
+                    }   
+                }
+                else{
+                    for (let i = 0; i < options.length; i++) {
+                    const option = options[i];
+                    option.style.display = 'none';    
+                    }
+                }
+            });
+        });
+
+        // Event listener for the change event
+    </script>
+
+{% endblock %}
