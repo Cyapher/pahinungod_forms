@@ -57,8 +57,8 @@ class Volunteer(models.Model):
     dept = models.CharField(max_length=50, blank=True, null=True)
     company = models.CharField(max_length=50, blank=True, null=True)
     officeAdd = models.CharField(max_length=50, blank=True, null=True)
-    telephone = models.CharField(max_length=10, blank=True, null=True)
-    email = models.CharField(max_length=50, blank=True, null=True)
+    license_telephone = models.CharField(max_length=10, blank=True, null=True)
+    license_email = models.CharField(max_length=50, blank=True, null=True)
     workSched = models.CharField(max_length=50, blank=True, null=True)
 
     # student

@@ -32,8 +32,8 @@ def index(request):
                     'dept',
                     'company',
                     'officeAdd',
-                    'telephone',
-                    'email',
+                    'license_telephone',
+                    'license_email',
                     'workSched']
     
     insuranceFields = ['beneficiaries',
