@@ -2,9 +2,145 @@
 
 {% block body %}
 
-<h1>Volunteer Application Form</h1>
+<style>
+    td {
+        padding: 4%;
+    }
 
+    label {
+        padding-left: 2%;
+        padding-bottom: -2%;
+    }
+
+    textarea {
+        max-height: 100px;
+        resize: none;
+    }
+
+    #multi_col {
+        padding-left: 1%;
+    }
+
+</style>
+
+<!-- <h1>Volunteer Application Form</h1> -->
+<br><br>
+
+{% load widget_tweaks %}
 {% load crispy_forms_tags %}
+<div class="row justify-content-center" align="center">
+    <div class="col-lg-10">
+        <form action="{% url 'add' %}" method="post">
+            <table class="w-75 table table-bordered border-dark">
+                <thead>
+                    <h3>Volunteer</h3>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label for="id_first_name" class="form-label">First Name</label>
+                            {{v_form.first_name}}
+                        </td>
+                        <td>
+                            <label for="id_middle_name" class="form-label">Middle Name</label>
+                            {{v_form.middle_name}}
+                        </td>
+                        <td>
+                            <label for="id_last_name" class="form-label">Last Name</label>
+                            {{v_form.last_name}}
+                        </td>
+                        <tr>
+                            <td>
+                                <label for="id_mobile" class="form-label">Mobile #</label>
+                                {{v_form.mobile}}
+                            </td>
+                            <td colspan="3">
+                                <label id="multi_col" for="id_email" class="form-label">Email</label>
+                                {{v_form.email}}
+                            </td>
+                        </tr>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <label id="multi_col" for="id_address" class="form-label">Address</label>
+                            {{v_form.address}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">
+                            <label id="multi_col" for="id_telephone" class="form-label">Telephone #</label>
+                            {{v_form.telephone}}
+                        </td>
+                        <td colspan="1">
+                            <label id="multi_col" for="id_birth_date" class="form-label">Birth Date</label>
+                            {% render_field v_form.birthdate type="date" class="form-control" placeholder="mm/dd/yyyy" %}
+                        </td>
+                        <td colspan="1">
+                            <label id="multi_col" for="id_civilStatus" class="form-label">Civil Status</label>
+                            <br>
+                            {{v_form.civilStatus}}
+                        </td>
+                    </tr>
+                        <tr>
+                            <td colspan="1">
+                                <label id="multi_col" for="id_sex" class="form-label">Sex</label>
+                                <br>
+                                {{v_form.sex}}
+                            </td>
+                            <td>
+                                <label id="multi_col" for="id_bloodType" class="form-label">Blood Type</label>
+                                {{v_form.bloodType}}
+                            </td>
+                            <td colspan="1">
+                                <label id="multi_col" for="id_religion" class="form-label">Religion</label>
+                                {{v_form.religion}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">
+                                <label id="multi_col" for="id_healthConditions" class="form-label">Health Conditions</label>
+                                {{v_form.healthConditions}}
+                            </td>
+                            <td colspan="1">
+                                <label id="multi_col" for="id_skillsHobbies" class="form-label">Skills & Hobbies</label>
+                                {{v_form.skillsHobbies}}
+                            </td>
+                            <td colspan="1">
+                                <label id="multi_col" for="id_foodRestrictions" class="form-label">Food Restrictions</label>
+                                {{v_form.foodRestrictions}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" align="center">
+                                <input type="checkbox" id="alumni_check" onchange="toggleAlumni()">Are you an alumnus of UP?</input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div id="alumni_div" style="display: none;">
+                                    {% for field in v_form %}
+                                
+                                        {% if field.name in alumnusFields %}
+                                
+                                            <div class="fieldWrapper">
+                                
+                                                <label id="multi_col" for="{{ field.id }}" class="form-label">Constituent Unit</label>
+                                                {{ field }}
+                                
+                                            </div>
+                                
+                                        {% endif %}
+                                
+                                    {% endfor %}
+                                </div>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <input class="btn btn-outline-success" type="submit" value="Add Volunteer">
+        </form>
+    </div>
+</div>
 
 <div align="center">
     <form action="{% url 'add' %}" method="post" class="w-50">
@@ -217,6 +353,5 @@
             upDiv.style.display = "none";
         }
     }
-    
 </script>
 {% endblock %}
