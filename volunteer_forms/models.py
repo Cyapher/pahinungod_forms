@@ -28,9 +28,9 @@ class Volunteer(models.Model):
     sex = models.CharField(max_length=1, choices=sexChoices)
     bloodType = models.CharField(max_length=3)
     religion = models.CharField(max_length=50)
-    healthConditions = models.CharField(max_length=50)
-    skillsHobbies = models.CharField(max_length=50)
-    foodRestrictions = models.CharField(max_length=50)
+    healthConditions = models.TextField()
+    skillsHobbies = models.TextField()
+    foodRestrictions = models.TextField()
 
     constituentUnit = models.CharField(max_length=50, blank=True, null=True)
     specification = models.CharField(max_length=50, blank=True, null=True)
@@ -57,8 +57,8 @@ class Volunteer(models.Model):
     dept = models.CharField(max_length=50, blank=True, null=True)
     company = models.CharField(max_length=50, blank=True, null=True)
     officeAdd = models.CharField(max_length=50, blank=True, null=True)
-    telephone = models.CharField(max_length=10, blank=True, null=True)
-    email = models.CharField(max_length=50, blank=True, null=True)
+    license_telephone = models.CharField(max_length=10, blank=True, null=True)
+    license_email = models.CharField(max_length=50, blank=True, null=True)
     workSched = models.CharField(max_length=50, blank=True, null=True)
 
     # student
