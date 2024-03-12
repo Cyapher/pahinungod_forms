@@ -2,16 +2,17 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from partners_forms.forms import PartnerForm
-from .models import Partner
+from .models import Partner, Scope_of_work
 
 # Create your views here.
 def index(request): # Temp landing page
     partners = Partner.objects.all()
-    display = partners
     return render(request, "index.html", {'partners' : partners})
 
 def partner_form(request):
-    return render(request, "partners_forms.html", {'form' : PartnerForm()})
+    scope_of_work_choices = Scope_of_work.scope_of_work_choices
+    print(f'scope_of_work_choices: {scope_of_work_choices}')
+    return render(request, "partners_forms.html", {'form' : PartnerForm(), 'scope_of_work_choices': scope_of_work_choices})
 
 def add_partner(request):
     if request.method == 'POST':

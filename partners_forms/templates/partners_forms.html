@@ -6,6 +6,7 @@
     <form action="{% url 'add_partner' %}" method="POST"> 
         {% csrf_token %}
         {{ form.as_p }}
+
         <input type="submit">
     </form>
 
@@ -21,30 +22,57 @@
             for (let i = 0; i < options.length; i++) {
             const option = options[i];
                 option.style.display = 'none';
-          
             }
 
-            //
+            //Hide Other Field
+            const otherField = document.getElementById('id_other_choice');
+            const otherFieldLabel = document.querySelector('label[for="id_other_choice"]');
+            otherField.style.display = 'none';
+            otherFieldLabel.style.display = 'none';
+
+            // If stakeholder_category selected
             const selectElement = document.getElementById('id_stakeholder_category');
             selectElement.addEventListener('change', function(event) {
+
+                // Get second_category
+                const selectElement_second = document.getElementById('id_second_category');
+                const selectElement_second_options = selectElement_second.options;
                 const selectedValue = event.target.value;
+
+                // Event Listener for second category
+                selectElement_second.addEventListener('change', function(event){
+                    const selectedOption = selectElement_second.options[selectElement_second.selectedIndex]
+
+                    // Get the value and text of the selected option
+                    const selectedValue = selectedOption.value;
+                    const selectedText = selectedOption.textContent.trim();
+
+                    if(selectedText == 'Others'){
+                        otherField.style.display = 'block';
+                        otherFieldLabel.style.display = 'block';
+                    } else{
+                        otherField.style.display = 'none';
+                        otherFieldLabel.style.display = 'none';
+                    }
+                })
+
+                // If Private
                 if(selectedValue == 'P'){
-                    const selectElement_second = document.getElementById('id_second_category');
-                    const options = selectElement_second.options;
-                    for (let i = 0; i < options.length; i++) {
-                    const option = options[i];
+                    for (let i = 0; i < selectElement_second_options.length; i++) {
+                    const option = selectElement_second_options[i];
                         if (option.value === '2') {
                             option.style.display = 'none';
-                        }else{
+                        } 
+                        else{
                             option.style.display = 'block';
                         }
                     }
                 }
+
+                // If Government
                 else if(selectedValue == 'G'){
-                    const selectElement_second = document.getElementById('id_second_category');
-                    const options = selectElement_second.options;
-                    for (let i = 0; i < options.length; i++) {
-                    const option = options[i];
+                    for (let i = 0; i < selectElement_second_options.length; i++) {
+                    const option = selectElement_second_options[i];
                     if (option.value === '1') {
                             option.style.display = 'none';
                         }else{
@@ -52,13 +80,21 @@
                         }
 
                     }   
+                    if(selectElement_second_options == 'O'){
+                        otherField.style.display = 'block';
+                    }
                 }
+
+                // If not yet picked
                 else{
-                    for (let i = 0; i < options.length; i++) {
-                    const option = options[i];
+                    for (let i = 0; i < selectElement_second_options.length; i++) {
+                    const option = selectElement_second_options[i];
                     option.style.display = 'none';    
                     }
                 }
+
+                
+                
             });
         });
 
