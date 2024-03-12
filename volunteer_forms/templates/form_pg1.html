@@ -116,15 +116,15 @@
             <table class="w-50 table table-bordered border-dark">
                 <thead>
                     <tr>
-                        <td colspan="3" align="center">
+                        <td align="center">
                             <input type="checkbox" id="alumni_check" onchange="toggleAlumni()"> Are you an alumnus of UP?</input>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="3">
-                            <div id="alumni_div" style="display: none;">
+                        <td id="alumni_div" style="display: none;">
+                            <div>
                                 {% for field in v_form %}
                             
                                     {% if field.name in alumnusFields %}
@@ -148,15 +148,15 @@
             <table class="w-50 table table-bordered border-dark">
                 <thead>
                     <tr>
-                        <td colspan="3" align="center">
+                        <td align="center">
                             <input type="checkbox" id="pgh_check" onchange="togglePGH()"> Are presently connected with UP-PGH?</input>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="3">
-                            <div id="pgh_div" style="display: none;">
+                        <td id="pgh_div" style="display: none;">
+                            <div>
                                 {% for field in v_form %}
                             
                                     {% if field.name in pghFields %}
@@ -180,15 +180,15 @@
             <table class="w-50 table table-bordered border-dark">
                 <thead>
                     <tr>
-                        <td colspan="3" align="center">
+                        <td align="center">
                             <input type="checkbox" id="work_check" onchange="toggleWork()"> Are you presently working?</input>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="3">
-                            <div id="work_div" style="display: none;">
+                        <td id="work_div" style="display: none;">
+                            <div>
                                 {% for field in v_form %}
                             
                                     {% if field.name in workFields %}
@@ -224,15 +224,15 @@
             <table class="w-50 table table-bordered border-dark">
                 <thead>
                     <tr>
-                        <td colspan="3" align="center">
+                        <td align="center">
                             <input type="checkbox" id="license_check" onchange="toggleLicense()">Are you licensed?</input>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="3">
-                            <div id="license_div" style="display: none;">
+                        <td id="license_div" style="display: none;">
+                            <div>
                                 {% for field in v_form %}
                             
                                 <!-- prcLicense
