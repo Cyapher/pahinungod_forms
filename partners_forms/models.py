@@ -104,3 +104,6 @@ class Partner(models.Model):
 
     type_of_partnership = models.ManyToManyField(type_of_partnership, blank=True, null=True)
     # scope_of_work = models.ManyToManyField(Scope_of_work, blank=True)
+
+    # Agreement_startDate = models.DateField()
+    
