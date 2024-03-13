@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from volunteer_forms.models import Volunteer
@@ -76,7 +76,28 @@ def printVolunteers(request):
     print(volunteers)
     return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
 
-def clearData(request):
-    Volunteer.objects.all().delete()
+def updateVolunteer(request, volunteer_id):
+    volunteer = Volunteer.objects.get(pk=volunteer_id)
+    form = VolunteerForm(instance=volunteer)
+    if request.method == 'POST':
+        form = VolunteerForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect('list')
     
-    return HttpResponseRedirect(reverse("list"))
+    return render(request, "edit_volunteer.html", {"volunteer" : volunteer, 'v_form' : form,
+                                                   'volunteerFields' : volunteerFields,
+                                                    'alumnusFields' : alumnusFields,
+                                                    'pghFields' : pghFields,
+                                                    'workFields' : workFields,
+                                                    'licenseFields' : licenseFields,
+                                                    'insuranceFields' : insuranceFields,
+                                                    'studentFields' : studentFields})
+
+def deleteVolunteer(request, volunteer_id):
+    volunteer = Volunteer.objects.get(pk=volunteer_id)
+    volunteer.delete()
+
+    return redirect('list')
