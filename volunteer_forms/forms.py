@@ -23,7 +23,9 @@ class VolunteerForm(ModelForm):
         'address' : 'Enter your home address here',
         'telephone' : 'Enter your telephone number here',
         'bloodType' : 'Enter your blood type here',
-        'religion' : 'Enter your religion here'
+        'religion' : 'Enter your religion here',
+        'constituentUnit' : 'Enter your constituent unit here',
+        'specification' : 'Enter your specification here'
     }
 
     def __init__(self, *args, **kwargs):

@@ -2,7 +2,13 @@
 
 {% block body %}
 
-<h1 align="center">Volunteers Page</h1>
+<style>
+    th {
+        width: 100%;
+    }
+</style>
+
+<h3 align="center">Volunteers Page</h3>
 
 <table align="center" class="table table-bordered border-dark w-75">
     <thead class="table-light border-dark">
@@ -14,6 +20,7 @@
         <th>License Information</th>
         <th>Insurance Information</th>
         <th>Student Information (UP Students)</th>
+        <th colspan="2"><p align="center">Actions</p></th>
     </thead>
     <tbody>
         {% for volunteer in volunteers %}
@@ -22,10 +29,34 @@
             <td><p>url here...</p></td>
             <td>{{ volunteer.constituentUnit }}</td>
             <td>{{ volunteer.specification }}</td>
-            <td>{{ volunteer.occupation }}<br>{{ volunteer.otherOccu }}</td>
+            <td>
+                {% if volunteer.occupation == "Other" %}
+                    
+                    {{ volunteer.otherOccu }}
+
+                {% else %}
+
+                    {{ volunteer.occupation }}
+
+                {% endif %}
+            </td>
             <td><p>url here...</p></td>
             <td><p>url here...</p></td>
             <td><p>url here...</p></td>
+            <td>
+                <!-- Edit -->
+                <form action="{% url 'edit' volunteer.id %}">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-warning" value="Edit">
+                </form>
+            </td>
+            <td>
+                <!-- Delete -->
+                <form action="{% url 'del_volunteer' volunteer.id %}">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');">
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
