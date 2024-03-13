@@ -38,6 +38,7 @@ class Partner(models.Model):
         ('DPT', 'Disaster Preparedness Training'),
         ('DPL', 'Disaster Preparedness Lecture'),
     ]
+
     partnership_extension = models.CharField(max_length=8, choices=partnership_extension_choices)
 
     # STAKEHOLDER CATEGORY
@@ -105,5 +106,6 @@ class Partner(models.Model):
     type_of_partnership = models.ManyToManyField(type_of_partnership, blank=True, null=True)
     # scope_of_work = models.ManyToManyField(Scope_of_work, blank=True)
 
-    # Agreement_startDate = models.DateField()
+    Agreement_Start_Date = models.DateField()
+    Agreement_End_Date = models.DateField()
     
