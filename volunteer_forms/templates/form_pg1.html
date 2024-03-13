@@ -9,7 +9,6 @@
 
     label {
         padding-left: 2%;
-        padding-bottom: -2%;
     }
 
     textarea {
@@ -19,6 +18,11 @@
 
     #multi_col {
         padding-left: 1%;
+
+    }
+    
+    label {
+        margin-top: 1%;
     }
 
 </style>
@@ -234,14 +238,6 @@
                         <td id="license_div" style="display: none;">
                             <div>
                                 {% for field in v_form %}
-                            
-                                <!-- prcLicense
-                                dept
-                                company
-                                officeAdd
-                                telephone
-                                email
-                                workSched -->
 
                                     {% if field.name in licenseFields %}
 
@@ -303,6 +299,67 @@
                                             <div class="fieldWrapper">
                                 
                                                 <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Work Schedule</label>
+                                                {{ field }}
+                                
+                                            </div>                                        
+                                        {% endif %}
+                            
+                                    {% endif %}
+                            
+                                {% endfor %}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="w-50 table table-bordered border-dark">
+                <thead>
+                    <tr>
+                        <td align="center">
+                            <input type="checkbox" id="up_check" onchange="toggleUP()">Are you currently a student of UP?</input>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="up_div" style="display: none;">
+                            <div>
+                                {% for field in v_form %}
+
+                                    {% if field.name in studentFields %}
+
+                                        {% if field.name == "idNum" %}
+                                            <div class="fieldWrapper">
+                                
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">ID #</label>
+                                                {{ field }}
+                                
+                                            </div>                                        
+                                        {% endif %}
+
+                                        {% if field.name == "course" %}
+                                            <div class="fieldWrapper">
+                                
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Course</label>
+                                                {{ field }}
+                                
+                                            </div>                                        
+                                        {% endif %}
+
+                                        {% if field.name == "college" %}
+                                            <div class="fieldWrapper">
+                                
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">College</label>
+                                                {{ field }}
+                                
+                                            </div>                                        
+                                        {% endif %}
+
+                                        {% if field.name == "yearLvl" %}
+                                            <div class="fieldWrapper">
+                                
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Year Level</label>
                                                 {{ field }}
                                 
                                             </div>                                        

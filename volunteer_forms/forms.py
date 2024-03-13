@@ -42,6 +42,9 @@ class VolunteerForm(ModelForm):
             if field_name == 'sex':
                 field.widget.attrs['class'] = 'form-select'
 
+            if field_name == 'yearLvl':
+                field.widget.attrs['class'] = 'form-select'
+
             if field_name == 'constituentUnit':
                 field.widget.attrs['id'] = 'multi_col'
 
