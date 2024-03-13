@@ -5,9 +5,7 @@ from django.urls import reverse
 from volunteer_forms.models import Volunteer
 from .forms import VolunteerForm
 
-def index(request):
-
-    volunteerFields = ['first_name',
+volunteerFields = ['first_name',
                        'middle_name',
                        'last_name',
                        'mobile',
@@ -24,11 +22,11 @@ def index(request):
                        'skillsHobbies',
                        'foodRestrictions']
     
-    alumnusFields = ['constituentUnit']
-    pghFields = ['specification']
-    workFields = ['occupation', 'otherOccu']
+alumnusFields = ['constituentUnit']
+pghFields = ['specification']
+workFields = ['occupation', 'otherOccu']
     
-    licenseFields = ['prcLicense',
+licenseFields = ['prcLicense',
                     'dept',
                     'company',
                     'officeAdd',
@@ -36,14 +34,16 @@ def index(request):
                     'license_email',
                     'workSched']
     
-    insuranceFields = ['beneficiaries',
+insuranceFields = ['beneficiaries',
                        'relation',
                        'contact']
     
-    studentFields = ['idNum',
+studentFields = ['idNum',
                      'course',
                      'college',
                      'yearLvl']
+
+def index(request):
     
     return render(request, "form_pg1.html", 
                   {'v_form' : VolunteerForm(),
@@ -62,7 +62,14 @@ def createVolunteer(request):
             form.save()
             return HttpResponseRedirect(reverse("list"))
         else:
-            return render(request, "form_pg1.html", {"form" : form})
+            return render(request, "form_pg1.html", {"v_form" : form,
+                                                    'volunteerFields' : volunteerFields,
+                                                    'alumnusFields' : alumnusFields,
+                                                    'pghFields' : pghFields,
+                                                    'workFields' : workFields,
+                                                    'licenseFields' : licenseFields,
+                                                    'insuranceFields' : insuranceFields,
+                                                    'studentFields' : studentFields})
 
 def printVolunteers(request):
     volunteers = Volunteer.objects.all()

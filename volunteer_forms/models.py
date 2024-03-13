@@ -11,7 +11,7 @@ class Volunteer(models.Model):
     telephone = models.CharField(max_length=10)
     email = models.CharField(max_length=50)
     birthdate = models.DateField(max_length=50)
-    age = models.CharField(max_length=50)
+    # age = models.CharField(max_length=50)
 
     civilStatusChoices = [
         ('S', 'Single'),

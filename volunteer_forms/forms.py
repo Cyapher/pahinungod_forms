@@ -42,11 +42,15 @@ class VolunteerForm(ModelForm):
             if field_name == 'sex':
                 field.widget.attrs['class'] = 'form-select'
 
+            if field_name == 'yearLvl':
+                field.widget.attrs['class'] = 'form-select'
+
             if field_name == 'constituentUnit':
                 field.widget.attrs['id'] = 'multi_col'
 
             if field_name == 'occupation':
                 field.widget.attrs['class'] = 'form-select'
+                field.widget.attrs['onchange'] = 'dropWork()'
             
             if field_name in self.placeholders:
                 field.widget.attrs['placeholder'] = self.placeholders[field_name]
