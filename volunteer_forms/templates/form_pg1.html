@@ -28,8 +28,8 @@
 <!-- <h1>Volunteer Application Form</h1> -->
 <br><br>
 
-{% load widget_tweaks %}
 {% load crispy_forms_tags %}
+{% load widget_tweaks %}
 <div class="row justify-content-center" align="center">
     <div class="col-lg-10">
         <form action="{% url 'add' %}" method="post">
@@ -386,48 +386,50 @@
                         </td>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div>
-                                {% for field in v_form %}
-
-                                    {% if field.name in insuranceFields %}
-
-                                        {% if field.name == "beneficiaries" %}
-                                            <div class="fieldWrapper">
+                <div id="insuranceDiv">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>
+                                    {% for field in v_form %}
+    
+                                        {% if field.name in insuranceFields %}
+    
+                                            {% if field.name == "beneficiaries" %}
+                                                <div class="fieldWrapper">
+                                    
+                                                    <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Beneficiaries</label>
+                                                    {{ field }}
+                                    
+                                                </div>                                        
+                                            {% endif %}
+    
+                                            {% if field.name == "relation" %}
+                                                <div class="fieldWrapper">
+                                    
+                                                    <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Relation</label>
+                                                    {{ field }}
+                                    
+                                                </div>                                        
+                                            {% endif %}
+    
+                                            {% if field.name == "contact" %}
+                                                <div class="fieldWrapper">
+                                    
+                                                    <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact Details</label>
+                                                    {{ field }}
+                                    
+                                                </div>                                        
+                                            {% endif %}
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Beneficiaries</label>
-                                                {{ field }}
-                                
-                                            </div>                                        
                                         {% endif %}
-
-                                        {% if field.name == "relation" %}
-                                            <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Relation</label>
-                                                {{ field }}
-                                
-                                            </div>                                        
-                                        {% endif %}
-
-                                        {% if field.name == "contact" %}
-                                            <div class="fieldWrapper">
-                                
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact Details</label>
-                                                {{ field }}
-                                
-                                            </div>                                        
-                                        {% endif %}
-                            
-                                    {% endif %}
-                            
-                                {% endfor %}
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </div>
             </table>
 
             <input class="btn btn-outline-success" type="submit" value="Add Volunteer">
@@ -438,6 +440,7 @@
 <br>
 
 <script>
+
     function toggleAlumni() {
         var alumniCheck = document.getElementById("alumni_check");
         var alumniDiv = document.getElementById("alumni_div");
