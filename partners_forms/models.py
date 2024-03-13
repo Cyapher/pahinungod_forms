@@ -17,6 +17,11 @@ class Scope_of_work(models.Model):
 
     # scope_of_work = models.One(max_length=1, choices=scope_of_work_choices)
 
+class type_of_partnership(models.Model):
+    type_of_partnership = models.CharField(max_length=64)
+
+    def __str__(self):
+        return f"{self.type_of_partnership}"
 
 class Partner(models.Model):
 
@@ -92,7 +97,10 @@ class Partner(models.Model):
         ('PT1','Partner Type 1'),
         ('PT2','Partner Type 2'),
     ]
+
+    # type_of_partnership = models.CharField(max_length=4, choices=type_of_partnership_choices, blank=True, null=True)
         
-    # Fields
-    type_of_partnership = models.CharField(max_length=4, choices=type_of_partnership_choices, blank=True, null=True)
+    # Extra Fields
+
+    type_of_partnership = models.ManyToManyField(type_of_partnership, blank=True, null=True)
     # scope_of_work = models.ManyToManyField(Scope_of_work, blank=True)
