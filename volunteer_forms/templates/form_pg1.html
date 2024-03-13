@@ -7,10 +7,6 @@
         padding: 4%;
     }
 
-    label {
-        padding-left: 2%;
-    }
-
     textarea {
         max-height: 100px;
         resize: none;
@@ -21,9 +17,11 @@
 
     }
     
-    label {
+    .extra_form {
         margin-top: 1%;
     }
+
+    
 
 </style>
 
@@ -35,6 +33,7 @@
 <div class="row justify-content-center" align="center">
     <div class="col-lg-10">
         <form action="{% url 'add' %}" method="post">
+            {% csrf_token %}
             <table class="w-75 table table-bordered border-dark">
                 <thead>
                     <h3>Volunteer</h3>
@@ -121,7 +120,8 @@
                 <thead>
                     <tr>
                         <td align="center">
-                            <input type="checkbox" id="alumni_check" onchange="toggleAlumni()"> Are you an alumnus of UP?</input>
+                            <input type="checkbox" id="alumni_check" onchange="toggleAlumni()">
+                            <label for="alumni_check">Are you an alumnus of UP?</label>
                         </td>
                     </tr>
                 </thead>
@@ -135,7 +135,7 @@
                             
                                         <div class="fieldWrapper">
                             
-                                            <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Constituent Unit</label>
+                                            <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Constituent Unit</label>
                                             {{ field }}
                             
                                         </div>
@@ -167,7 +167,7 @@
                             
                                         <div class="fieldWrapper">
                             
-                                            <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Specification</label>
+                                            <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Specification</label>
                                             {{ field }}
                             
                                         </div>
@@ -200,7 +200,7 @@
                                         {% if field.name == "occupation" %}
                                             <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Occupation</label>
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Occupation</label>
                                                 {{ field }}
                                 
                                             </div>                                        
@@ -209,7 +209,7 @@
                                         {% if field.name == "otherOccu" %}
                                             <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Other Occupation</label>
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Other Occupation</label>
                                                 {{ field }}
                                 
                                             </div>                                        
@@ -229,7 +229,7 @@
                 <thead>
                     <tr>
                         <td align="center">
-                            <input type="checkbox" id="license_check" onchange="toggleLicense()">Are you licensed?</input>
+                            <input type="checkbox" id="license_check" onchange="toggleLicense()"> Are you licensed?</input>
                         </td>
                     </tr>
                 </thead>
@@ -244,7 +244,7 @@
                                         {% if field.name == "prcLicense" %}
                                             <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">PRC License #</label>
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">PRC License #</label>
                                                 {{ field }}
                                 
                                             </div>                                        
@@ -253,7 +253,7 @@
                                         {% if field.name == "dept" %}
                                             <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Department</label>
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Department</label>
                                                 {{ field }}
                                 
                                             </div>                                        
@@ -262,7 +262,7 @@
                                         {% if field.name == "company" %}
                                             <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Company</label>
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Company</label>
                                                 {{ field }}
                                 
                                             </div>                                        
@@ -271,7 +271,7 @@
                                         {% if field.name == "officeAdd" %}
                                             <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Office Address</label>
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office Address</label>
                                                 {{ field }}
                                 
                                             </div>                                        
@@ -280,7 +280,7 @@
                                         {% if field.name == "license_telephone" %}
                                             <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Office Telephone #</label>
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office Telephone #</label>
                                                 {{ field }}
                                 
                                             </div>                                        
@@ -289,7 +289,7 @@
                                         {% if field.name == "license_email" %}
                                             <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Office Email</label>
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office Email</label>
                                                 {{ field }}
                                 
                                             </div>                                        
@@ -298,7 +298,7 @@
                                         {% if field.name == "workSched" %}
                                             <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Work Schedule</label>
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Work Schedule</label>
                                                 {{ field }}
                                 
                                             </div>                                        
@@ -317,7 +317,7 @@
                 <thead>
                     <tr>
                         <td align="center">
-                            <input type="checkbox" id="up_check" onchange="toggleUP()">Are you currently a student of UP?</input>
+                            <input type="checkbox" id="up_check" onchange="toggleUP()"> Are you currently a student of UP?</input>
                         </td>
                     </tr>
                 </thead>
@@ -332,7 +332,7 @@
                                         {% if field.name == "idNum" %}
                                             <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">ID #</label>
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">ID #</label>
                                                 {{ field }}
                                 
                                             </div>                                        
@@ -341,7 +341,7 @@
                                         {% if field.name == "course" %}
                                             <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Course</label>
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Course</label>
                                                 {{ field }}
                                 
                                             </div>                                        
@@ -350,7 +350,7 @@
                                         {% if field.name == "college" %}
                                             <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">College</label>
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">College</label>
                                                 {{ field }}
                                 
                                             </div>                                        
@@ -359,7 +359,63 @@
                                         {% if field.name == "yearLvl" %}
                                             <div class="fieldWrapper">
                                 
-                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Year Level</label>
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Year Level</label>
+                                                {{ field }}
+                                
+                                            </div>                                        
+                                        {% endif %}
+                            
+                                    {% endif %}
+                            
+                                {% endfor %}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="w-50 table table-bordered border-dark">
+                <thead>
+                    <tr>
+                        <td align="center">
+                            <label id="multi_col" class="form-label">
+                                <strong>
+                                    Insurance Information
+                                </strong>
+                            </label>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                {% for field in v_form %}
+
+                                    {% if field.name in insuranceFields %}
+
+                                        {% if field.name == "beneficiaries" %}
+                                            <div class="fieldWrapper">
+                                
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Beneficiaries</label>
+                                                {{ field }}
+                                
+                                            </div>                                        
+                                        {% endif %}
+
+                                        {% if field.name == "relation" %}
+                                            <div class="fieldWrapper">
+                                
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Relation</label>
+                                                {{ field }}
+                                
+                                            </div>                                        
+                                        {% endif %}
+
+                                        {% if field.name == "contact" %}
+                                            <div class="fieldWrapper">
+                                
+                                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact Details</label>
                                                 {{ field }}
                                 
                                             </div>                                        
@@ -378,162 +434,8 @@
         </form>
     </div>
 </div>
-
-<div align="center">
-    <form action="{% url 'add' %}" method="post" class="w-50">
-        {% csrf_token %}
-    
-        <div>
-            <h3>Volunteer Information</h3>
-        
-            {% for field in v_form  %}
-        
-                {% if field.name in volunteerFields %}
-        
-                    <div class="fieldWrapper">
-        
-                        {{ field.label_tag }}
-                        {{ field }}
-                        <br><br>
-        
-                    </div>
-        
-                {% endif %}
-        
-            {% endfor %}
-        </div>
-    
-        <input type="checkbox" id="alumni_check" onchange="toggleAlumni()">Are you an alumnus of UP?</input>
-    
-        <br>
-        <div id="alumni_div" style="display: none;">
-            <h3>Alumni Information</h3>
-            {% for field in v_form %}
-        
-                {% if field.name in alumnusFields %}
-        
-                    <div class="fieldWrapper">
-        
-                        {{ field.label_tag }}
-                        {{ field }}
-                        <br><br>
-        
-                    </div>
-        
-                {% endif %}
-        
-            {% endfor %}
-        </div>
-    
-        <input type="checkbox" id="pgh_check" onchange="togglePGH()">Are presently connected with UP-PGH?</input>
-    
-        <br>
-        <div id="pgh_div" style="display: none;">
-            <h3>PGH Connection Information</h3>
-            {% for field in v_form %}
-        
-                {% if field.name in pghFields %}
-        
-                    <div class="fieldWrapper">
-        
-                        {{ field.label_tag }}
-                        {{ field }}
-                        <br><br>
-        
-                    </div>
-        
-                {% endif %}
-        
-            {% endfor %}
-        </div>
-    
-        <input type="checkbox" id="work_check" onchange="toggleWork()">Are you presently working?</input>
-    
-        <br>
-        <div id="work_div" style="display: none;">
-            <h3>Occupation Information</h3>
-            {% for field in v_form %}
-    
-                {% if field.name in workFields %}
-    
-                    <div class="fieldWrapper">
-    
-                        {{ field.label_tag }}
-                        {{ field }}
-                        <br><br>
-    
-                    </div>
-    
-                {% endif %}
-    
-            {% endfor %}
-        </div>
-        
-        <input type="checkbox" id="license_check" onchange="toggleLicense()">Are you licensed?</input>
-    
-        <br>
-        <div id="license_div" style="display: none;">
-            <h3>Licensure Information</h3>
-            {% for field in v_form %}
-        
-                {% if field.name in licenseFields %}
-        
-                    <div class="fieldWrapper">
-        
-                        {{ field.label_tag }}
-                        {{ field }}
-                        <br><br>
-        
-                    </div>
-        
-                {% endif %}
-        
-            {% endfor %}
-        </div>
-        
-        <input type="checkbox" id="up_check", onchange="toggleUP()">Are you currently a student of UP?</input>
-    
-        <br>
-        <div id="up_div" style="display: none;">
-            <h3>Student Information</h3>
-            {% for field in v_form %}
-        
-                {% if field.name in studentFields %}
-        
-                    <div class="fieldWrapper">
-        
-                        {{ field.label_tag }}
-                        {{ field }}
-                        <br><br>
-        
-                    </div>
-        
-                {% endif %}
-        
-            {% endfor %}
-        </div>
-        
-        <br>
-        <h3>Insurance Information</h3>
-        {% for field in v_form %}
-    
-            {% if field.name in insuranceFields %}
-    
-                <div class="fieldWrapper">
-    
-                    {{ field.label_tag }}
-                    {{ field }}
-                    <br><br>
-    
-                </div>
-    
-            {% endif %}
-    
-        {% endfor %}
-    
-        <input type="submit" value="Add Volunteer">
-    </form>
-</div>
+<br>
+<br>
 
 <script>
     function toggleAlumni() {
@@ -555,6 +457,18 @@
             pghDiv.style.display = "block";
         } else {
             pghDiv.style.display = "none";
+        }
+    }
+
+    function dropWork() {
+        var workDropValue = document.getElementById("id_occupation").value;
+        var workOther = document.getElementById("id_otherOccu");
+
+        if (workDropValue === "Other") {
+            workOther.removeAttribute("disabled");
+        }
+        else {
+            workOther.setAttribute("disabled", "disabled");
         }
     }
 

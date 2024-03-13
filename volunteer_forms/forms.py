@@ -50,6 +50,7 @@ class VolunteerForm(ModelForm):
 
             if field_name == 'occupation':
                 field.widget.attrs['class'] = 'form-select'
+                field.widget.attrs['onchange'] = 'dropWork()'
             
             if field_name in self.placeholders:
                 field.widget.attrs['placeholder'] = self.placeholders[field_name]
