@@ -78,16 +78,16 @@ def printVolunteers(request):
 
 def updateVolunteer(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
-    form = VolunteerForm(instance=volunteer)
     if request.method == 'POST':
-        form = VolunteerForm(request.POST)
+        form = VolunteerForm(request.POST, instance=volunteer)
 
         if form.is_valid():
             form.save()
 
             return redirect('list')
-    
-    return render(request, "edit_volunteer.html", {"volunteer" : volunteer, 'v_form' : form,
+    else:
+        form = VolunteerForm(instance=volunteer)
+        return render(request, "edit_volunteer.html", {"volunteer" : volunteer, 'v_form' : form,
                                                    'volunteerFields' : volunteerFields,
                                                     'alumnusFields' : alumnusFields,
                                                     'pghFields' : pghFields,
