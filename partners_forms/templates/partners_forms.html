@@ -46,23 +46,41 @@
         
                 </table> -->
 
-                <div class="mb-3">
-                    <label for="id_partner_name" class="p-2">Partner Name: </label>
+                <div class="mb-5 w-75">
                     {{ form.partner_name }}
+
+                    {{ form.partnership_extension }}
+
+                    {{ form.stakeholder_category }}
+
+                    {{ form.second_category }}
+
+                    {{ form.other_choice }}
+
+                    {{ form.type_of_partnership }}
+
+                    {{ form.Agreement_Start_Date }}
+                    
+                    {{ form.Agreement_End_Date }}
+
+                    
                 </div>
                 
     
-            <!-- {{ form.as_p }} -->
+            
     
             <input type="submit">
         </form>
 
+        {{ form.as_p }}
+
     <script>
 
-        document.addEventListener('DOMContentLoaded', function() {
+        //Get second_category_element
+        const selectElement_second = document.getElementById('id_second_category');
+        const selectElement_second_label = document.getElementById('id_second_category');
 
-            //Get second_category_element
-            const selectElement_second = document.getElementById('id_second_category');
+        document.addEventListener('DOMContentLoaded', function() {
 
             //Hide all second_category_element
             const options = selectElement_second.options;
@@ -70,6 +88,8 @@
             const option = options[i];
                 option.style.display = 'none';
             }
+            selectElement_second.style.display = 'none';
+            selectElement_second_label.style.display = 'none';
 
             //Hide Other Field
             const otherField = document.getElementById('id_other_choice');
@@ -81,10 +101,12 @@
             const selectElement = document.getElementById('id_stakeholder_category');
             selectElement.addEventListener('change', function(event) {
 
-                // Get second_category
                 const selectElement_second = document.getElementById('id_second_category');
                 const selectElement_second_options = selectElement_second.options;
                 const selectedValue = event.target.value;
+                // Get second_category
+                selectElement_second.style.display = 'block';
+                selectElement_second_label.style.display = 'block';
 
                 // Event Listener for second category
                 selectElement_second.addEventListener('change', function(event){

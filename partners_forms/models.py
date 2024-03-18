@@ -30,6 +30,7 @@ class Partner(models.Model):
 
     # PARTNERSHIP EXTENSION
     partnership_extension_choices = [
+        ('', 'Select Partnership Extension'),
         ('HT:BLS', 'Health Training: Basic Life Support'),
         ('HT:BAP', 'Health Training: Breast Advocacy and PFA'),
         ('HT:FAST', 'Health Training: FAST'),
@@ -39,15 +40,17 @@ class Partner(models.Model):
         ('DPL', 'Disaster Preparedness Lecture'),
     ]
 
-    partnership_extension = models.CharField(max_length=8, choices=partnership_extension_choices)
+    partnership_extension = models.CharField(max_length=8, choices=partnership_extension_choices, blank=False)
 
     # STAKEHOLDER CATEGORY
     stakeholder_category_choices = [
+        ('', 'Select Stakeholder Category'),
         ('P', 'Private'),
         ('G', 'Government'),
     ]
 
     second_category = [
+        ('', 'Select Second Stakeholder Category'),
         ('1', 'NGO',),
         ('1', 'Company'),
         ('1', 'Educational Institution'),
@@ -86,12 +89,14 @@ class Partner(models.Model):
         
     stakeholder_category = models.CharField(max_length=64, 
                                             choices=stakeholder_category_choices, 
-                                            null=True)
+                                            null=True,
+                                            blank=False)
     second_category = models.CharField(max_length=64, 
                                        choices=second_category, 
-                                       null=True)
+                                       null=True,
+                                       blank=False)
     other_choice = models.CharField(max_length=64, 
-                                    blank=True)
+                                    blank=True,)
 
     type_of_partnership_choices = [
         ('O','Others'),
@@ -103,7 +108,7 @@ class Partner(models.Model):
         
     # Extra Fields
 
-    type_of_partnership = models.ManyToManyField(type_of_partnership, blank=True, null=True)
+    type_of_partnership = models.ManyToManyField(type_of_partnership, blank=True)
     # scope_of_work = models.ManyToManyField(Scope_of_work, blank=True)
 
     Agreement_Start_Date = models.DateField()
