@@ -1,0 +1,152 @@
+{% extends 'baseVolunteer.html' %}
+
+{% block body %}
+
+<style>
+    .right_col {
+        padding-left: 10%;
+    }
+</style>
+
+<h3 class="display-5" align="center">Volunteer Info</h3>
+
+<div align="center">
+    <table class="table table-bordered w-50 border-dark">
+        <thead align="center">
+            <th colspan="4">Volunteer Info</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td align="center">
+                    <p><strong>Name</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer }}
+                    </p>
+                </td>
+                <td align="center">
+                    <p><strong>Birth Date</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.birthdate }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Address</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.address }}
+                    </p>
+                </td>
+                <td align="center">
+                    <p><strong>Civil Status</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.civilStatus }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Mobile #</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.mobile }}
+                    </p>
+                </td>
+                <td align="center">
+                    <p><strong>Sex</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.sex }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Telephone #</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.telephone }}
+                    </p>
+                </td>
+                <td align="center">
+                    <p><strong>Blood Type</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.bloodType }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Email Address</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.email }}
+                    </p>
+                </td>
+                <td align="center">
+                    <p><strong>Religion</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.religion }}
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <table class="table table-bordered w-50 border-dark">
+        <thead>
+            <thead align="center">
+                <th colspan="2">Other Information</th>
+            </thead>
+        <tbody>
+            <tr>
+                <td align="center">
+                    <p><strong>Health Conditions</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.healthConditions }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Skills & Hobbies</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.skillsHobbies }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Food Restrictions</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.foodRestrictions }}
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

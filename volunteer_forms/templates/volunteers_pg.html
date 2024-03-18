@@ -8,7 +8,7 @@
     }
 </style>
 
-<h3 align="center">Volunteers Page</h3>
+<h3 align="center" class="display-5">Volunteers Page</h3>
 
 <table align="center" class="table table-bordered border-dark w-75">
     <thead class="table-light border-dark">
@@ -26,7 +26,14 @@
         {% for volunteer in volunteers %}
         <tr>
             <td>{{ volunteer.first_name }} {{ volunteer.last_name }}</td>
-            <td><p>url here...</p></td>
+            <td>
+                <p>
+                    <form action="{% url 'viewInfo' volunteer.id %}">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-outline-success" value="Volunteer Information">
+                    </form>
+                </p>
+            </td>
             <td>{{ volunteer.constituentUnit }}</td>
             <td>{{ volunteer.specification }}</td>
             <td>
@@ -40,22 +47,47 @@
 
                 {% endif %}
             </td>
-            <td><p>url here...</p></td>
-            <td><p>url here...</p></td>
-            <td><p>url here...</p></td>
+            <td>
+                <p>
+                    <form action="{% url 'viewLicense' volunteer.id %}">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-outline-success" value="License Information">
+                    </form>
+                </p>
+            </td>
+            <td>
+                <p>
+                    <form action="{% url 'viewInsurance' volunteer.id %}">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-outline-success" value="Insurance Information">
+                    </form>
+                </p>
+            </td>
+            <td>
+                <p>
+                    <form action="{% url 'viewStudent' volunteer.id %}">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-outline-success" value="Student Information">
+                    </form>
+                </p>
+            </td>
             <td>
                 <!-- Edit -->
-                <form action="{% url 'edit' volunteer.id %}">
-                    {% csrf_token %}
-                    <input type="submit" class="btn btn-warning" value="Edit">
-                </form>
+                <p>
+                    <form action="{% url 'edit' volunteer.id %}">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-warning" value="Edit">
+                    </form>
+                </p>
             </td>
             <td>
                 <!-- Delete -->
-                <form action="{% url 'del_volunteer' volunteer.id %}">
-                    {% csrf_token %}
-                    <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');">
-                </form>
+                <p>
+                    <form action="{% url 'del_volunteer' volunteer.id %}">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');">
+                    </form>
+                </p>
             </td>
         </tr>
         {% endfor %}

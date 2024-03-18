@@ -30,6 +30,7 @@
 
 {% load crispy_forms_tags %}
 {% load widget_tweaks %}
+
 <div class="row justify-content-center" align="center">
     <div class="col-lg-10">
         <form action="" method="post">
@@ -153,7 +154,8 @@
                 <thead>
                     <tr>
                         <td>
-                            <input type="checkbox" id="pgh_check" onchange="togglePGH()"> Are presently connected with UP-PGH?</input>
+                            <input type="checkbox" id="pgh_check" onchange="togglePGH()">
+                            <label for="pgh_check">Are presently connected with UP-PGH?</label>
                         </td>
                     </tr>
                 </thead>
@@ -441,8 +443,6 @@
 
 <script>
 
-    
-
     function toggleAlumni() {
         var alumniCheck = document.getElementById("alumni_check");
         var alumniDiv = document.getElementById("alumni_div");
@@ -509,5 +509,8 @@
             upDiv.style.display = "none";
         }
     }
+
+    dropWork();
+
 </script>
 {% endblock %}

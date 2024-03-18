@@ -1,0 +1,103 @@
+{% extends 'baseVolunteer.html' %}
+
+{% block body %}
+
+<style>
+    .right_col {
+        padding-left: 10%;
+    }
+</style>
+
+<h3 class="display-5" align="center">Volunteer License Info</h3>
+
+<div align="center">
+    <table class="table table-bordered w-50 border-dark">
+        <thead align="center">
+            <th colspan="2">Volunteer License Info</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td align="center">
+                    <p><strong>Name</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>PRC License</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.prcLicense }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Department</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.dept }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Company</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.company }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Office Address</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.officeAdd }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Office Telephone</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.license_telephone }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Office Email</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.license_email }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Work Schedule</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.workSched }}
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

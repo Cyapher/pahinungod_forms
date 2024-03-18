@@ -27,8 +27,8 @@ pghFields = ['specification']
 workFields = ['occupation', 'otherOccu']
     
 licenseFields = ['prcLicense',
-                    'dept',
                     'company',
+                    'dept', 
                     'officeAdd',
                     'license_telephone',
                     'license_email',
@@ -78,6 +78,7 @@ def printVolunteers(request):
 
 def updateVolunteer(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
+
     if request.method == 'POST':
         form = VolunteerForm(request.POST, instance=volunteer)
 
@@ -101,3 +102,19 @@ def deleteVolunteer(request, volunteer_id):
     volunteer.delete()
 
     return redirect('list')
+
+def view_volunteerInfo(request, volunteer_id):
+    volunteer = Volunteer.objects.get(pk=volunteer_id)
+    return render(request, "volunteerInfo_card.html", {'volunteer' : volunteer})
+
+def view_volunteerLicense(request, volunteer_id):
+    volunteer = Volunteer.objects.get(pk=volunteer_id)
+    return render(request, "licenseInfo_card.html", {'volunteer' : volunteer})
+
+def view_volunteerInsurance(request, volunteer_id):
+    volunteer = Volunteer.objects.get(pk=volunteer_id)
+    return render(request, "insuranceInfo_card.html", {'volunteer' : volunteer})
+
+def view_volunteerStudent(request, volunteer_id):
+    volunteer = Volunteer.objects.get(pk=volunteer_id)
+    return render(request, "studentInfo_card.html", {'volunteer' : volunteer})
