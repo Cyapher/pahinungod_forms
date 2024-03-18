@@ -7,20 +7,40 @@ class PartnerForm(ModelForm):
         model = Partner
         fields = '__all__'
 
+    placeholders = {
+        'partner_name' : 'Enter Partner Name', 
+        'partnership_extension' : 'Enter Partnership Extension Here',
+        'other_choice' : 'Enter Second Category Choice Here',
+        'type_of_partnership' : 'Enter Type of Partnership Here',
+        'Agreement_Start_Date' : 'Start',
+        'Agreement_End_Date' : 'End',
+    }
+
+    def __init__(self, *args, **kwargs):
+        super(PartnerForm, self).__init__(*args, **kwargs)
+
+        # For all field and field_name
+        for field_name, field in self.fields.items():
+            if isinstance(field, forms.CharField):
+                field.widget.attrs.update({
+                    'class':'form-control'
+                })
+
+            if isinstance(field, forms.ChoiceField):
+                field.widget.attrs.update({
+                    'class':'form-control'
+                })
+
+            if field_name in self.placeholders:
+                field.widget.attrs['placeholder'] = self.placeholders[field_name]
+        
+            self.fields['partnership_extension'].widget.attrs['initial'] = {'default'}
+            self.fields['partnership_extension'].empty_label = 'Select Partnership Extension'
+
 class Scope_of_work(ModelForm):
     class Meta:
         model = Scope_of_work
         fields = '__all__'
 
-def __init__(self, *args, **kwargs):
-    super(PartnerForm, self).__init__(*args, **kwargs)
-
-    for field_name, field in self.fields.items():
-
-        if isinstance(field, forms.CharField):
-            field.widget.attrs.update({
-                'class':'form-control'
-            })
-        
 
 
