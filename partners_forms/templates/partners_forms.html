@@ -22,7 +22,10 @@
 
     <h1 style="margin: auto; text-align: center;"> Partners Form </h1>
 
-        <form action="{% url 'add_partner' %}" method="POST" class="mb-3 flex-column justify-content-center p-4 border"> 
+        <form action="{% url 'add_partner' %}" method="POST" class="
+        mb-3 p-4 
+        d-flex flex-column 
+        align-items-center justify-content-center border"> 
             {% csrf_token %}
     
             <!-- TABLE FORM -->
@@ -46,9 +49,10 @@
         
                 </table> -->
 
-                <div class="mb-5 w-75">
+                <!-- Overall Div -->
+                <div class="mb-5 w-75 flex-column d-flex align-items-center justify-content-center">
                     {{ form.partner_name }}
-
+ 
                     {{ form.partnership_extension }}
 
                     {{ form.stakeholder_category }}
@@ -57,13 +61,35 @@
 
                     {{ form.other_choice }}
 
-                    {{ form.type_of_partnership }}
+                    <!-- Type of Partnership Field -->
+                    <div class="d-inline-flex flex-column w-100">
+                        <label for="id_type_of_partnership" class="col-auto col-form-label">Type of Partnership: </label>
+                        <div class="col-sm-100">
+                            {{ form.type_of_partnership }}
+                        </div>
+                    </div>
 
-                    {{ form.Agreement_Start_Date }}
-                    
-                    {{ form.Agreement_End_Date }}
+                    <!-- Date Fields -->
+                    <div class="mb-2 form-row align-items-center justify-content-center d-flex">
+                        <div class="form-group row col-auto m-2">
+                            <!-- Start Date -->
+                            <label for="id_Agreement_Start_Date" class="col-auto col-form-label">Start Date</label>
+                            <div class="col-auto">
+                                {% render_field form.Agreement_Start_Date type="date" class='form-control' placeholder="mm/dd/yyyy" %}
+                            </div>        
+                        </div>
+                        <div class="form-group row col-auto m-2">
+                            <!-- End Date -->
+                            <label for="id_Agreement_End_Date" class="col-auto col-form-label">End Date</label>
+                            <div class="col-auto">
+                                {% render_field form.Agreement_End_Date type="date" class='form-control' placeholder="mm/dd/yyyy" %}
+                            </div>
+                        </div>
+                    </div>
 
-                    
+                    <!-- File Field -->
+                    {{ form.file }}
+
                 </div>
                 
     
@@ -72,7 +98,7 @@
             <input type="submit">
         </form>
 
-        {{ form.as_p }}
+        <!-- {{ form.as_p }} -->
 
     <script>
 

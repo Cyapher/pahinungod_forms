@@ -111,6 +111,10 @@ class Partner(models.Model):
     type_of_partnership = models.ManyToManyField(type_of_partnership, blank=True)
     # scope_of_work = models.ManyToManyField(Scope_of_work, blank=True)
 
+    # Date Field
     Agreement_Start_Date = models.DateField()
     Agreement_End_Date = models.DateField()
+
+    # File Field
+    file = models.FileField()
     
