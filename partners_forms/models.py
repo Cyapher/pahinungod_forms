@@ -116,5 +116,5 @@ class Partner(models.Model):
     Agreement_End_Date = models.DateField()
 
     # File Field
-    file = models.FileField()
+    files = models.FileField(upload_to='partner_requirements/', blank=False, null=False)
     

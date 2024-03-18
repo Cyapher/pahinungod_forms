@@ -11,13 +11,17 @@ def index(request): # Temp landing page
 
 def partner_form(request):
     scope_of_work_choices = Scope_of_work.scope_of_work_choices
-    print(f'scope_of_work_choices: {scope_of_work_choices}')
+    # print(f'scope_of_work_choices: {scope_of_work_choices}')
     return render(request, "partners_forms.html", {'form' : PartnerForm(), 'scope_of_work_choices': scope_of_work_choices})
 
 def add_partner(request):
     if request.method == 'POST':
-        form = PartnerForm(request.POST)
+        form = PartnerForm(request.POST, request.FILES)
+        uploaded_files = request.FILES.getlist('files')
         if form.is_valid():
+            for file in uploaded_files:
+                file_instance = Partner(files=file)
+                file_instance.save()
             form.save()
             return HttpResponseRedirect(reverse('index'))
         else:
@@ -30,3 +34,4 @@ def del_all(request):
 
 def get_second_category_options(request):
     print('here in get_secondary')
+
