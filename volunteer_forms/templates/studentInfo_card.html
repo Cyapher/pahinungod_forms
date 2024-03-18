@@ -1,0 +1,73 @@
+{% extends 'baseVolunteer.html' %}
+
+{% block body %}
+
+<style>
+    .right_col {
+        padding-left: 10%;
+    }
+</style>
+
+<h3 class="display-5" align="center">Volunteer Student Info</h3>
+
+<div align="center">
+    <table class="table table-bordered w-50 border-dark">
+        <thead align="center">
+            <th colspan="2">Volunteer Student Info</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td align="center">
+                    <p><strong>Name</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>ID #</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.idNum }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Course</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.course }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>College</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.college }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <p><strong>Year Level</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.yearLvl }}
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
