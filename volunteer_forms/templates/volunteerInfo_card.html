@@ -36,6 +36,24 @@
             </tr>
             <tr>
                 <td align="center">
+                    <p><strong>Age</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.age }}
+                    </p>
+                </td>
+                <td align="center">
+                    <p><strong>Start Date</strong></p>
+                </td>
+                <td>
+                    <p class="right_col">
+                        {{ volunteer.customStartDate }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
                     <p><strong>Address</strong></p>
                 </td>
                 <td>
@@ -147,6 +165,28 @@
             </tr>
         </tbody>
     </table>
+
+    <table class="table table-bordered w-50 border-dark">
+        <thead>
+            <thead align="center">
+                <th colspan="2">Volunteer Programs</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align="center">
+                        {% for program in volunteer.programs.all %}
+                        <p>
+                            <strong>
+                                {{ program.name }}
+                            </strong>
+                        </p>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+    </table>
+    <ul>
+    </ul>
 </div>
 
 {% endblock %}

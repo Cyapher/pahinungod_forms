@@ -1,9 +1,12 @@
+import logging
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from volunteer_forms.models import Volunteer
 from .forms import VolunteerForm
+
+logger = logging.getLogger(__name__)
 
 volunteerFields = ['first_name',
                        'middle_name',
@@ -43,6 +46,9 @@ studentFields = ['idNum',
                      'college',
                      'yearLvl']
 
+dateFields = ['startDate',
+              'customStartDate']
+
 def index(request):
     
     return render(request, "form_pg1.html", 
@@ -53,15 +59,19 @@ def index(request):
                    'workFields' : workFields,
                    'licenseFields' : licenseFields,
                    'insuranceFields' : insuranceFields,
-                   'studentFields' : studentFields})
+                   'studentFields' : studentFields,
+                   'dateFields' : dateFields})
 
 def createVolunteer(request):
     if request.method == "POST":
         form = VolunteerForm(request.POST)
         if form.is_valid():
+            print("validform")
             form.save()
             return HttpResponseRedirect(reverse("list"))
         else:
+            print("invalidform")
+            logger.error("Form submission failed with errors: %s", form.errors)
             return render(request, "form_pg1.html", {"v_form" : form,
                                                     'volunteerFields' : volunteerFields,
                                                     'alumnusFields' : alumnusFields,
@@ -69,7 +79,8 @@ def createVolunteer(request):
                                                     'workFields' : workFields,
                                                     'licenseFields' : licenseFields,
                                                     'insuranceFields' : insuranceFields,
-                                                    'studentFields' : studentFields})
+                                                    'studentFields' : studentFields,
+                                                    'dateFields' : dateFields})
 
 def printVolunteers(request):
     volunteers = Volunteer.objects.all()
@@ -95,7 +106,8 @@ def updateVolunteer(request, volunteer_id):
                                                     'workFields' : workFields,
                                                     'licenseFields' : licenseFields,
                                                     'insuranceFields' : insuranceFields,
-                                                    'studentFields' : studentFields})
+                                                    'studentFields' : studentFields,
+                                                    'dateFields' : dateFields})
 
 def deleteVolunteer(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)

@@ -1,12 +1,13 @@
 from django import forms
-from django.forms import ModelForm
-from volunteer_forms.models import Volunteer
-
+from django.forms import ModelForm, MultipleChoiceField
+from volunteer_forms.models import Program, Volunteer
 
 class VolunteerForm(ModelForm):
+
     class Meta:
         model = Volunteer
         fields = '__all__'
+
 
     widgets = {
         'healthConditions' : forms.Textarea(attrs={'rows' : 2}),
@@ -47,12 +48,19 @@ class VolunteerForm(ModelForm):
             if field_name == 'yearLvl':
                 field.widget.attrs['class'] = 'form-select'
 
+            if field_name == 'startDate':
+                field.widget.attrs['class'] = 'form-select'
+                field.widget.attrs['onchange'] = 'dropDate()'
+
             if field_name == 'constituentUnit':
                 field.widget.attrs['id'] = 'multi_col'
 
             if field_name == 'occupation':
                 field.widget.attrs['class'] = 'form-select'
                 field.widget.attrs['onchange'] = 'dropWork()'
+
+            if field_name == 'programs':
+                field.widget.attrs['size'] = '7'
             
             if field_name in self.placeholders:
                 field.widget.attrs['placeholder'] = self.placeholders[field_name]
