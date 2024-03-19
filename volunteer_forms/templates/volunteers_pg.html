@@ -6,92 +6,118 @@
     th {
         width: 100%;
     }
+
+    #navigation {
+        background-color: #800000;
+    }
+
+    .btn_width {
+        width: 150px;
+    }
+
 </style>
 
-<h3 align="center" class="display-5">Volunteers Page</h3>
+<nav id="navigation" class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand text-light disabled" href="#">Volunteers Page</a>
+        <form class="d-flex">
+          <input class="form-control me-6 mx-3" type="search" placeholder="Search/Filter" aria-label="Search">
+          <input class="btn btn-dark" type="submit">
+        </form>
+      </div>
+    </div>
+  </nav>
 
-<table align="center" class="table table-bordered border-dark w-75">
-    <thead class="table-light border-dark">
-        <th>Name</th>
-        <th>Volunteer Information</th>
-        <th>Constituent Unit (For UP Alumni)</th>
-        <th>PGH Specification</th>
-        <th>Occupation</th>
-        <th>License Information</th>
-        <th>Insurance Information</th>
-        <th>Student Information (UP Students)</th>
-        <th colspan="2"><p align="center">Actions</p></th>
-    </thead>
-    <tbody>
-        {% for volunteer in volunteers %}
-        <tr>
-            <td>{{ volunteer.first_name }} {{ volunteer.last_name }}</td>
-            <td>
-                <p>
-                    <form action="{% url 'viewInfo' volunteer.id %}">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-outline-success" value="Volunteer Information">
-                    </form>
-                </p>
-            </td>
-            <td>{{ volunteer.constituentUnit }}</td>
-            <td>{{ volunteer.specification }}</td>
-            <td>
-                {% if volunteer.occupation == "Other" %}
+<!-- <h3 align="center" class="display-5">Volunteers Page</h3> -->
+
+<br>
+<div class="table-responsive">
+    <table align="center" class="table table-bordered table-hover border-dark w-75 text-nowrap">
+        <thead class="table-light border-dark">
+            <th>Name</th>
+            <th>Age</th>
+            <th>Programs</th>
+            <th>Start Date</th>
+            <th>Occupation</th>
+            <th>Specific Information</th>
+            <th colspan="2"><p align="center">Actions</p></th>
+        </thead>
+        <tbody>
+            {% for volunteer in volunteers %}
+            <tr>
+                <td>{{ volunteer.first_name }} {{ volunteer.last_name }}</td>
+                <td>{{ volunteer.age }}</td>
+                <td>
+                    {% for program in volunteer.programs.all %}
+                            <p>
+                                <strong>
+                                    {{ program.name }}
+                                </strong>
+                            </p>
+                    {% endfor %}
+                </td>
+                <td>
+                    {{ volunteer.customStartDate }}
+                </td>
+                <td align="center">
+                    {% if volunteer.occupation == "Other" %}
                     
                     {{ volunteer.otherOccu }}
-
-                {% else %}
-
+                    
+                    {% else %}
+                    
                     {{ volunteer.occupation }}
-
-                {% endif %}
-            </td>
-            <td>
-                <p>
-                    <form action="{% url 'viewLicense' volunteer.id %}">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-outline-success" value="License Information">
-                    </form>
-                </p>
-            </td>
-            <td>
-                <p>
-                    <form action="{% url 'viewInsurance' volunteer.id %}">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-outline-success" value="Insurance Information">
-                    </form>
-                </p>
-            </td>
-            <td>
-                <p>
-                    <form action="{% url 'viewStudent' volunteer.id %}">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-outline-success" value="Student Information">
-                    </form>
-                </p>
-            </td>
-            <td>
-                <!-- Edit -->
-                <p>
-                    <form action="{% url 'edit' volunteer.id %}">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-warning" value="Edit">
-                    </form>
-                </p>
-            </td>
-            <td>
-                <!-- Delete -->
-                <p>
-                    <form action="{% url 'del_volunteer' volunteer.id %}">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');">
-                    </form>
-                </p>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                    
+                    {% endif %}
+                </td>
+                <td align="center">
+                    <p>
+                        <form action="{% url 'viewInfo' volunteer.id %}">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-outline-success btn-sm btn_width" value="Volunteer Information">
+                        </form>
+                    </p>
+                    <p>
+                        <form action="{% url 'viewLicense' volunteer.id %}">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-outline-success btn-sm btn_width" value="License Information">
+                        </form>
+                    </p>
+                    <p>
+                        <form action="{% url 'viewInsurance' volunteer.id %}">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-outline-success btn-sm btn_width" value="Insurance Information">
+                        </form>
+                    </p>
+                    <p>
+                        <form action="{% url 'viewStudent' volunteer.id %}">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-outline-success btn-sm btn_width" value="Student Information">
+                        </form>
+                    </p>
+                </td>
+                <td>
+                    <!-- Edit -->
+                    <p>
+                        <form action="{% url 'edit' volunteer.id %}">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-warning btn-sm" value="Edit">
+                        </form>
+                    </p>
+                </td>
+                <td>
+                    <!-- Delete -->
+                    <p>
+                        <form action="{% url 'del_volunteer' volunteer.id %}">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm('Are you sure?');">
+                        </form>
+                    </p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}
