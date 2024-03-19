@@ -1,0 +1,62 @@
+{% extends 'base_partner.html' %}
+
+{% block content %}
+
+<table rules="all" class="table table-striped d-flex-col justify-content-center border">
+
+    <thead>
+        <th>Stakeholder Name</th>
+        <th>Title of Partnership/Linkage</th>
+        <th>Stakeholder Category</th>
+        <th>Stakeholder Files</th>
+        <th></th>
+    </thead>
+
+    <tbody>
+        {% for partner in partners %}
+
+        <tr>
+            <td>
+                <p> {{partner.name}} </p>
+            </td>
+            <td>
+                <p> {{partner.partners}} </p>
+            </td>
+            <td>
+                <p> {{partner.stakeholder_category}} </p>
+            </td>
+            <td>
+                <p> {{partner.files}} </p>
+            </td>
+            <td>
+                <form action="{% url '#' partner.id %}">
+                    {% csrf_token %}
+                    <input type="submit" value="Update">
+                </form>
+                <form action="{% url '#' partner.id %}">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
+        </tr>     
+
+        {% empty %}
+        <tr>
+            <td colspan="5">
+                <h2>No Partners Available</h2>
+            </td>
+        </tr>
+            
+
+        {% endfor %}
+
+    </tbody>
+    
+</table>
+
+<script>
+    document.getElementById('partners').className += ' active'
+
+</script>
+
+{% endblock %}

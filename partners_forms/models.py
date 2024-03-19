@@ -1,7 +1,10 @@
+from typing import Any
 from django.db import models
+from django.core.exceptions import ValidationError
 # from django import forms
 
 # Create your models here.
+# FOR SCOPE OF WORK
 class Scope_of_work(models.Model):
     Lecture = 'Lecture'
     Training = 'Training'
@@ -17,12 +20,40 @@ class Scope_of_work(models.Model):
 
     # scope_of_work = models.One(max_length=1, choices=scope_of_work_choices)
 
-class type_of_partnership(models.Model):
+# FOR MULTIPLE FILE FIELD
+class Multiple_file_field(models.FileField):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def clean(self, value, instance):
+        if value:
+            if isinstance(value, (list, tuple)):
+                cleaned_files = []
+                for file in value:
+                    try:
+                        self.run_validators(file)
+                        cleaned_files.append(file)
+                    except ValidationError as e:
+                        raise ValidationError({self.name: e})
+                return cleaned_files
+            else:
+                try:
+                    self.run_validators(value)
+                    return [value]
+                except ValidationError as e:
+                    raise ValidationError({self.name: e}) 
+        else:
+            return []
+
+# FOR PARTNER TYPE
+class Type_obj(models.Model):
+    type_code = models.CharField(max_length=5)
     type_of_partnership = models.CharField(max_length=64)
 
     def __str__(self):
-        return f"{self.type_of_partnership}"
+        return f"{self.type_code} : {self.type_of_partnership}"
 
+# PARTNER OBJ
 class Partner(models.Model):
 
     # PARTNER NAME
@@ -97,18 +128,9 @@ class Partner(models.Model):
                                        blank=False)
     other_choice = models.CharField(max_length=64, 
                                     blank=True,)
-
-    type_of_partnership_choices = [
-        ('O','Others'),
-        ('PT1','Partner Type 1'),
-        ('PT2','Partner Type 2'),
-    ]
-
-    # type_of_partnership = models.CharField(max_length=4, choices=type_of_partnership_choices, blank=True, null=True)
-        
+    
     # Extra Fields
-
-    type_of_partnership = models.ManyToManyField(type_of_partnership, blank=True)
+    type_of_partnership = models.ManyToManyField(Type_obj, blank=True)
     # scope_of_work = models.ManyToManyField(Scope_of_work, blank=True)
 
     # Date Field
@@ -116,5 +138,6 @@ class Partner(models.Model):
     Agreement_End_Date = models.DateField()
 
     # File Field
-    files = models.FileField(upload_to='partner_requirements/', blank=False, null=False)
-    
+    # files = models.FileField(upload_to='partner_requirements/', blank=False, null=False)
+    files = Multiple_file_field(upload_to='partner_requirements/')
+

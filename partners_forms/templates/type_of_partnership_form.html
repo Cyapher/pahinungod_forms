@@ -1,0 +1,68 @@
+{% extends 'base_partner.html' %}
+
+{% block content %}
+
+<h1 style="margin: auto; text-align: center;"> Type of Partners Form </h1>
+
+<div class="d-flex">
+    <!-- TABLE DIV -->
+    <div>
+        <table rules="all" class="table table-striped d-flex-col justify-content-center border">
+    
+            <thead>
+                <th>Type of Partnerships</th>
+            </thead>
+        
+            <tbody>
+                {% for type in types %}
+        
+                <tr>
+                    <td>
+                        <p> {{type.type_code}} </p>
+                        <p> {{type.type_of_partnership}} </p>
+                    </td>
+                    <td>
+                        <form action="">
+                            {% csrf_token %}
+                            <input type="submit" value="Update">
+                        </form>
+                        <form action="">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete">
+                        </form>
+                    </td>
+                </tr>     
+        
+                {% empty %}
+                <tr>
+                    <td colspan="3">
+                        <h2>No Type of Partnership Available</h2>
+                    </td>
+                </tr>
+                    
+        
+                {% endfor %}
+        
+            </tbody>
+            
+        </table>
+    </div>
+
+    <!-- FORM DIV -->
+    <div>
+
+        <form action="{% url 'add_type_of_partner' %}" method="POST">
+            {% csrf_token %}
+            {{ form.type_code }}
+            {{ form.type_of_partnership }}
+
+            <div>
+                <input type="submit">
+            </div>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
+

@@ -88,7 +88,7 @@
                     </div>
 
                     <!-- File Field -->
-                    {{ form.file }}
+                    {{ form.files }}
 
                 </div>
                 
@@ -105,6 +105,7 @@
         //Get second_category_element
         const selectElement_second = document.getElementById('id_second_category');
         const selectElement_second_label = document.getElementById('id_second_category');
+        // console.log(selectElement_second)
 
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -120,16 +121,20 @@
             //Hide Other Field
             const otherField = document.getElementById('id_other_choice');
             const otherFieldLabel = document.querySelector('label[for="id_other_choice"]');
-            otherField.style.display = 'none';
-            otherFieldLabel.style.display = 'none';
+            // otherField.style.display = 'none';
+            // otherFieldLabel.style.display = 'none';
 
             // If stakeholder_category selected
+                // IF P or G
             const selectElement = document.getElementById('id_stakeholder_category');
+            console.log(selectElement)
+
             selectElement.addEventListener('change', function(event) {
 
                 const selectElement_second = document.getElementById('id_second_category');
                 const selectElement_second_options = selectElement_second.options;
                 const selectedValue = event.target.value;
+                
                 // Get second_category
                 selectElement_second.style.display = 'block';
                 selectElement_second_label.style.display = 'block';
