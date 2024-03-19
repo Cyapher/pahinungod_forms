@@ -21,6 +21,10 @@
         margin-top: 1%;
     }
 
+    #mainDiv {
+        
+    }
+
     
 
 </style>
@@ -28,15 +32,30 @@
 <!-- <h1>Volunteer Application Form</h1> -->
 <br><br>
 
-{% load crispy_forms_tags %}
 {% load widget_tweaks %}
 <div class="row justify-content-center" align="center">
     <div class="col-lg-10">
-        <form action="" method="post">
+        <form id="vol_form" action="{% url 'add' %}" method="post">
             {% csrf_token %}
+
+            <div>
+                <table class="table w-50">
+                    <tbody>
+                        <tr>
+                            <h3>Volunteer Programs</h3>
+                        </tr>
+                        <tr>
+                            <!-- <td align="center"> -->
+                                {% render_field v_form.programs style="width: 600px;" %}
+                            <!-- </td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
             <table class="w-75 table table-bordered border-dark">
                 <thead>
-                    <h3>Volunteer</h3>
+                    <h3>Volunteer Information</h3>
                 </thead>
                 <tbody>
                     <tr>
@@ -117,7 +136,7 @@
             </table>
 
             <table class="w-50 table table-bordered border-dark">
-                <thead>
+                <thead data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle checked for Alumni">
                     <tr>
                         <td>
                             <input type="checkbox" id="alumni_check" onchange="toggleAlumni()">
@@ -186,7 +205,8 @@
                 <thead>
                     <tr>
                         <td>
-                            <input type="checkbox" id="work_check" onchange="toggleWork()"> Are you presently working?</input>
+                            <input type="checkbox" id="work_check" onchange="toggleWork()">
+                            <label for="work_check">Are you presently working?</label>
                         </td>
                     </tr>
                 </thead>
@@ -230,7 +250,8 @@
                 <thead>
                     <tr>
                         <td>
-                            <input type="checkbox" id="license_check" onchange="toggleLicense()"> Are you licensed?</input>
+                            <input type="checkbox" id="license_check" onchange="toggleLicense()">
+                            <label for="license_check">Are you licensed?</label>
                         </td>
                     </tr>
                 </thead>
@@ -318,7 +339,8 @@
                 <thead>
                     <tr>
                         <td>
-                            <input type="checkbox" id="up_check" onchange="toggleUP()"> Are you currently a student of UP?</input>
+                            <input type="checkbox" id="up_check" onchange="toggleUP()">
+                            <label for="up_check">Are you currently a student of UP?</label>
                         </td>
                     </tr>
                 </thead>
@@ -376,18 +398,11 @@
             </table>
 
             <table class="w-50 table table-bordered border-dark">
-                <thead>
-                    <tr>
-                        <td align="center">
-                            <label id="multi_col" class="form-label">
-                                <strong>
-                                    Insurance Information
-                                </strong>
-                            </label>
-                        </td>
-                    </tr>
-                </thead>
                 <div id="insuranceDiv">
+                <tr>
+                    <h3>Insurance Information</h3>
+                    <p style="margin: auto;"><small>During Pahinungod activities within or OUTSIDE UP</small></p>
+                </tr>
                     <tbody>
                         <tr>
                             <td>
@@ -433,6 +448,48 @@
                 </div>
             </table>
 
+            <table class="w-25 table table-bordered border-dark">
+                <div id="dateDiv">
+                    <tbody>
+                        <tr>
+                            <h3>Start Date</h3>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    {% for field in v_form %}
+    
+                                        {% if field.name in dateFields %}
+    
+                                            {% if field.name == "startDate" %}
+                                                <div class="fieldWrapper">
+                                    
+                                                    <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Start Date</label>
+                                                    {{ field }}
+                                    
+                                                </div>                                        
+                                            {% endif %}
+    
+                                            {% if field.name == "customStartDate" %}
+                                                <div class="fieldWrapper">
+                                    
+                                                    <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Other Start Date</label>
+                                                    {% render_field field type="date" class="form-control" placeholder="mm/dd/yyyy" %}
+                                                    
+                                    
+                                                </div>                                        
+                                            {% endif %}
+                                
+                                        {% endif %}
+                                
+                                    {% endfor %}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </div>
+            </table>
+
             <input class="btn btn-outline-success" type="submit" value="Confirm Volunteer">
         </form>
     </div>
@@ -441,6 +498,11 @@
 <br>
 
 <script>
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
 
     function toggleAlumni() {
         var alumniCheck = document.getElementById("alumni_check");
@@ -473,6 +535,18 @@
         }
         else {
             workOther.setAttribute("disabled", "disabled");
+        }
+    }
+
+    function dropDate() {
+        var dateDropValue = document.getElementById("id_startDate").value;
+        var dateOther = document.getElementById("id_customStartDate");
+
+        if (dateDropValue === "Other") {
+            dateOther.removeAttribute("disabled");
+        }
+        else {
+            dateOther.setAttribute("disabled", "disabled");
         }
     }
 
@@ -510,5 +584,7 @@
     }
 
     dropWork();
+    dropDate();
+
 </script>
 {% endblock %}
