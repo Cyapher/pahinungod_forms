@@ -2,9 +2,10 @@ import logging
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.db.models import Q
 
-from volunteer_forms.models import Volunteer
-from .forms import VolunteerForm
+from volunteer_forms.models import Volunteer, Program
+from .forms import VolunteerForm, ProgramForm
 
 logger = logging.getLogger(__name__)
 
@@ -130,3 +131,63 @@ def view_volunteerInsurance(request, volunteer_id):
 def view_volunteerStudent(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
     return render(request, "studentInfo_card.html", {'volunteer' : volunteer})
+
+def searchFilter(request):
+    query = request.GET.get('q')
+
+    if query:
+        volunteers = Volunteer.objects.filter(
+            Q(first_name__icontains=query) |
+            Q(middle_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(address__icontains=query) |
+            Q(age__icontains=query) |
+            Q(civilStatus__icontains=query) |
+            Q(sex__icontains=query) |
+            Q(specification__icontains=query) |
+            Q(occupation__icontains=query) |
+            Q(otherOccu__icontains=query) |
+            Q(programs__name__icontains=query) |
+            Q(customStartDate__icontains=query)
+        ).distinct()
+    else:
+        volunteers = Volunteer.objects.all()
+    
+    return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
+
+def printPrograms(request):
+    programs = Program.objects.all()
+    print(programs)
+    return render(request, "programs_pg.html", {"programs" : programs})
+
+def createProgram(request):
+    if request.method == 'POST':
+        form = ProgramForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect('programs')
+    else:
+        return render(request, "form_program.html", {"form" : ProgramForm()})
+
+def updateProgram(request, program_id):
+    program = Program.objects.get(pk=program_id)
+
+    if request.method == 'POST':
+        form = ProgramForm(request.POST, instance=program)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect('programs')
+    else:
+        form = ProgramForm(instance=program)
+        programs = Program.objects.all()
+        return render(request, "edit_program.html", {"form" : form, "programs" : programs, "program" : program})
+    
+def delProgram(request, program_id):
+    program = Program.objects.get(pk=program_id)
+    program.delete()
+
+    return redirect('programs')

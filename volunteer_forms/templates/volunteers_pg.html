@@ -8,20 +8,62 @@
     }
 
     #navigation {
-        background-color: #800000;
+        background-color: #7B0100;
     }
 
     .btn_width {
-        width: 150px;
+        width: 50px;
     }
+
+    .button-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    /* position: absolute; */
+    top: 50%;
+    left: 50%;
+    /* transform: translate(-50%, -50%); */
+  }
+
+  .btn_width_act {
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* position: absolute; */
+    top: 50%;
+    left: 50%;
+    /* transform: translate(50%, -50%); */
+
+    
+}
+
+    .sticky-thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #532222; /* Light gray background */
+}
+  
 
 </style>
 
 <nav id="navigation" class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <a class="navbar-brand text-light disabled" href="#">Volunteers Page</a>
-        <form class="d-flex">
-          <input class="form-control me-6 mx-3" type="search" placeholder="Search/Filter" aria-label="Search">
+      <a class="navbar-brand text-light disabled" href="{% url 'list' %}">Volunteers Page</a>
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <a class="nav-link active text-light" aria-current="page" href="{% url 'vol_index' %}"><u>Volunteer Form</u></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active text-light" aria-current="page" href="{% url 'programs' %}"><u>Edit Programs</u></a>
+        </li>
+    </ul>
+        <form class="d-flex" action="{% url 'search' %}">
+          <input name="q" class="form-control me-6 mx-2" type="search" placeholder="Search/Filter" aria-label="Search">
           <input class="btn btn-dark" type="submit">
         </form>
       </div>
@@ -33,14 +75,14 @@
 <br>
 <div class="table-responsive">
     <table align="center" class="table table-bordered table-hover border-dark w-75 text-nowrap">
-        <thead class="table-light border-dark">
+        <thead class="table-light border-dark sticky-thead">
             <th>Name</th>
             <th>Age</th>
             <th>Programs</th>
             <th>Start Date</th>
             <th>Occupation</th>
             <th>Specific Information</th>
-            <th colspan="2"><p align="center">Actions</p></th>
+            <th>Actions</th>
         </thead>
         <tbody>
             {% for volunteer in volunteers %}
@@ -49,17 +91,17 @@
                 <td>{{ volunteer.age }}</td>
                 <td>
                     {% for program in volunteer.programs.all %}
-                            <p>
                                 <strong>
-                                    {{ program.name }}
+                                    <li>
+                                        {{ program.name }}
+                                    </li>
                                 </strong>
-                            </p>
                     {% endfor %}
                 </td>
                 <td>
                     {{ volunteer.customStartDate }}
                 </td>
-                <td align="center">
+                <td>
                     {% if volunteer.occupation == "Other" %}
                     
                     {{ volunteer.otherOccu }}
@@ -71,53 +113,56 @@
                     {% endif %}
                 </td>
                 <td align="center">
-                    <p>
-                        <form action="{% url 'viewInfo' volunteer.id %}">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-outline-success btn-sm btn_width" value="Volunteer Information">
-                        </form>
-                    </p>
-                    <p>
-                        <form action="{% url 'viewLicense' volunteer.id %}">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-outline-success btn-sm btn_width" value="License Information">
-                        </form>
-                    </p>
-                    <p>
-                        <form action="{% url 'viewInsurance' volunteer.id %}">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-outline-success btn-sm btn_width" value="Insurance Information">
-                        </form>
-                    </p>
-                    <p>
-                        <form action="{% url 'viewStudent' volunteer.id %}">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-outline-success btn-sm btn_width" value="Student Information">
-                        </form>
-                    </p>
+                    <div class="button-grid">
+                        <!-- <p> -->
+                            <form action="{% url 'viewInfo' volunteer.id %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Volunteer Information">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-outline-success btn-sm btn_width" value="Vol">
+                            </form>
+                        <!-- </p> -->
+                        <!-- <p> -->
+                            <form action="{% url 'viewLicense' volunteer.id %}" data-bs-toggle="tooltip" data-bs-placement="top" title="License Information">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-outline-success btn-sm btn_width" value="Lic">
+                            </form>
+                        <!-- </p> -->
+                        <!-- <p> -->
+                            <form action="{% url 'viewInsurance' volunteer.id %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Insurance Information">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-outline-success btn-sm btn_width" value="Ins">
+                            </form>
+                        <!-- </p> -->
+                        <!-- <p> -->
+                            <form action="{% url 'viewStudent' volunteer.id %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Student Information">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-outline-success btn-sm btn_width" value="Stu">
+                            </form>
+                        <!-- </p> -->
+                    </div>
                 </td>
-                <td>
+                <td align="center">
                     <!-- Edit -->
-                    <p>
                         <form action="{% url 'edit' volunteer.id %}">
                             {% csrf_token %}
-                            <input type="submit" class="btn btn-warning btn-sm" value="Edit">
+                            <input type="submit" class="btn btn-outline-secondary btn-sm btn_width_act" value="Edit">
                         </form>
-                    </p>
-                </td>
-                <td>
                     <!-- Delete -->
-                    <p>
                         <form action="{% url 'del_volunteer' volunteer.id %}">
                             {% csrf_token %}
-                            <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm('Are you sure?');">
+                            <input type="submit" class="btn btn-outline-danger btn-sm btn_width_act" value="Delete" onclick="return confirm('Are you sure?');" style="transform: translateY(10px);">
                         </form>
-                    </p>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
 
 {% endblock %}

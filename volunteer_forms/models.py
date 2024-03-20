@@ -86,7 +86,7 @@ class Volunteer(models.Model):
     college = models.CharField(max_length=50, blank=True, null=True)
     yearLvl = models.CharField(max_length=1, choices=yrChoices, blank=True, null=True)
 
-    programs = models.ManyToManyField(Program)
+    programs = models.ManyToManyField(Program, blank=True)
 
     # start date
     startChoices = [
