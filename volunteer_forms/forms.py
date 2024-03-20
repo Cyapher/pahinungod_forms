@@ -65,3 +65,8 @@ class VolunteerForm(ModelForm):
             if field_name in self.placeholders:
                 field.widget.attrs['placeholder'] = self.placeholders[field_name]
             
+class ProgramForm(ModelForm):
+
+    class Meta:
+        model = Program
+        fields = '__all__'

@@ -3,6 +3,15 @@
 {% block body %}
 
 <style>
+
+    body {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+        overflow-x: hidden; 
+    }
+
     td, th {
         padding: 10%;
     }
@@ -21,16 +30,38 @@
         margin-top: 1%;
     }
 
-    #mainDiv {
-        
+    #navigation {
+        background-color: #7B0100;
+        width: 100%;
     }
-
-    
 
 </style>
 
-<!-- <h1>Volunteer Application Form</h1> -->
-<br><br>
+<nav id="navigation" class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+
+        <!-- <div id="carouselExampleCaptions" class="carousel container-sm w-25" data-bs-ride="carousel" align="center" style="max-width: 100px; margin: 0%;">
+            <div class="carousel-inner" style="max-height: 70px; max-width: 100px;">
+              <div class="carousel-item active" data-bs-interval="2000">
+                <img src="https://scontent.fcrk1-4.fna.fbcdn.net/v/t1.15752-9/433450881_771370008266401_2850824638274835436_n.png?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGUbQaT091NUe3cJMeWWZuzeeTHTSYpVXZ55MdNJilVdqoz3nC7kejsoD-EkkNrWhpWzMHAhqMic8AvOp_ZgGL2&_nc_ohc=-bhgQtiVquEAX8iBE74&_nc_ht=scontent.fcrk1-4.fna&oh=03_AdQyQCHRERsc9NpdMiOngFwDgOdRTnlZE9sJ68xxiFZ4HQ&oe=6621E345" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item" data-bs-interval="2000">
+                <img src="https://scontent.fcrk1-4.fna.fbcdn.net/v/t1.15752-9/433450881_771370008266401_2850824638274835436_n.png?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGUbQaT091NUe3cJMeWWZuzeeTHTSYpVXZ55MdNJilVdqoz3nC7kejsoD-EkkNrWhpWzMHAhqMic8AvOp_ZgGL2&_nc_ohc=-bhgQtiVquEAX8iBE74&_nc_ht=scontent.fcrk1-4.fna&oh=03_AdQyQCHRERsc9NpdMiOngFwDgOdRTnlZE9sJ68xxiFZ4HQ&oe=6621E345" class="d-block w-100" alt="...">
+                
+              </div>
+              <div class="carousel-item" data-bs-interval="2000">
+                <img src="https://scontent.fcrk1-4.fna.fbcdn.net/v/t1.15752-9/433450881_771370008266401_2850824638274835436_n.png?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGUbQaT091NUe3cJMeWWZuzeeTHTSYpVXZ55MdNJilVdqoz3nC7kejsoD-EkkNrWhpWzMHAhqMic8AvOp_ZgGL2&_nc_ohc=-bhgQtiVquEAX8iBE74&_nc_ht=scontent.fcrk1-4.fna&oh=03_AdQyQCHRERsc9NpdMiOngFwDgOdRTnlZE9sJ68xxiFZ4HQ&oe=6621E345" class="d-block w-100" alt="...">
+                
+              </div>
+            </div>
+          </div> -->
+
+      <a class="navbar-brand text-light disabled" style="pointer-events: none;">Volunteers Page</a>
+      </div>
+    </div>
+</nav>
+
+<br>
 
 {% load widget_tweaks %}
 <div class="row justify-content-center" align="center">
