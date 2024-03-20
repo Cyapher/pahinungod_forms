@@ -17,10 +17,10 @@
 
         <tr>
             <td>
-                <p> {{partner.name}} </p>
+                <p> {{partner.partner_name}} </p>
             </td>
             <td>
-                <p> {{partner.partners}} </p>
+                <p> {{partner.partnership_extension}} </p>
             </td>
             <td>
                 <p> {{partner.stakeholder_category}} </p>
@@ -29,11 +29,11 @@
                 <p> {{partner.files}} </p>
             </td>
             <td>
-                <form action="{% url '#' partner.id %}">
+                <form action="">
                     {% csrf_token %}
                     <input type="submit" value="Update">
                 </form>
-                <form action="{% url '#' partner.id %}">
+                <form action="">
                     {% csrf_token %}
                     <input type="submit" value="Delete">
                 </form>

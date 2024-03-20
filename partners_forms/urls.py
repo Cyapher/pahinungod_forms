@@ -13,10 +13,12 @@ urlpatterns = [
     
     # TYPE OF PARTNERS
     path('type_form/', views.type_partner_form, name='type_partner_form'),
-    path('add_type/', views.add_type_of_partner, name='add_type_of_partner'),
+    path('add_type/', views.add_type, name='add_type'),
+    path('del_type/<int:type_id>', views.del_type, name='del_type'),
+    path('upd_type/<int:type_id>', views.upd_type, name='upd_type'),
     
     # MISC.
-    path('del_all/', views.del_all, name='del_all'),
+    # path('del_all/', views.del_all, name='del_all'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
