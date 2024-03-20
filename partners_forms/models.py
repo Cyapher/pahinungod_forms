@@ -1,7 +1,10 @@
+from typing import Any
 from django.db import models
+from django.core.exceptions import ValidationError
 # from django import forms
 
 # Create your models here.
+# FOR SCOPE OF WORK
 class Scope_of_work(models.Model):
     Lecture = 'Lecture'
     Training = 'Training'
@@ -17,12 +20,46 @@ class Scope_of_work(models.Model):
 
     # scope_of_work = models.One(max_length=1, choices=scope_of_work_choices)
 
-class type_of_partnership(models.Model):
+# FOR MULTIPLE FILE FIELD
+class Multiple_file_field(models.FileField):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def clean(self, value, instance):
+        if value:
+            if isinstance(value, (list, tuple)):
+                cleaned_files = []
+                for file in value:
+                    try:
+                        self.run_validators(file)
+                        cleaned_files.append(file)
+                    except ValidationError as e:
+                        raise ValidationError({self.name: e})
+                return cleaned_files
+            else:
+                try:
+                    self.run_validators(value)
+                    return [value]
+                except ValidationError as e:
+                    raise ValidationError({self.name: e}) 
+        else:
+            return []
+
+# FOR PARTNER TYPE
+class Type_obj(models.Model):
+    type_code = models.CharField(max_length=5)
     type_of_partnership = models.CharField(max_length=64)
 
-    def __str__(self):
-        return f"{self.type_of_partnership}"
+    def save(self, *args, **kwargs):
+        if self.type_code:
+            self.type_code = self.type_code.upper()
 
+        super(Type_obj, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.type_code} : {self.type_of_partnership}"
+
+# PARTNER OBJ
 class Partner(models.Model):
 
     # PARTNER NAME
@@ -31,22 +68,22 @@ class Partner(models.Model):
     # PARTNERSHIP EXTENSION
     partnership_extension_choices = [
         ('', 'Select Partnership Extension'),
-        ('HT:BLS', 'Health Training: Basic Life Support'),
-        ('HT:BAP', 'Health Training: Breast Advocacy and PFA'),
-        ('HT:FAST', 'Health Training: FAST'),
-        ('HE:OH', 'Health Education: Oral Health'),
-        ('HE:MHPS', 'Health Education: MHPS'),
-        ('DPT', 'Disaster Preparedness Training'),
-        ('DPL', 'Disaster Preparedness Lecture'),
+        ('Health Training: Basic Life Support', 'Health Training: Basic Life Support'),
+        ('Health Training: Breast Advocacy and PFA', 'Health Training: Breast Advocacy and PFA'),
+        ('Health Training: FAST', 'Health Training: FAST'),
+        ('Health Education: Oral Health', 'Health Education: Oral Health'),
+        ('Health Education: MHPS', 'Health Education: MHPS'),
+        ('Disaster Preparedness Training', 'Disaster Preparedness Training'),
+        ('Disaster Preparedness Lecture', 'Disaster Preparedness Lecture'),
     ]
 
-    partnership_extension = models.CharField(max_length=8, choices=partnership_extension_choices, blank=False)
+    partnership_extension = models.CharField(max_length=64, choices=partnership_extension_choices, blank=False)
 
     # STAKEHOLDER CATEGORY
     stakeholder_category_choices = [
         ('', 'Select Stakeholder Category'),
-        ('P', 'Private'),
-        ('G', 'Government'),
+        ('Private', 'Private'),
+        ('Government', 'Government'),
     ]
 
     second_category = [
@@ -69,20 +106,20 @@ class Partner(models.Model):
     def get_second_category_choices(self):
         print(f'stakeholder_category: {self.stakeholder_category}')
 
-        if self.stakeholder_category == 'P':
+        if self.stakeholder_category == 'Private':
             return [                
                 ('NGO', 'NGO'),
-                ('C', 'Company'),
-                ('EI', 'Educational Institution'),
-                ('O', 'Others'),
+                ('Company', 'Company'),
+                ('Educational Institution', 'Educational Institution'),
+                ('Others', 'Others'),
             ]
             
-        elif self.stakeholder_category == 'G':
+        elif self.stakeholder_category == 'Government':
             return [
                 ('LGU', 'LGU'),
-                ('G', 'National Government Agency'),
-                ('E', 'Educational Institution'),
-                ('O', 'Others'),
+                ('National Government Agency', 'National Government Agency'),
+                ('Educational Institution', 'Educational Institution'),
+                ('Others', 'Others'),
             ]
         else:
             return []
@@ -97,20 +134,17 @@ class Partner(models.Model):
                                        blank=False)
     other_choice = models.CharField(max_length=64, 
                                     blank=True,)
-
-    type_of_partnership_choices = [
-        ('O','Others'),
-        ('PT1','Partner Type 1'),
-        ('PT2','Partner Type 2'),
-    ]
-
-    # type_of_partnership = models.CharField(max_length=4, choices=type_of_partnership_choices, blank=True, null=True)
-        
+    
     # Extra Fields
-
-    type_of_partnership = models.ManyToManyField(type_of_partnership, blank=True)
+    type_of_partnership = models.ManyToManyField(Type_obj, blank=True)
     # scope_of_work = models.ManyToManyField(Scope_of_work, blank=True)
 
+    # Date Field
     Agreement_Start_Date = models.DateField()
     Agreement_End_Date = models.DateField()
-    
+
+    # File Field
+    files = models.FileField(upload_to='partner_requirements/', blank=False, null=False)
+    # files = Multiple_file_field(upload_to='partner_requirements/')
+
+
