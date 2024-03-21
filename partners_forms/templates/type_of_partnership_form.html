@@ -2,12 +2,12 @@
 
 {% block content %}
 
-<h1 style="margin: auto; text-align: center;"> Type of Partners Form </h1>
+<h1 style="margin: auto; text-align: center;" class="mb-5"> Type of Partners Form </h1>
 
-<div class="d-flex">
+<div class="d-flex justify-content-center ">
     <!-- TABLE DIV -->
-    <div>
-        <table rules="all" class="table table-striped d-flex-col justify-content-center border">
+    <div class="d-flex border">
+        <table rules="all" class="table table-responsive table-striped d-flex-col justify-content-center">
     
             <thead>
                 <th>Type of Partnerships</th>
@@ -18,18 +18,21 @@
         
                 <tr>
                     <td>
-                        <p> {{type.type_code}} </p>
+                        <!-- <p> {{type.type_code}} </p> -->
                         <p> {{type.type_of_partnership}} </p>
                     </td>
                     <td>
-                        <form action="{% url 'upd_type' type.id %}">
-                            {% csrf_token %}
-                            <input type="submit" value="Update">
-                        </form>
-                        <form action="{% url 'del_type' type.id %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" value="Delete">
-                        </form>
+                        <!-- BUTTONS -->
+                        <div class="d-flex border"> 
+                            <form action="{% url 'upd_type' type.id %}">
+                                {% csrf_token %}
+                                <input type="submit" value="Update">
+                            </form>
+                            <form action="{% url 'del_type' type.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" value="Delete">
+                            </form>
+                        </div>
                     </td>
                 </tr>     
         
@@ -49,7 +52,7 @@
     </div>
 
     <!-- FORM DIV -->
-    <div>
+    <div class="mx-5 d-flex align-self-start ">
 
         {% if type %}
             <form action="{% url 'upd_type' type.id %}" method="POST">
@@ -78,6 +81,11 @@
 
     </div>
 </div>
+
+<script>
+    document.getElementById('type_of_partner_form').className += ' active bg-secondary'
+
+</script>
 
 {% endblock %}
 
