@@ -630,29 +630,7 @@
         }
     }
 
-    function startWindows() {
-        var alumnus_loadCheck = {check : "{{volunteer.alumnusCheck}}", obj : alumniDiv}
-        var pgh_loadCheck = {check : "{{volunteer.pghCheck}}", obj : pghDiv};
-        var work_loadCheck = {check : "{{volunteer.workCheck}}", obj : workDiv};
-        var license_loadCheck = {check : "{{volunteer.licenseCheck}}", obj : licenseDiv};
-        var student_loadCheck = {check : "{{volunteer.studentCheck}}", obj : upDiv};
-
-        var loadArray = [alumnus_loadCheck, pgh_loadCheck, work_loadCheck, license_loadCheck, student_loadCheck];
-
-        
-        loadArray.forEach(element => {
-            console.log(element.check);
-            if (element.check == "True") {
-                element.obj.style.display = "block";
-            } else {
-                element.obj.style.display = "none";
-            }
-        });
-    }
-
     dropWork();
     dropDate();
-    window.onload = startWindows;
-
 </script>
 {% endblock %}

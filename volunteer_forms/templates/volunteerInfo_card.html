@@ -6,11 +6,73 @@
     .right_col {
         padding-left: 10%;
     }
+
+    table {
+        table-layout:auto;
+    }
+
+    td {
+        font-size: small;
+    }
+
+    .wrap_content {
+        word-break: break-word;
+    }
 </style>
 
-<h3 class="display-5" align="center">Volunteer Info</h3>
-
 <div align="center">
+    <table class="table table-bordered border-dark">
+        <tr>
+            <td><strong>Birth Date</strong></td>
+            <td>{{ volunteer.birthdate }}</td>
+        </tr>
+        <tr>
+            <td><strong>Age</strong></td>
+            <td>{{ volunteer.age }}</td>
+        </tr>
+        <tr>
+            <td><strong>Start Date</strong></td>
+            <td>{{ volunteer.customStartDate }}</td>
+        </tr>
+        <tr>
+            <td><strong>Address</strong></td>
+            <td class="wrap_content">{{ volunteer.address }}</td>
+        </tr>
+        <tr>
+            <td><strong>Civil Status</strong></td>
+            <td class="wrap_content">{{ volunteer.civilStatus }}</td>
+        </tr>
+        <tr>
+            <td><strong>Address</strong></td>
+            <td class="wrap_content">{{ volunteer.address }}</td>
+        </tr>
+        <tr>
+            <td><strong>Mobile #</strong></td>
+            <td class="wrap_content">{{ volunteer.mobile }}</td>
+        </tr>
+        <tr>
+            <td><strong>Sex</strong></td>
+            <td class="wrap_content">{{ volunteer.sex }}</td>
+        </tr>
+        <tr>
+            <td><strong>Telephone #</strong></td>
+            <td class="wrap_content">{{ volunteer.telephone }}</td>
+        </tr>
+        <tr>
+            <td><strong>Blood Type</strong></td>
+            <td class="wrap_content">{{ volunteer.bloodType }}</td>
+        </tr>
+        <tr>
+            <td><strong>Email</strong></td>
+            <td class="wrap_content">{{ volunteer.email }}</td>
+        </tr>
+        <tr>
+            <td><strong>Religion</strong></td>
+            <td class="wrap_content">{{ volunteer.religion }}</td>
+        </tr>
+    </table>
+</div>
+<!-- <div align="center">
     <table class="table table-bordered w-50 border-dark">
         <thead align="center">
             <th colspan="4">Volunteer Info</th>
@@ -187,6 +249,6 @@
     </table>
     <ul>
     </ul>
-</div>
+</div> -->
 
 {% endblock %}
