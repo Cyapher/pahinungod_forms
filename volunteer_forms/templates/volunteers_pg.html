@@ -75,17 +75,27 @@
 <br>
 <div class="table-responsive">
     <table align="center" class="table table-bordered table-hover border-dark w-75 text-nowrap">
-        <thead class="table-light border-dark sticky-thead">
-            <th>Name</th>
-            <th>Age</th>
-            <th>Programs</th>
-            <th>Start Date</th>
-            <th>Occupation</th>
-            <th>Specific Information</th>
-            <th>Actions</th>
-        </thead>
+        
+        {% if volunteers %}
+    
+            <thead class="table-light border-dark sticky-thead">
+                <th>Name</th>
+                <th>Age</th>
+                <th>Programs</th>
+                <th>Start Date</th>
+                <th>Occupation</th>
+                <th>Specific Information</th>
+                <th>Actions</th>
+            </thead>
+        
+        {% else %}
+        
+            <h3 class="display-5" align="center">No records.</h3>
+
+        {% endif %}
+
+        {% for volunteer in volunteers %}
         <tbody>
-            {% for volunteer in volunteers %}
             <tr>
                 <td>{{ volunteer.first_name }} {{ volunteer.last_name }}</td>
                 <td>{{ volunteer.age }}</td>
@@ -153,6 +163,7 @@
                         </form>
                 </td>
             </tr>
+
             {% endfor %}
         </tbody>
     </table>
@@ -163,6 +174,7 @@
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
     })
+
 </script>
 
 {% endblock %}
