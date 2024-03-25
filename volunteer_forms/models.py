@@ -159,4 +159,4 @@ class Volunteer(models.Model):
 
             self.customStartDate = first_monday_next_month
 
-        super(Volunteer, self).save(*args, **kwargs)
+        super(Volunteer, self).save(*args, **kwargs) 
