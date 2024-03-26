@@ -1,64 +1,201 @@
+<!-- Extensions -->
 {% extends 'base_partner.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
     {% csrf_token %}
 
-    <form action="{% url 'add_partner' %}" method="POST"> 
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit">
-    </form>
+    <style>
+        .form_div{
+            margin: auto;
+        }
+
+        input, select {
+            margin-bottom: 2%;
+        }
+
+        table, tr, td{
+            border: 2px solid black;
+            border-collapse: collapse;
+            margin: auto;
+        }
+
+    </style>
+
+    <h1 style="margin: auto; text-align: center;"> Partners Form </h1>
+
+        <form action="{% url 'add_partner' %}" enctype="multipart/form-data" method="POST" class="
+        mb-3 p-4 
+        d-flex flex-column 
+        align-items-center justify-content-center border"> 
+            {% csrf_token %}
+    
+            <!-- TABLE FORM -->
+                <!-- <table>
+                    <tr>
+                        <td>
+                            <label for="id_partner_name">Partner Name: </label>
+                            {{ form.partner_name }}
+                        </td>
+                        <td>
+                            <label for="id_partnership_extension">Partnership Extension</label>
+                            {{ form.partnership_extension }}
+                        </td>
+                    </tr>    
+    
+                    <tr>
+                        <td>  </td>
+    
+                    </tr>
+    
+        
+                </table> -->
+
+                <!-- Overall Div -->
+                <div class="mb-5 w-75 flex-column d-flex align-items-center justify-content-center">
+                    
+                    {{ form.partner_name }}
+ 
+                    {{ form.partnership_extension }}
+
+                    {{ form.stakeholder_category }}
+
+                    {{ form.second_category }}
+
+                    {{ form.other_choice }}
+
+                    <!-- Type of Partnership Field -->
+                    <div class="d-inline-flex flex-column w-100">
+                        <label for="id_type_of_partnership" class="col-auto col-form-label">Type of Partnership: </label>
+                        <div class="col-sm-100">
+                            {{ form.type_of_partnership }}
+                        </div>
+                    </div>
+
+                    <!-- Date Fields -->
+                    <div class="mb-2 form-row align-items-center justify-content-center d-flex">
+                        <div class="form-group row col-auto m-2">
+                            <!-- Start Date -->
+                            <label for="id_Agreement_Start_Date" class="col-auto col-form-label">Start Date</label>
+                            <div class="col-auto">
+                                {% render_field form.Agreement_Start_Date type="date" class='form-control' placeholder="mm/dd/yyyy" %}
+                            </div>        
+                        </div>
+                        <div class="form-group row col-auto m-2">
+                            <!-- End Date -->
+                            <label for="id_Agreement_End_Date" class="col-auto col-form-label">End Date</label>
+                            <div class="col-auto">
+                                {% render_field form.Agreement_End_Date type="date" class='form-control' placeholder="mm/dd/yyyy" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Field -->
+                    {{ form.files }}
+
+                </div>
+                
+    
+            
+    
+            <input type="submit">
+        </form>
+
+        <!-- {{ form.as_p }} -->
 
     <script>
 
+        document.getElementById('partner_form').className += ' active bg-secondary'
+
+        // FIELDS
+        // SelectElement
+        const selectElement = document.getElementById('id_stakeholder_category');
+        // console.log(selectElement)
+
+        // selectElement_second 
+        const selectElement_second = document.getElementById('id_second_category');
+        const selectElement_second_options = selectElement_second.options;
+        const options = selectElement_second.options;
+        selectElement_second.style.display = 'none'; // Hide all second element (including options)
+
+        // otherField
+        const otherField = document.getElementById('id_other_choice');
+        const otherFieldLabel = document.querySelector('label[for="id_other_choice"]');
+        otherField.style.display = 'none';
+
+
         document.addEventListener('DOMContentLoaded', function() {
 
-            //Get second_category_element
-            const selectElement_second = document.getElementById('id_second_category');
+            // Hide second options
+            function hide_second_options(){
+                for (let i = 0; i < options.length; i++) {
+                    const option = options[i];
+                    option.style.display = 'none';
+                }
+            } 
+            hide_second_options();
 
-            //Hide all second_category_element
-            const options = selectElement_second.options;
-            for (let i = 0; i < options.length; i++) {
-            const option = options[i];
-                option.style.display = 'none';
-          
+            function show_others_field(){
+                otherField.style.display = 'block';
             }
-
-            //
-            const selectElement = document.getElementById('id_stakeholder_category');
+            
+            // Listen to stakeholder_category selected (P and G)
             selectElement.addEventListener('change', function(event) {
-                const selectedValue = event.target.value;
-                if(selectedValue == 'P'){
-                    const selectElement_second = document.getElementById('id_second_category');
-                    const options = selectElement_second.options;
-                    for (let i = 0; i < options.length; i++) {
-                    const option = options[i];
-                        if (option.value === '2') {
-                            option.style.display = 'none';
-                        }else{
-                            option.style.display = 'block';
-                        }
-                    }
-                }
-                else if(selectedValue == 'G'){
-                    const selectElement_second = document.getElementById('id_second_category');
-                    const options = selectElement_second.options;
-                    for (let i = 0; i < options.length; i++) {
-                    const option = options[i];
-                    if (option.value === '1') {
-                            option.style.display = 'none';
-                        }else{
-                            option.style.display = 'block';
-                        }
 
-                    }   
-                }
-                else{
-                    for (let i = 0; i < options.length; i++) {
-                    const option = options[i];
-                    option.style.display = 'none';    
+                const selectedValue = event.target.value;
+                console.log(selectedValue)
+
+                // Check value of stakeholder_category
+                if(selectedValue == 'Private'){
+                    console.log('HERE IN P')  
+                    selectElement_second.style.display = 'block';
+                    for (let i = 0; i < selectElement_second_options.length; i++) {
+                    const option = selectElement_second_options[i];
+                        if (option.value === '1') {
+                            option.style.display = 'block';
+                        } else if(option.value === '1'){
+
+                        } else{
+                            option.style.display = 'none';
+                        }
                     }
+                } else if(selectedValue == 'Government'){
+                    console.log('HERE IN G')  
+                    selectElement_second.style.display = 'block';
+                    for (let i = 0; i < selectElement_second_options.length; i++) {
+                    const option = selectElement_second_options[i];
+                        if (option.value === '2') {
+                            option.style.display = 'block';
+                        }else{
+                            option.style.display = 'none';
+                        }
+                    }
+                } else{
+                    selectElement_second.style.display = 'none';
+                    hide_second_options()
                 }
+
+                // Listen to selectElement_second selected (Under P and G)
+                selectElement_second.addEventListener('change', function(event){
+
+                    // Get the selected option from selectElement_second
+                    const selectedOption = selectElement_second.options[selectElement_second.selectedIndex]
+
+                    // Get the value and text of the selected option
+                    const selectedValue = selectedOption.value;
+                    console.log(selectedValue)
+                    const selectedText = selectedOption.textContent.trim();
+                    console.log(selectedText)
+
+                    if(selectedText == 'Others'){
+                        otherField.style.display = 'block';
+                    } else{
+                        otherField.style.display = 'none';
+                    }
+
+                });
+
+
             });
         });
 

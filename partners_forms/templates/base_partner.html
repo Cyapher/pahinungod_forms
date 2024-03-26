@@ -3,9 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BASE HTML</title>
+    <title>Partners Form</title>
 </head>
+
+<style>
+    .img {
+        width: 100px;
+        height: auto;
+    }
+</style>
+
 <body>
+    <!-- IMPORTS -->
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load static %}
+    
+    <!-- HEADER -->
+    <div class="mb-6" style="background-color: #7B0100;">
+        <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration: none; color: white">
+            <img src="{% static 'partners_forms/media/admin_icon.png' %}" alt="Admin Icon" class="img" style="background-color: #7B0100;">
+            <h1 class="h1">Admin Dashboard</h1>
+        </a>
+    </div>
+
+    <!-- NAVBAR -->
+    <div style="background-color: #262626;">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link text-white" id="home" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" id="partners" href="{% url 'view_partners' %}">Partners</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" id="partner_form" href="{% url 'partner_form' %}">Add Partners</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" id="type_of_partner_form" href="{% url 'type_partner_form' %}">Add Type Partners</a>
+            </li>
+        </ul>
+    </div>
+
     {% block content %}
 
     {% endblock %}
