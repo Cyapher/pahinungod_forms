@@ -70,7 +70,7 @@
             {% csrf_token %}
 
             <div>
-                <table class="table w-50">
+                <table class="table table-sm w-50">
                     <tbody>
                         <tr>
                             <h3>Volunteer Programs</h3>
@@ -84,7 +84,7 @@
                 </table>
             </div>
 
-            <table class="w-75 table table-bordered border-dark">
+            <table class="w-75 table table-sm table-bordered border-dark">
                 <thead>
                     <h3>Volunteer Information</h3>
                 </thead>
@@ -166,7 +166,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-bordered border-dark">
+            <table class="w-50 table table-sm table-bordered border-dark">
                 <thead data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle checked for Alumni">
                     <tr>
                         <td>
@@ -199,7 +199,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-bordered border-dark">
+            <table class="w-50 table table-sm table-bordered border-dark">
                 <thead>
                     <tr>
                         <td>
@@ -232,7 +232,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-bordered border-dark">
+            <table class="w-50 table table-sm table-bordered border-dark">
                 <thead>
                     <tr>
                         <td>
@@ -277,7 +277,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-bordered border-dark">
+            <table class="w-50 table table-sm table-bordered border-dark">
                 <thead>
                     <tr>
                         <td>
@@ -366,7 +366,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-bordered border-dark">
+            <table class="w-50 table table-sm table-bordered border-dark">
                 <thead>
                     <tr>
                         <td>
@@ -428,7 +428,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-bordered border-dark">
+            <table class="w-50 table table-sm table-bordered border-dark">
                 <div id="insuranceDiv">
                 <tr>
                     <h3>Insurance Information</h3>
@@ -488,7 +488,7 @@
                 </div>
             </table>
 
-            <table class="w-25 table table-bordered border-dark">
+            <table class="w-25 table table-sm table-bordered border-dark">
                 <div id="dateDiv">
                     <tbody>
                         <tr>
@@ -629,6 +629,12 @@
             upDiv.style.display = "none";
         }
     }
+
+    document.getElementById("vol_form").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        }
+    });
 
     dropWork();
     dropDate();

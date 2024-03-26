@@ -24,7 +24,7 @@
     display: grid;
     grid-template-columns: auto auto;
     gap: 20px;
-    justify-content: center;
+    /* justify-content: center; */
     /* align-items: center; */
     /* position: absolute; */
     top: 50%;
@@ -101,7 +101,7 @@
     <table id="volunteer_list" class="table table-bordered w-75">
         <thead class="table-light border-dark">
             <th style="width: 15%; max-width: 10px;">Name</th>
-            <th style="width: 35%; max-width: 250px;">Specific Information</th>
+            <th style="width: 40%; max-width: 260px;">Specific Information</th>
             <th style="width: 10%; max-width: 10px;">Programs</th>
             <th style="width: 10%; max-width: 10px;">Start Date</th>
             <th style="width: 5%; max-width: 10px;">Occupation</th>
@@ -115,9 +115,9 @@
                         {{volunteer.first_name}} {{volunteer.last_name}}
                     </strong>
                 </td>
-                <td style="width: 35%; max-width: 250px;">
+                <td style="width: 40%; max-width: 260px;">
                     <div class="accordion">
-                        <div class="">
+                        <div class="accordion-item">
                             <h2 class="accordion-header" id="heading{{ forloop.counter }}">
                                 <div align="center" class="accordion-body collapsed">
                                     <div class="button-grid" align="center">
@@ -137,7 +137,7 @@
                                                 {% csrf_token %}
                                                 <input id="btn_Stu{{ forloop.counter }}" type="button" class="btn btn-outline-success btn-sm btn_width" value="Student Info" data-bs-toggle="collapse" data-bs-target="#collapse_stu{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}" onclick="loadContent('{{ volunteer.id }}', '{{forloop.counter}}', this.id)">
                                             </form>
-                                    </div>
+                                        </div>
                                 </div>
                             </h2>
                             <div id="collapse_vol{{ forloop.counter }}" class="accordion-collapse collapse scrollable-content" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">

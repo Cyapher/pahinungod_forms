@@ -6,67 +6,38 @@
     .right_col {
         padding-left: 10%;
     }
+
+    table {
+        table-layout:auto;
+    }
+
+    td {
+        font-size: small;
+    }
+
+    .wrap_content {
+        word-break: break-word;
+    }
 </style>
 
-<h3 class="display-5" align="center">Volunteer Student Info</h3>
-
 <div align="center">
-    <table class="table table-bordered w-50 border-dark">
-        <thead align="center">
-            <th colspan="2">Volunteer Student Info</th>
-        </thead>
-        <tbody>
-            <tr>
-                <td align="center">
-                    <p><strong>Name</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>ID #</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.idNum }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>Course</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.course }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>College</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.college }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>Year Level</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.yearLvl }}
-                    </p>
-                </td>
-            </tr>
-        </tbody>
+    <table class="table table-bordered border-dark">
+        <tr>
+            <td><strong>ID #</strong></td>
+            <td>{{ volunteer.idNum }}</td>
+        </tr>
+        <tr>
+            <td><strong>Course</strong></td>
+            <td>{{ volunteer.course }}</td>
+        </tr>
+        <tr>
+            <td><strong>College</strong></td>
+            <td>{{ volunteer.college }}</td>
+        </tr>
+        <tr>
+            <td><strong>Year Level</strong></td>
+            <td class="wrap_content">{{ volunteer.yearLvl }}</td>
+        </tr>
     </table>
 </div>
 
