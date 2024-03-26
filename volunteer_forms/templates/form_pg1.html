@@ -70,7 +70,7 @@
             {% csrf_token %}
 
             <div>
-                <table class="table w-50">
+                <table class="table table-sm w-50">
                     <tbody>
                         <tr>
                             <h3>Volunteer Programs</h3>
@@ -84,7 +84,7 @@
                 </table>
             </div>
 
-            <table class="w-75 table table-bordered border-dark">
+            <table class="w-75 table table-sm table-bordered border-dark">
                 <thead>
                     <h3>Volunteer Information</h3>
                 </thead>
@@ -166,7 +166,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-bordered border-dark">
+            <table class="w-50 table table-sm table-bordered border-dark">
                 <thead data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle checked for Alumni">
                     <tr>
                         <td>
@@ -199,7 +199,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-bordered border-dark">
+            <table class="w-50 table table-sm table-bordered border-dark">
                 <thead>
                     <tr>
                         <td>
@@ -232,7 +232,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-bordered border-dark">
+            <table class="w-50 table table-sm table-bordered border-dark">
                 <thead>
                     <tr>
                         <td>
@@ -277,7 +277,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-bordered border-dark">
+            <table class="w-50 table table-sm table-bordered border-dark">
                 <thead>
                     <tr>
                         <td>
@@ -366,7 +366,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-bordered border-dark">
+            <table class="w-50 table table-sm table-bordered border-dark">
                 <thead>
                     <tr>
                         <td>
@@ -428,7 +428,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-bordered border-dark">
+            <table class="w-50 table table-sm table-bordered border-dark">
                 <div id="insuranceDiv">
                 <tr>
                     <h3>Insurance Information</h3>
@@ -460,10 +460,19 @@
                                                 </div>                                        
                                             {% endif %}
     
-                                            {% if field.name == "contact" %}
+                                            {% if field.name == "contactNum" %}
                                                 <div class="fieldWrapper">
                                     
-                                                    <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact Details</label>
+                                                    <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact #</label>
+                                                    {{ field }}
+                                    
+                                                </div>                                        
+                                            {% endif %}
+
+                                            {% if field.name == "contactEmail" %}
+                                                <div class="fieldWrapper">
+                                    
+                                                    <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact Email</label>
                                                     {{ field }}
                                     
                                                 </div>                                        
@@ -479,7 +488,7 @@
                 </div>
             </table>
 
-            <table class="w-25 table table-bordered border-dark">
+            <table class="w-25 table table-sm table-bordered border-dark">
                 <div id="dateDiv">
                     <tbody>
                         <tr>
@@ -535,9 +544,17 @@
     return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 
+    var alumniDiv = document.getElementById("alumni_div");
+    var pghDiv = document.getElementById("pgh_div");
+    var dateOther = document.getElementById("id_customStartDate");
+    var workDiv = document.getElementById("work_div");
+    var licenseDiv = document.getElementById("license_div");
+    var upDiv = document.getElementById("up_div");
+
+
     function toggleAlumni() {
         var alumniCheck = document.getElementById("alumni_check");
-        var alumniDiv = document.getElementById("alumni_div");
+        
 
         if (alumniCheck.checked) {
             alumniDiv.style.display = "block";
@@ -548,7 +565,7 @@
 
     function togglePGH() {
         var pghCheck = document.getElementById("pgh_check");
-        var pghDiv = document.getElementById("pgh_div");
+        
 
         if (pghCheck.checked) {
             pghDiv.style.display = "block";
@@ -571,7 +588,7 @@
 
     function dropDate() {
         var dateDropValue = document.getElementById("id_startDate").value;
-        var dateOther = document.getElementById("id_customStartDate");
+        
 
         if (dateDropValue === "Other") {
             dateOther.removeAttribute("disabled");
@@ -583,7 +600,7 @@
 
     function toggleWork() {
         var workCheck = document.getElementById("work_check");
-        var workDiv = document.getElementById("work_div");
+        
 
         if (workCheck.checked) {
             workDiv.style.display = "block";
@@ -594,7 +611,7 @@
 
     function toggleLicense() {
         var licenseCheck = document.getElementById("license_check");
-        var licenseDiv = document.getElementById("license_div");
+        
 
         if (licenseCheck.checked) {
             licenseDiv.style.display = "block";
@@ -605,8 +622,7 @@
 
     function toggleUP() {
         var upCheck = document.getElementById("up_check");
-        var upDiv = document.getElementById("up_div");
-
+        
         if (upCheck.checked) {
             upDiv.style.display = "block";
         } else {
@@ -614,8 +630,13 @@
         }
     }
 
+    document.getElementById("vol_form").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        }
+    });
+
     dropWork();
     dropDate();
-
 </script>
 {% endblock %}

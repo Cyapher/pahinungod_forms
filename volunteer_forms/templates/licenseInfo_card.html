@@ -6,97 +6,69 @@
     .right_col {
         padding-left: 10%;
     }
+
+    table {
+        table-layout:auto;
+    }
+
+    td {
+        font-size: small;
+    }
+
+    .wrap_content {
+        word-break: break-word;
+    }
 </style>
 
-<h3 class="display-5" align="center">Volunteer License Info</h3>
-
 <div align="center">
-    <table class="table table-bordered w-50 border-dark">
-        <thead align="center">
-            <th colspan="2">Volunteer License Info</th>
-        </thead>
-        <tbody>
-            <tr>
-                <td align="center">
-                    <p><strong>Name</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>PRC License</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.prcLicense }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>Department</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.dept }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>Company</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.company }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>Office Address</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.officeAdd }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>Office Telephone</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.license_telephone }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>Office Email</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.license_email }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>Work Schedule</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.workSched }}
-                    </p>
-                </td>
-            </tr>
-        </tbody>
+    <table class="table table-bordered border-dark">
+        <tr>
+            <td><strong>Occupation</strong></td>
+            {% if volunteer.occupation == "Other" %}
+            <td>{{ volunteer.otherOccu }}</td>
+            {% else %}
+            <td>{{ volunteer.occupation }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td><strong>Specification (UP Alumni)</strong></td>
+            <td>{{ volunteer.specification }}</td>
+        </tr>
+        <tr>
+            <td><strong>Constituent Unit (PGH)</strong></td>
+            <td>{{ volunteer.constituentUnit }}</td>
+        </tr>
+    </table>
+
+    <table class="table table-bordered border-dark">
+        <tr>
+            <td><strong>PRC License</strong></td>
+            <td>{{ volunteer.prcLicense }}</td>
+        </tr>
+        <tr>
+            <td><strong>Department</strong></td>
+            <td>{{ volunteer.dept }}</td>
+        </tr>
+        <tr>
+            <td><strong>Company</strong></td>
+            <td>{{ volunteer.company }}</td>
+        </tr>
+        <tr>
+            <td><strong>Office Address</strong></td>
+            <td class="wrap_content">{{ volunteer.officeAdd }}</td>
+        </tr>
+        <tr>
+            <td><strong>Office/Work Telephone</strong></td>
+            <td class="wrap_content">{{ volunteer.license_telephone }}</td>
+        </tr>
+        <tr>
+            <td><strong>Office/Work Email</strong></td>
+            <td class="wrap_content">{{ volunteer.license_email }}</td>
+        </tr>
+        <tr>
+            <td><strong>Work Schedule</strong></td>
+            <td class="wrap_content">{{ volunteer.workSched }}</td>
+        </tr>
     </table>
 </div>
 

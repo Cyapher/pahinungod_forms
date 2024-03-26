@@ -70,3 +70,22 @@ class ProgramForm(ModelForm):
     class Meta:
         model = Program
         fields = '__all__'
+
+    program_placeholders = {
+        'code' : 'Enter the program code here',
+        'name' : 'Enter the program name here',
+        'description' : 'Enter the description here'
+    }
+
+    def __init__(self, *args, **kwargs):
+        super(ProgramForm, self).__init__(*args, **kwargs)
+
+        for field_name, field in self.fields.items(): # iterate through all fields on page
+
+            if isinstance(field, forms.CharField):
+                field.widget.attrs.update({
+                    'class': 'form-control'
+                })
+
+            if field_name in self.program_placeholders:
+                field.widget.attrs['placeholder'] = self.program_placeholders[field_name]

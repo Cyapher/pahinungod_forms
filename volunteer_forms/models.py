@@ -9,6 +9,8 @@ from django.db import models
 class Program(models.Model):
     code = models.CharField(max_length=10)
     name = models.CharField(max_length=200)
+    description = models.CharField(max_length=255)
+    program_img = models.ImageField(blank=True)
 
     def __str__(self):
         return f"{self.code}: {self.name}" 
@@ -61,7 +63,8 @@ class Volunteer(models.Model):
 
     beneficiaries = models.CharField(max_length=50)
     relation = models.CharField(max_length=50)
-    contact = models.CharField(max_length=50)
+    contactNum = models.CharField(max_length=50)
+    contactEmail = models.CharField(max_length=50, blank=True, null=True)
 
     # license
     prcLicense = models.CharField(max_length=7, blank=True, null=True)
@@ -98,6 +101,12 @@ class Volunteer(models.Model):
 
     startDate = models.CharField(max_length=50, choices=startChoices)
     customStartDate = models.DateField(max_length=50, blank=True, null=True)
+
+    alumnusCheck = models.BooleanField(default=False)
+    pghCheck = models.BooleanField(default=False)
+    workCheck = models.BooleanField(default=False)
+    licenseCheck = models.BooleanField(default=False)
+    studentCheck = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -159,4 +168,29 @@ class Volunteer(models.Model):
 
             self.customStartDate = first_monday_next_month
 
-        super(Volunteer, self).save(*args, **kwargs) 
+        if self.constituentUnit:
+            self.alumnusCheck = True
+        else:
+            self.alumnusCheck = False
+
+        if self.specification:
+            self.pghCheck = True
+        else:
+            self.pghCheck = False
+        
+        if self.occupation or self.otherOccu:
+            self.workCheck = True
+        else:
+            self.workCheck = False
+
+        if self.prcLicense or self.company or self.dept or self.officeAdd or self.license_telephone or self.license_email or self.workSched:
+            self.licenseCheck = True
+        else:
+            self.licenseCheck = False
+        
+        if self.idNum or self.course or self.college or self.yearLvl:
+            self.studentCheck = True
+        else:
+            self.studentCheck = False
+
+        super(Volunteer, self).save(*args, **kwargs)

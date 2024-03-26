@@ -6,57 +6,38 @@
     .right_col {
         padding-left: 10%;
     }
+
+    table {
+        table-layout:auto;
+    }
+
+    td {
+        font-size: small;
+    }
+
+    .wrap_content {
+        word-break: break-word;
+    }
 </style>
 
-<h3 class="display-5" align="center">Volunteer Insurance Info</h3>
-
 <div align="center">
-    <table class="table table-bordered w-50 border-dark">
-        <thead align="center">
-            <th colspan="2">Volunteer Insurance Info</th>
-        </thead>
-        <tbody>
-            <tr>
-                <td align="center">
-                    <p><strong>Name</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>Beneficiaries</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.beneficiaries }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>Relation</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.relation }}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <p><strong>Contact Details</strong></p>
-                </td>
-                <td>
-                    <p class="right_col">
-                        {{ volunteer.contact }}
-                    </p>
-                </td>
-            </tr>
-        </tbody>
+    <table class="table table-bordered border-dark">
+        <tr>
+            <td><strong>Beneficiaries</strong></td>
+            <td>{{ volunteer.beneficiaries }}</td>
+        </tr>
+        <tr>
+            <td><strong>Relation</strong></td>
+            <td>{{ volunteer.relation }}</td>
+        </tr>
+        <tr>
+            <td><strong>Contact #</strong></td>
+            <td>{{ volunteer.contactNum }}</td>
+        </tr>
+        <tr>
+            <td><strong>Email Address</strong></td>
+            <td class="wrap_content">{{ volunteer.contactEmail }}</td>
+        </tr>
     </table>
 </div>
 

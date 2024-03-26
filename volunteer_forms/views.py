@@ -40,7 +40,8 @@ licenseFields = ['prcLicense',
     
 insuranceFields = ['beneficiaries',
                        'relation',
-                       'contact']
+                       'contactNum',
+                       'contactEmail']
     
 studentFields = ['idNum',
                      'course',
