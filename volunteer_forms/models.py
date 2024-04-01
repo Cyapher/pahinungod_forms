@@ -143,6 +143,9 @@ class Volunteer(models.Model):
 
             # Calculate the number of days to add to reach the next Monday
             days_to_add = (7 - current_weekday) % 7
+            
+            if current_weekday == 0:
+                days_to_add += 7
 
             # Add the calculated number of days to the given date
             next_monday = today + timedelta(days=days_to_add)

@@ -149,6 +149,7 @@ def searchFilter(request):
             Q(occupation__icontains=query) |
             Q(otherOccu__icontains=query) |
             Q(programs__name__icontains=query) |
+            Q(programs__code__icontains=query) |
             Q(customStartDate__icontains=query)
         ).distinct()
     else:
@@ -192,3 +193,35 @@ def delProgram(request, program_id):
     program.delete()
 
     return redirect('programs')
+
+def searchDateRange(request):
+    queryStart = request.GET.get('start')
+    queryEnd = request.GET.get('end')
+
+    if queryStart and queryEnd:
+        volunteers = Volunteer.objects.filter(Q(customStartDate__gte=queryStart) & Q(customStartDate__lte=queryEnd))
+    else:
+        volunteers = Volunteer.objects.all()
+    
+    return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
+
+def sort_data(request):
+    if request.method == 'GET':
+        # Get the values submitted in the form
+        column = request.GET.get('column')
+        order = request.GET.get('order')
+
+        # Your sorting logic here
+        if column == 'first_name':
+            sorted_data = Volunteer.objects.all().order_by('first_name' if order == 'asc' else '-first_name')
+        elif column == 'customStartDate':
+            sorted_data = Volunteer.objects.all().order_by('customStartDate' if order == 'asc' else '-customStartDate')
+        elif column == 'occupation':
+            sorted_data = Volunteer.objects.all().order_by('occupation' if order == 'asc' else '-occupation')
+        else:
+            # Handle default case or error
+            sorted_data = Volunteer.objects.all()
+
+        return render(request, 'volunteers_pg.html', {'volunteers': sorted_data})
+
+

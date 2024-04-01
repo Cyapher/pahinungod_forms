@@ -15,5 +15,7 @@ urlpatterns = [
     path("program_list", views.printPrograms, name="programs"),
     path("editProgram/<int:program_id>", views.updateProgram, name="edit_program"),
     path("delProgram/<int:program_id>", views.delProgram, name="del_program"),
-    path("addProgram", views.createProgram, name="add_program")
+    path("addProgram", views.createProgram, name="add_program"),
+    path("filterDate", views.searchDateRange, name="filter_date"),
+    path("sort", views.sort_data, name="sort")
 ]

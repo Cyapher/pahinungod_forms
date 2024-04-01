@@ -1,10 +1,16 @@
 from django import forms
-from django.forms import ModelForm, MultipleChoiceField
+from django.forms import ModelForm, ModelMultipleChoiceField
 from volunteer_forms.models import Program, Volunteer
 
 class VolunteerForm(ModelForm):
 
     class Meta:
+
+        programs = forms.ModelMultipleChoiceField(
+            widget = forms.CheckboxSelectMultiple,
+            queryset = Program.objects.all()
+        )
+
         model = Volunteer
         fields = '__all__'
 
