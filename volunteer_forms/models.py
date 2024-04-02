@@ -19,7 +19,7 @@ class Volunteer(models.Model):
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    address = models.CharField(max_length=50)
+    address = models.CharField(max_length=100)
     mobile = models.CharField(max_length=13)
     telephone = models.CharField(max_length=10)
     email = models.CharField(max_length=50)
@@ -40,7 +40,7 @@ class Volunteer(models.Model):
     civilStatus = models.CharField(max_length=50, choices=civilStatusChoices)
     sex = models.CharField(max_length=50, choices=sexChoices)
     bloodType = models.CharField(max_length=3)
-    religion = models.CharField(max_length=50)
+    religion = models.CharField(max_length=100)
     healthConditions = models.TextField(blank=True, null=True)
     skillsHobbies = models.TextField(blank=True, null=True)
     foodRestrictions = models.TextField(blank=True, null=True)
@@ -70,10 +70,10 @@ class Volunteer(models.Model):
     prcLicense = models.CharField(max_length=7, blank=True, null=True)
     dept = models.CharField(max_length=50, blank=True, null=True)
     company = models.CharField(max_length=50, blank=True, null=True)
-    officeAdd = models.CharField(max_length=50, blank=True, null=True)
+    officeAdd = models.CharField(max_length=100, blank=True, null=True)
     license_telephone = models.CharField(max_length=10, blank=True, null=True)
     license_email = models.CharField(max_length=50, blank=True, null=True)
-    workSched = models.CharField(max_length=50, blank=True, null=True)
+    workSched = models.CharField(max_length=255, blank=True, null=True)
 
     # student
     yrChoices = [
@@ -143,6 +143,9 @@ class Volunteer(models.Model):
 
             # Calculate the number of days to add to reach the next Monday
             days_to_add = (7 - current_weekday) % 7
+            
+            if current_weekday == 0:
+                days_to_add += 7
 
             # Add the calculated number of days to the given date
             next_monday = today + timedelta(days=days_to_add)

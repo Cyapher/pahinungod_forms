@@ -3,39 +3,7 @@
 {% block body %}
 
 <style>
-
-    body {
-        width: 100%;
-        height: 100%;
-        margin: 0px;
-        padding: 0px;
-        overflow-x: hidden; 
-    }
-
-    td, th {
-        padding: 10%;
-    }
-
-    textarea {
-        max-height: 100px;
-        resize: none;
-    }
-
-    #multi_col {
-        padding-left: 1%;
-
-    }
-    
-    .extra_form {
-        margin-top: 1%;
-    }
-
-    #navigation {
-        background-color: #7B0100;
-        width: 100%;
-    }
-
-    .popup-container {
+  .popup-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -57,7 +25,7 @@
     border-radius: 10px;
     border: 2px solid #000000;
     margin: 15px;
-    overflow: auto;
+    overflow:auto;
   }
 
   .popup-content {
@@ -82,19 +50,18 @@
 
 </style>
 
-{% include 'navbar_temp.html' with show_vform=False show_programs=False show_search=False %}
+<body>
 
-<br>
-
-{% load widget_tweaks %}
-  <form id="full_form" action="{% url 'add' %}" method="post">
+  {% load widget_tweaks %}
+  <form id="full_form" method="post">
     {% csrf_token %}
     <div id="signup_form" class="popup-container">
       <div class="popup" id="popup1">
         <div class="popup-content container-fluid">
 
           <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-          <br><br><br><br><br><br><br><br><br><br><br><br>
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          <br><br><br><br><br><br><br><br><br><br>
           
           <br>
           <br>
@@ -182,7 +149,7 @@
             <thead>
               <tr>
                 <td for="alumni_check">
-                  <input type="checkbox" id="alumni_check" onchange="toggleAlumni()">
+                  <input class="form-check-input" type="checkbox" id="alumni_check" onchange="toggleAlumni()">
                   <label for="alumni_check">Are you an alumnus of UP?</label>
                 </td>
               </tr>
@@ -216,7 +183,7 @@
             <thead>
               <tr>
                 <td>
-                  <input type="checkbox" id="pgh_check" onchange="togglePGH()">
+                  <input class="form-check-input" type="checkbox" id="pgh_check" onchange="togglePGH()">
                   <label for="pgh_check">Are presently connected with UP-PGH?</label>
                 </td>
               </tr>
@@ -250,7 +217,7 @@
             <thead>
               <tr>
                 <td>
-                  <input type="checkbox" id="work_check" onchange="toggleWork()">
+                  <input class="form-check-input" type="checkbox" id="work_check" onchange="toggleWork()">
                   <label for="work_check">Are you presently working?</label>
                 </td>
               </tr>
@@ -297,7 +264,7 @@
             <thead>
               <tr>
                 <td>
-                  <input type="checkbox" id="license_check" onchange="toggleLicense()">
+                  <input class="form-check-input" type="checkbox" id="license_check" onchange="toggleLicense()">
                   <label for="license_check">Are you licensed?</label>
                 </td>
               </tr>
@@ -392,7 +359,7 @@
             <thead>
               <tr>
                 <td>
-                  <input type="checkbox" id="up_check" onchange="toggleUP()">
+                  <input class="form-check-input" type="checkbox" id="up_check" onchange="toggleUP()">
                   <label for="up_check">Are you currently a student of UP?</label>
                 </td>
               </tr>
@@ -571,12 +538,13 @@
 
       <div class="popup" id="popup2" style="margin-left: -1px;">
         <div class="popup-content container-fluid">
+            <h5 class="h5">Volunteer Programs</h5>
           <div class="row">
             {% for program in programs %}
               <div class="col-md-4 mb-3">
                 <div class="card h-100 d-flex flex-column">
                   <div class="card-body">
-                    <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}">
+                    <input class="form-check-input" type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}" {% if program in volunteer.programs.all %}checked{% endif %}>
                     <h5 class="card-title">{{ program.code }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{ program.name }}</h6>
                     <!-- Add your image here -->
@@ -594,105 +562,113 @@
       </div>      
     </form>
 
-<script>
+      <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
 
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-
-    var alumniDiv = document.getElementById("alumni_div");
-    var pghDiv = document.getElementById("pgh_div");
-    var dateOther = document.getElementById("id_customStartDate");
-    var workDiv = document.getElementById("work_div");
-    var licenseDiv = document.getElementById("license_div");
-    var upDiv = document.getElementById("up_div");
-
-    var alumniCheck = document.getElementById("alumni_check");
-    var pghCheck = document.getElementById("pgh_check");    
-    var workCheck = document.getElementById("work_check");
-    var licenseCheck = document.getElementById("license_check");
-    var upCheck = document.getElementById("up_check");
-
-
-    function toggleAlumni() {
+        var alumniDiv = document.getElementById("alumni_div");
+        var pghDiv = document.getElementById("pgh_div");
+        var dateOther = document.getElementById("id_customStartDate");
+        var workDiv = document.getElementById("work_div");
+        var licenseDiv = document.getElementById("license_div");
+        var upDiv = document.getElementById("up_div");
         
+        var alumniCheck = document.getElementById("alumni_check");
+        var pghCheck = document.getElementById("pgh_check");
+        var workCheck = document.getElementById("work_check");
+        var licenseCheck = document.getElementById("license_check");
+        var upCheck = document.getElementById("up_check");
         
+        function toggleAlumni() {
 
-        if (alumniCheck.checked) {
+
+          if (alumniCheck.checked) {
             alumniDiv.style.display = "block";
-        } else {
+          } else {
             alumniDiv.style.display = "none";
+          }
         }
-    }
 
-    function togglePGH() {
-        
-        
+        function togglePGH() {
 
-        if (pghCheck.checked) {
+
+          if (pghCheck.checked) {
             pghDiv.style.display = "block";
-        } else {
+          } else {
             pghDiv.style.display = "none";
+          }
         }
-    }
 
-    function dropWork() {
-        var workDropValue = document.getElementById("id_occupation").value;
-        var workOther = document.getElementById("id_otherOccu");
+        function dropWork() {
+          var workDropValue = document.getElementById("id_occupation").value;
+          var workOther = document.getElementById("id_otherOccu");
 
-        if (workDropValue === "Other") {
+          if (workDropValue === "Other") {
             workOther.removeAttribute("disabled");
-        }
-        else {
+          }
+          else {
             workOther.setAttribute("disabled", "disabled");
+          }
         }
-    }
 
-    function dropDate() {
-        var dateDropValue = document.getElementById("id_startDate").value;
+        function dropDate() {
+          var dateDropValue = document.getElementById("id_startDate").value;
 
-        if (dateDropValue === "Other") {
+
+          if (dateDropValue === "Other") {
             dateOther.removeAttribute("disabled");
-        }
-        else {
+          }
+          else {
             dateOther.setAttribute("disabled", "disabled");
+          }
         }
-    }
 
-    function toggleWork() {
-        
-        
+        function toggleWork() {
 
-        if (workCheck.checked) {
+
+          if (workCheck.checked) {
             workDiv.style.display = "block";
-        } else {
+          } else {
             workDiv.style.display = "none";
+          }
         }
-    }
 
-    function toggleLicense() {
-        
-        
+        function toggleLicense() {
 
-        if (licenseCheck.checked) {
+
+          if (licenseCheck.checked) {
             licenseDiv.style.display = "block";
-        } else {
+          } else {
             licenseDiv.style.display = "none";
+          }
         }
-    }
 
-    function toggleUP() {
-        
-        
-        if (upCheck.checked) {
+        function toggleUP() {
+
+          if (upCheck.checked) {
             upDiv.style.display = "block";
-        } else {
+          } else {
             upDiv.style.display = "none";
+          }
         }
-    }
 
-    function startWindows() {
+        document.getElementById("full_form").addEventListener("keydown", function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+          }
+        });
+
+        function toggleForm() {
+          var form = document.getElementById("full_form");
+          form.style.display = "block";
+        }
+
+        function startWindows() {
+
+        console.log("{{volunteer.alumnusCheck}}");
+
         var alumnus_loadCheck = {check : "{{volunteer.alumnusCheck}}", obj : alumniDiv, checkObj : alumniCheck};
         var pgh_loadCheck = {check : "{{volunteer.pghCheck}}", obj : pghDiv, checkObj : pghCheck};
         var work_loadCheck = {check : "{{volunteer.workCheck}}", obj : workDiv, checkObj : workCheck};
@@ -713,16 +689,8 @@
         });
     }
 
-    document.getElementById("vol_form").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        }
-    });
-
-    dropWork();
-    dropDate();
-    window.onload = startWindows;
-
-</script>
-
-{% endblock %}
+        window.onload = startWindows;
+        dropWork();
+        dropDate();
+      </script>
+      {% endblock %}
