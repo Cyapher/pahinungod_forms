@@ -115,7 +115,6 @@
         // selectElement_second 
         const selectElement_second = document.getElementById('id_second_category');
         const selectElement_second_options = selectElement_second.options;
-        const options = selectElement_second.options;
         selectElement_second.style.display = 'none'; // Hide all second element (including options)
 
         // otherField
@@ -123,13 +122,16 @@
         const otherFieldLabel = document.querySelector('label[for="id_other_choice"]');
         otherField.style.display = 'none';
 
+        const private = ['NGO', 'Company', 'Educational Institution (Private)', 'Others'];
+
+        const government = ['LGU', 'National Government Agency', 'Educational Institution (Government)', 'Others'];
 
         document.addEventListener('DOMContentLoaded', function() {
 
             // Hide second options
             function hide_second_options(){
-                for (let i = 0; i < options.length; i++) {
-                    const option = options[i];
+                for (let i = 0; i < selectElement_second_options.length; i++) {
+                    const option = selectElement_second_options[i];
                     option.style.display = 'none';
                 }
             } 
@@ -151,10 +153,9 @@
                     selectElement_second.style.display = 'block';
                     for (let i = 0; i < selectElement_second_options.length; i++) {
                     const option = selectElement_second_options[i];
-                        if (option.value === '1') {
+                    // console.log(option)
+                        if (private.includes(option.value)) {
                             option.style.display = 'block';
-                        } else if(option.value === '1'){
-
                         } else{
                             option.style.display = 'none';
                         }
@@ -164,7 +165,7 @@
                     selectElement_second.style.display = 'block';
                     for (let i = 0; i < selectElement_second_options.length; i++) {
                     const option = selectElement_second_options[i];
-                        if (option.value === '2') {
+                        if (government.includes(option.value)) {
                             option.style.display = 'block';
                         }else{
                             option.style.display = 'none';

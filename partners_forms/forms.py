@@ -37,6 +37,8 @@ class PartnerForm(ModelForm):
             self.fields['partnership_extension'].widget.attrs['initial'] = {'default'}
             self.fields['partnership_extension'].empty_label = 'Select Partnership Extension'
 
+            self.fields['files'].widget.attrs['multiple'] = True
+
             # For File Upload
             # self.fields['files'] = ClearableFileInput(attrs={'multiple': True})
 
@@ -67,6 +69,7 @@ class Scope_of_work(ModelForm):
     class Meta:
         model = Scope_of_work
         fields = '__all__'
+
 
  
 
