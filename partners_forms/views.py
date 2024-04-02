@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from partners_forms.forms import PartnerForm, Type_of_partnerForm
@@ -6,6 +6,7 @@ from .models import Partner, Scope_of_work, Type_obj
 from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
+# WEB PAGES ================================================================================================================
 def home_page(request):
     return render(request, "home.html")
 
@@ -109,8 +110,51 @@ def del_partner(request, partner_id):
         to_delete.delete()
         return redirect('view_partners')
 
-def update_partner(request):
-    pass
+def upd_partner(request, partner_id):
+    to_update = Partner.objects.get(pk=partner_id)
+    form = PartnerForm(request.POST or None, request.FILES or None, instance=to_update) # fields
+    uploaded_files = request.FILES.getlist('files')
+    updated_files_list = ''
+    
+    if request.method == 'POST':
+
+        if form.is_valid():
+            print('partner is valid')
+
+            storage = FileSystemStorage(location='partner_requirements/')
+
+            # FOR MULTIPLE FILES
+            for file in uploaded_files:
+                filename = storage.save(file.name, file)
+                new_file_url = storage.url(filename)
+
+                print(f' In Loop: \n {new_file_url}')
+
+                # Append list (text field)
+                updated_files_list += new_file_url + '\n'
+                
+            updated_files_list = updated_files_list[:-1]
+            print(f'\n Files List: \n {updated_files_list}')
+            
+            # Update files_list
+            form.instance.files_list = updated_files_list
+
+            form.save()
+            return redirect('view_partners')
+    else:
+        print('partner not valid')
+        # return render(request, 'partners_forms.html', {'form': form})
+
+        # Form is not valid, print error messages
+        # for field, errors in form.errors.items():
+        #     # Print error messages for each field
+        #     for error in errors:
+        #         print(f"Field '{field}': {error}")
+
+        # Render the form again with error messages
+        return render(request, 'update_partners.html', {'partner': to_update, 'form': partner_form})
+
+# MISC. ================================================================================================================
 
 # def del_all(request):
 #     form = Partner.objects.all()
@@ -120,3 +164,8 @@ def update_partner(request):
 def get_second_category_options(request):
     print('here in get_secondary')
 
+# def pdf_view(request):
+#     with open("C:\Users\LENOVO\Documents\GitHub\pahinungod_forms\partner_requirements\WPR5(03_18 - 03_22)_Diaz.docx (1).pdf", ):
+#         response = HttpResponse(pdf.read(), content_type='application/pdf')
+#         response['Content-Disposition'] = 'inline;filename=WPR5(03_18 - 03_22)_Diaz.docx (1).pdf'
+#         return response
