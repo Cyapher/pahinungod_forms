@@ -1,0 +1,44 @@
+{% extends 'baseVolunteer.html' %}
+
+{% block body %}
+
+<style>
+    .right_col {
+        padding-left: 10%;
+    }
+
+    table {
+        table-layout:auto;
+    }
+
+    td {
+        font-size: small;
+    }
+
+    .wrap_content {
+        word-break: break-word;
+    }
+</style>
+
+<div align="center">
+    <table class="table table-bordered border-dark">
+        <tr>
+            <td><strong>Beneficiaries</strong></td>
+            <td>{{ volunteer.beneficiaries }}</td>
+        </tr>
+        <tr>
+            <td><strong>Relation</strong></td>
+            <td>{{ volunteer.relation }}</td>
+        </tr>
+        <tr>
+            <td><strong>Contact #</strong></td>
+            <td>{{ volunteer.contactNum }}</td>
+        </tr>
+        <tr>
+            <td><strong>Email Address</strong></td>
+            <td class="wrap_content">{{ volunteer.contactEmail }}</td>
+        </tr>
+    </table>
+</div>
+
+{% endblock %}

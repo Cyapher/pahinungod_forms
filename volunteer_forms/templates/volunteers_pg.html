@@ -1,0 +1,268 @@
+{% extends 'baseVolunteer.html' %}
+
+{% block body %}
+
+<style>
+
+    body {
+        zoom: 90%;
+    }
+
+    th {
+        width: 100%;
+    }
+
+    #navigation {
+        background-color: #7B0100;
+    }
+
+    .btn_width {
+        width: 160px;
+    }
+
+    .button-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 20px;
+    justify-content: center;
+    /* align-items: center; */
+    /* position: absolute; */
+    top: 50%;
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
+  }
+
+  .btn_width_act {
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    /* position: absolute; */
+    top: 50%;
+    /* left: 50%; */
+    /* transform: translate(50%, -50%); */
+
+    
+}
+
+    table {
+        table-layout:auto;
+    }
+    
+
+    .sticky-thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #532222; /* Light gray background */
+}
+
+    .accordion-button::after {
+    display: none !important;
+
+    .unclickable {
+    pointer-events: none;
+    }
+}
+  td {
+    font-size: small;
+  }
+
+  .scrollable-content {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+</style>
+
+<nav id="navigation" class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand text-light disabled" href="{% url 'list' %}">Volunteers Page</a>
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <a class="nav-link active text-light" aria-current="page" href="{% url 'vol_index' %}"><u>Volunteer Form</u></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active text-light" aria-current="page" href="{% url 'programs' %}"><u>Programs</u></a>
+        </li>
+    </ul>
+        <form class="d-flex" action="{% url 'search' %}">
+          <input name="q" class="form-control me-6 mx-2" type="search" placeholder="Search/Filter" aria-label="Search">
+          <input class="btn btn-dark" type="submit">
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <br>
+  <div align="center">
+    <table id="volunteer_list" class="table table-bordered w-75">
+        <thead class="table-light border-dark">
+            <th style="width: 15%; max-width: 10px;">Name</th>
+            <th style="width: 35%; max-width: 250px;">Specific Information</th>
+            <th style="width: 10%; max-width: 10px;">Programs</th>
+            <th style="width: 10%; max-width: 10px;">Start Date</th>
+            <th style="width: 5%; max-width: 10px;">Occupation</th>
+            <th style="text-align: center;">Actions</th>
+
+        </thead>
+        <tbody id="accordionExample" class="border-dark">
+            {% for volunteer in volunteers %}
+            <tr>
+                <td style="width: 15%; max-width: 10px; word-break: break-word;">
+                    <strong>
+                        {{volunteer.first_name}} {{volunteer.last_name}}
+                    </strong>
+                </td>
+                <td style="width: 35%; max-width: 250px;">
+                    <div class="accordion">
+                        <div class="">
+                            <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                <div align="center" class="accordion-body collapsed">
+                                    <div class="button-grid" align="center">
+                                            <form action="" title="Volunteer Information">
+                                                {% csrf_token %}
+                                                <input id="btn_Vol{{ forloop.counter }}" type="button" class="btn btn-outline-success btn-sm btn_width" value="Volunteer Info" data-bs-toggle="collapse" data-bs-target="#collapse_vol{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}" onclick="loadContent('{{ volunteer.id }}', '{{forloop.counter}}', this.id)">
+                                            </form>
+                                            <form action="" title="License Information">
+                                                {% csrf_token %}
+                                                <input id="btn_Lic{{ forloop.counter }}" type="button" class="btn btn-outline-success btn-sm btn_width" value="License/Work Info" data-bs-toggle="collapse" data-bs-target="#collapse_lic{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}" onclick="loadContent('{{ volunteer.id }}', '{{forloop.counter}}', this.id)">
+                                            </form>
+                                            <form action="" title="Insurance Information">
+                                                {% csrf_token %}
+                                                <input id="btn_Ins{{ forloop.counter }}" type="button" class="btn btn-outline-success btn-sm btn_width" value="Insurance Info" data-bs-toggle="collapse" data-bs-target="#collapse_ins{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}" onclick="loadContent('{{ volunteer.id }}', '{{forloop.counter}}', this.id)">
+                                            </form>
+                                            <form action="" title="Student Information">
+                                                {% csrf_token %}
+                                                <input id="btn_Stu{{ forloop.counter }}" type="button" class="btn btn-outline-success btn-sm btn_width" value="Student Info" data-bs-toggle="collapse" data-bs-target="#collapse_stu{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}" onclick="loadContent('{{ volunteer.id }}', '{{forloop.counter}}', this.id)">
+                                            </form>
+                                    </div>
+                                </div>
+                            </h2>
+                            <div id="collapse_vol{{ forloop.counter }}" class="accordion-collapse collapse scrollable-content" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                                <div class="accordion-body" id="accordionContent_vol{{ forloop.counter }}">                                    
+                                </div>
+                            </div>
+                            <div id="collapse_lic{{ forloop.counter }}" class="accordion-collapse collapse scrollable-content" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                                <div class="accordion-body" id="accordionContent_lic{{ forloop.counter }}">                                    
+                                </div>
+                            </div>
+                            <div id="collapse_ins{{ forloop.counter }}" class="accordion-collapse collapse scrollable-content" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                                <div class="accordion-body" id="accordionContent_ins{{ forloop.counter }}">                                    
+                                </div>
+                            </div>
+                            <div id="collapse_stu{{ forloop.counter }}" class="accordion-collapse collapse scrollable-content" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                                <div class="accordion-body" id="accordionContent_stu{{ forloop.counter }}">                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td style="width: 10%; max-width: 10px;">
+                    {% for program in volunteer.programs.all %}
+                                <strong>
+                                    <li>
+                                        {{ program.name }}
+                                    </li>
+                                </strong>
+                    {% endfor %}   
+                </td>
+                <td style="width: 10%; max-width: 10px;">
+                    {{ volunteer.customStartDate }}
+                </td>
+                <td style="width: 10%; max-width: 10px;">
+                    {% if volunteer.occupation == "Other" %}
+                    
+                    {{ volunteer.otherOccu }}
+                    
+                    {% else %}
+                    
+                    {{ volunteer.occupation }}
+                    
+                    {% endif %}
+                </td>
+                <td align="center">
+                    <!-- Edit -->
+                    <h2>
+                        <div>
+                            <br>
+                            <form action="{% url 'edit' volunteer.id %}" style="margin-bottom: 5px;">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-outline-secondary btn-sm btn_width_act" value="Edit">
+                            </form>
+                        <!-- Delete -->
+                            <form action="{% url 'del_volunteer' volunteer.id %}">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-outline-danger btn-sm btn_width_act" value="Delete" onclick="return confirm('Are you sure?');" style="transform: translateY(10px);">
+                            </form>
+                            <br>
+                        </div>
+                    </h2>
+                </td>
+            </tr>
+            
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+<script>    
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+
+    var prevButton = "";
+
+    function loadContent(volunteerId, counter, btn_id) {
+
+        infoType = "/info";
+        content_ver = "Vol";
+
+        if (btn_id.includes("btn_Vol")) {
+            infoType = "/info";
+            content_ver = "vol";
+        } else if (btn_id.includes("btn_Lic")) {
+            infoType = "/license";
+            content_ver = "lic";
+        } else if (btn_id.includes("btn_Ins")) {
+            infoType = "/insurance";
+            content_ver = "ins";
+        } else if (btn_id.includes("btn_Stu")) {
+            infoType = "/student";
+            content_ver = "stu";
+        }
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+
+                    var accordionContent = document.getElementById('accordionContent_' + content_ver + counter);
+                    var currentDisplay = accordionContent.style.display;
+                    
+                    // Close the accordion body if it's already open
+                    if (currentDisplay === 'block') {
+                        accordionContent.style.display = 'none';
+                    }
+                    
+                    // Open the accordion body again to display the information
+                    accordionContent.innerHTML = xhr.responseText;
+                    accordionContent.style.display = 'block';
+                } else {
+                    console.error('Failed to load content: ' + xhr.status);
+                }
+            }
+        };
+
+        // Construct the URL with the volunteer id
+        xhr.open('GET', '/volunteer/' + volunteerId + infoType, true);
+        xhr.send();
+    }
+
+</script>
+
+{% endblock %}

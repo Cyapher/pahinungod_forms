@@ -1,0 +1,103 @@
+{% extends 'baseVolunteer.html' %}
+
+{% block body %}
+
+<style>
+    .right_col {
+        padding-left: 10%;
+    }
+
+    table {
+        table-layout:auto;
+    }
+
+    td {
+        font-size: small;
+    }
+
+    .wrap_content {
+        word-break: break-word;
+    }
+</style>
+
+<div align="center">
+    <table class="table table-bordered border-dark">
+        <tr>
+            <td><strong>Start Date</strong></td>
+            <td>{{ volunteer.customStartDate }}</td>
+        </tr>
+        <tr>
+            <td><strong>Birth Date</strong></td>
+            <td>{{ volunteer.birthdate }}</td>
+        </tr>
+        <tr>
+            <td><strong>Age</strong></td>
+            <td>{{ volunteer.age }}</td>
+        </tr>
+        <tr>
+            <td><strong>Address</strong></td>
+            <td class="wrap_content">{{ volunteer.address }}</td>
+        </tr>
+        <tr>
+            <td><strong>Civil Status</strong></td>
+            <td class="wrap_content">{{ volunteer.civilStatus }}</td>
+        </tr>
+        <tr>
+            <td><strong>Address</strong></td>
+            <td class="wrap_content">{{ volunteer.address }}</td>
+        </tr>
+        <tr>
+            <td><strong>Mobile #</strong></td>
+            <td class="wrap_content">{{ volunteer.mobile }}</td>
+        </tr>
+        <tr>
+            <td><strong>Sex</strong></td>
+            <td class="wrap_content">{{ volunteer.sex }}</td>
+        </tr>
+        <tr>
+            <td><strong>Telephone #</strong></td>
+            <td class="wrap_content">{{ volunteer.telephone }}</td>
+        </tr>
+        <tr>
+            <td><strong>Blood Type</strong></td>
+            <td class="wrap_content">{{ volunteer.bloodType }}</td>
+        </tr>
+        <tr>
+            <td><strong>Email</strong></td>
+            <td class="wrap_content">{{ volunteer.email }}</td>
+        </tr>
+        <tr>
+            <td><strong>Religion</strong></td>
+            <td class="wrap_content">{{ volunteer.religion }}</td>
+        </tr>
+    </table>
+
+    <table class="table table-bordered border-dark">
+        <tr>
+            <td><strong>Health Conditions</strong></td>
+            {% if volunteer.healthConditions %}
+            <td class="wrap_content">{{ volunteer.healthConditions }}</td>
+            {% else %}
+            <td class="wrap_content">None</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td><strong>Skills & Hobbies</strong></td>
+            {% if volunteer.skillsHobbies %}
+            <td class="wrap_content">{{ volunteer.skillsHobbies }}</td>
+            {% else %}
+            <td class="wrap_content">None</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td><strong>Food Restrictions</strong></td>
+            {% if volunteer.foodRestrictions %}
+            <td class="wrap_content">{{ volunteer.foodRestrictions }}</td>
+            {% else %}
+            <td class="wrap_content">None</td>
+            {% endif %}
+        </tr>
+    </table>
+</div>
+
+{% endblock %}
