@@ -1,3 +1,4 @@
+import datetime
 from django.db import migrations, models
 
 
@@ -30,11 +31,12 @@ class Migration(migrations.Migration):
                 ('partner_name', models.CharField(max_length=64)),
                 ('partnership_extension', models.CharField(choices=[('', 'Select Partnership Extension'), ('Health Training: Basic Life Support', 'Health Training: Basic Life Support'), ('Health Training: Breast Advocacy and PFA', 'Health Training: Breast Advocacy and PFA'), ('Health Training: FAST', 'Health Training: FAST'), ('Health Education: Oral Health', 'Health Education: Oral Health'), ('Health Education: MHPS', 'Health Education: MHPS'), ('Disaster Preparedness Training', 'Disaster Preparedness Training'), ('Disaster Preparedness Lecture', 'Disaster Preparedness Lecture')], max_length=64)),
                 ('stakeholder_category', models.CharField(choices=[('', 'Select Stakeholder Category'), ('Private', 'Private'), ('Government', 'Government')], max_length=64, null=True)),
-                ('second_category', models.CharField(choices=[('', 'Select Second Stakeholder Category'), ('1', 'NGO'), ('1', 'Company'), ('1', 'Educational Institution'), ('1', 'Others'), ('2', 'LGU'), ('2', 'National Government Agency'), ('2', 'Educational Institution'), ('2', 'Others')], max_length=64, null=True)),
+                ('second_category', models.CharField(choices=[('', 'Select Second Stakeholder Category'), ('NGO', 'NGO'), ('Company', 'Company'), ('Educational Institution (Private)', 'Educational Institution (Private)'), ('LGU', 'LGU'), ('National Government Agency', 'National Government Agency'), ('Educational Institution (Government)', 'Educational Institution (Government)'), ('Others', 'Others')], max_length=64, null=True)),
                 ('other_choice', models.CharField(blank=True, max_length=64)),
-                ('Agreement_Start_Date', models.DateField()),
+                ('Agreement_Start_Date', models.DateField(default=datetime.date.today)),
                 ('Agreement_End_Date', models.DateField()),
-                ('files', models.FileField(upload_to='partner_requirements/')),
+                ('files', models.FileField(upload_to='')),
+                ('files_list', models.TextField(blank=True, null=True)),
                 ('type_of_partnership', models.ManyToManyField(blank=True, to='partners_forms.type_obj')),
             ],
         ),

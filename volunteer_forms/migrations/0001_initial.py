@@ -36,6 +36,7 @@ class Migration(migrations.Migration):
                 ('sex', models.CharField(choices=[('Male', 'Male'), ('Female', 'Female'), ('Other/Will not disclose', 'Other/Will not disclose')], max_length=50)),
                 ('bloodType', models.CharField(max_length=3)),
                 ('religion', models.CharField(max_length=50)),
+
                 ('healthConditions', models.TextField(blank=True, null=True)),
                 ('skillsHobbies', models.TextField(blank=True, null=True)),
                 ('foodRestrictions', models.TextField(blank=True, null=True)),

@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from partners_forms.forms import PartnerForm, Type_of_partnerForm
 from .models import Partner, Scope_of_work, Type_obj
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 def home_page(request):
@@ -10,6 +11,10 @@ def home_page(request):
 
 def view_partners(request):
     partners = Partner.objects.all()
+    for partner in partners:
+        partner.files_list = [url.strip() for url in partner.files_list.split('\n')]
+        print(f'IN VIEW: {partner.files_list}')
+
     return render(request, "view_partners.html", {'partners' : partners})
 
 def partner_form(request):
@@ -21,7 +26,7 @@ def type_partner_form(request):
     types = Type_obj.objects.all()
     return render(request, "type_of_partnership_form.html", {'types': types,'form': Type_of_partnerForm()})
 
-# TYPE OF PARTNERSHIP
+# TYPE OF PARTNERSHIP ================================================================================================================
 def add_type(request):
     form = Type_of_partnerForm(request.POST)
     if request.method == 'POST':
@@ -54,26 +59,39 @@ def upd_type(request, type_id):
             return HttpResponseRedirect(reverse('type_partner_form'))
     else:
         return render(request, 'type_of_partnership_form.html', {'type': to_update, 'types': all_types , 'form': type_form})
-        # return render(request, 'type_of_partnership_form.html', {'type': to_update, 'form': type_form})
-        
+        # return render(request, 'type_of_partnership_form.html', {'type': to_update, 'form': type_form})  
 
-# PARTNER
+# PARTNER ================================================================================================================
 def add_partner(request):
     if request.method == 'POST':
         form = PartnerForm(request.POST, request.FILES)
-        # uploaded_files = request.FILES.getlist('files')
+        uploaded_files = request.FILES.getlist('files')
+        updated_files_list = ''
+
         if form.is_valid():
             print('partner valid')
-            # FOR MULTIPLE FILES
-            # for file in uploaded_files:
-            #     file_instance = Partner(files=file)
-            #     file_instance.save()
 
-            # FOR ONE FILE
-            # file_instance = Partner()
+            storage = FileSystemStorage(location='partner_requirements/')
+
+            # FOR MULTIPLE FILES
+            for file in uploaded_files:
+                filename = storage.save(file.name, file)
+                new_file_url = storage.url(filename)
+
+                print(f' In Loop: \n {new_file_url}')
+
+                # Append list (text field)
+                updated_files_list += new_file_url + '\n'
+                
+            updated_files_list = updated_files_list[:-1]
+            print(f'\n Files List: \n {updated_files_list}')
+            
+            # Update files_list
+            form.instance.files_list = updated_files_list
 
             form.save()
             return HttpResponseRedirect(reverse('view_partners'))
+            # return HttpResponseRedirect(reverse('view_partners', {'file_arr': file_list}))
         else:
             print('partner not valid')
             # return render(request, 'partners_forms.html', {'form': form})
@@ -89,7 +107,7 @@ def del_partner(request, partner_id):
     if request.method == 'POST':
         to_delete = Partner.objects.get(pk=partner_id)
         to_delete.delete()
-        return HttpResponseRedirect(reverse('partners_form'))
+        return redirect('view_partners')
 
 def update_partner(request):
     pass
