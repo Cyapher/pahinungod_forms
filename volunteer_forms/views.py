@@ -51,6 +51,21 @@ studentFields = ['idNum',
 dateFields = ['startDate',
               'customStartDate']
 
+def homePage(request):
+
+    programs = Program.objects.all()
+    return render(request, "volunteerHome.html",
+                  {'v_form' : VolunteerForm(),
+                   'programs' : programs,
+                   'volunteerFields' : volunteerFields,
+                   'alumnusFields' : alumnusFields,
+                   'pghFields' : pghFields,
+                   'workFields' : workFields,
+                   'licenseFields' : licenseFields,
+                   'insuranceFields' : insuranceFields,
+                   'studentFields' : studentFields,
+                   'dateFields' : dateFields})
+
 def index(request):
     
     return render(request, "form_pg1.html", 
@@ -67,9 +82,11 @@ def index(request):
 def createVolunteer(request):
     if request.method == "POST":
         form = VolunteerForm(request.POST)
+        programs = request.POST.getlist('programs')
         if form.is_valid():
-            print("validform")
+            # print("validform")
             form.save()
+
             return HttpResponseRedirect(reverse("list"))
         else:
             print("invalidform")
@@ -101,7 +118,9 @@ def updateVolunteer(request, volunteer_id):
             return redirect('list')
     else:
         form = VolunteerForm(instance=volunteer)
-        return render(request, "edit_volunteer.html", {"volunteer" : volunteer, 'v_form' : form,
+        programs = Program.objects.all()
+        return render(request, "volunteerUpdate.html", {"volunteer" : volunteer, 'v_form' : form,
+                                                       'programs' : programs,
                                                    'volunteerFields' : volunteerFields,
                                                     'alumnusFields' : alumnusFields,
                                                     'pghFields' : pghFields,

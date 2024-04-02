@@ -2,40 +2,9 @@
 
 {% block body %}
 
+
 <style>
-
-    body {
-        width: 100%;
-        height: 100%;
-        margin: 0px;
-        padding: 0px;
-        overflow-x: hidden; 
-    }
-
-    td, th {
-        padding: 10%;
-    }
-
-    textarea {
-        max-height: 100px;
-        resize: none;
-    }
-
-    #multi_col {
-        padding-left: 1%;
-
-    }
-    
-    .extra_form {
-        margin-top: 1%;
-    }
-
-    #navigation {
-        background-color: #7B0100;
-        width: 100%;
-    }
-
-    .popup-container {
+  .popup-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -44,7 +13,7 @@
     display: flex;
     justify-content: space-between;
   }
-
+  
   .popup {
     width: calc(50% - 15px);
     height: calc(100% - 30px);
@@ -59,34 +28,57 @@
     margin: 15px;
     overflow: auto;
   }
-
+  
   .popup-content {
     padding: 20px;
     text-align: center;
   }
-
+  
   textarea {
     max-height: 125px;
     resize: none;
   }
-
+  
+  #full_form {
+    display: none;
+  }
+  
   .card {
-  display: flex;
-  flex-direction: column;
-}
-
-.card-body {
-  flex-grow: 1;
-}
-
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-body {
+    flex-grow: 1;
+  }
+  
+  #navigation {
+    background-color: #7B0100;
+    width: 100%;
+  }
+  
+  .home_body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+    z-index: 1000; /* Ensure it's above other content */
+    display: none; /* Initially hidden */
+  }
 
 </style>
 
-{% include 'navbar_temp.html' with show_vform=False show_programs=False show_search=False %}
+<body>
 
-<br>
-
-{% load widget_tweaks %}
+  {% load widget_tweaks %}
   <form id="full_form" action="{% url 'add' %}" method="post">
     {% csrf_token %}
     <div id="signup_form" class="popup-container">
@@ -94,7 +86,7 @@
         <div class="popup-content container-fluid">
 
           <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-          <br><br><br><br><br><br><br><br><br><br><br><br>
+          <br><br>
           
           <br>
           <br>
@@ -594,135 +586,118 @@
       </div>      
     </form>
 
-<script>
+    <div class="container-fluid">
+    {% include 'navbar_temp.html' with show_vform=False show_programs=False show_search=False %}
+      <br><br><br>
+      <input type="button" class="btn btn-dark" value="Sign Up" onclick="toggleForm()">
+    </div>
 
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
+      <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
 
-    var alumniDiv = document.getElementById("alumni_div");
-    var pghDiv = document.getElementById("pgh_div");
-    var dateOther = document.getElementById("id_customStartDate");
-    var workDiv = document.getElementById("work_div");
-    var licenseDiv = document.getElementById("license_div");
-    var upDiv = document.getElementById("up_div");
-
-    var alumniCheck = document.getElementById("alumni_check");
-    var pghCheck = document.getElementById("pgh_check");    
-    var workCheck = document.getElementById("work_check");
-    var licenseCheck = document.getElementById("license_check");
-    var upCheck = document.getElementById("up_check");
+        var alumniDiv = document.getElementById("alumni_div");
+        var pghDiv = document.getElementById("pgh_div");
+        var dateOther = document.getElementById("id_customStartDate");
+        var workDiv = document.getElementById("work_div");
+        var licenseDiv = document.getElementById("license_div");
+        var upDiv = document.getElementById("up_div");
 
 
-    function toggleAlumni() {
-        
-        
+        function toggleAlumni() {
+          var alumniCheck = document.getElementById("alumni_check");
 
-        if (alumniCheck.checked) {
+
+          if (alumniCheck.checked) {
             alumniDiv.style.display = "block";
-        } else {
+          } else {
             alumniDiv.style.display = "none";
+          }
         }
-    }
 
-    function togglePGH() {
-        
-        
+        function togglePGH() {
+          var pghCheck = document.getElementById("pgh_check");
 
-        if (pghCheck.checked) {
+
+          if (pghCheck.checked) {
             pghDiv.style.display = "block";
-        } else {
+          } else {
             pghDiv.style.display = "none";
+          }
         }
-    }
 
-    function dropWork() {
-        var workDropValue = document.getElementById("id_occupation").value;
-        var workOther = document.getElementById("id_otherOccu");
+        function dropWork() {
+          var workDropValue = document.getElementById("id_occupation").value;
+          var workOther = document.getElementById("id_otherOccu");
 
-        if (workDropValue === "Other") {
+          if (workDropValue === "Other") {
             workOther.removeAttribute("disabled");
-        }
-        else {
+          }
+          else {
             workOther.setAttribute("disabled", "disabled");
+          }
         }
-    }
 
-    function dropDate() {
-        var dateDropValue = document.getElementById("id_startDate").value;
+        function dropDate() {
+          var dateDropValue = document.getElementById("id_startDate").value;
 
-        if (dateDropValue === "Other") {
+
+          if (dateDropValue === "Other") {
             dateOther.removeAttribute("disabled");
-        }
-        else {
+          }
+          else {
             dateOther.setAttribute("disabled", "disabled");
+          }
         }
-    }
 
-    function toggleWork() {
-        
-        
+        function toggleWork() {
+          var workCheck = document.getElementById("work_check");
 
-        if (workCheck.checked) {
+
+          if (workCheck.checked) {
             workDiv.style.display = "block";
-        } else {
+          } else {
             workDiv.style.display = "none";
+          }
         }
-    }
 
-    function toggleLicense() {
-        
-        
+        function toggleLicense() {
+          var licenseCheck = document.getElementById("license_check");
 
-        if (licenseCheck.checked) {
+
+          if (licenseCheck.checked) {
             licenseDiv.style.display = "block";
-        } else {
+          } else {
             licenseDiv.style.display = "none";
+          }
         }
-    }
 
-    function toggleUP() {
-        
-        
-        if (upCheck.checked) {
+        function toggleUP() {
+          var upCheck = document.getElementById("up_check");
+
+          if (upCheck.checked) {
             upDiv.style.display = "block";
-        } else {
+          } else {
             upDiv.style.display = "none";
+          }
         }
-    }
 
-    function startWindows() {
-        var alumnus_loadCheck = {check : "{{volunteer.alumnusCheck}}", obj : alumniDiv, checkObj : alumniCheck};
-        var pgh_loadCheck = {check : "{{volunteer.pghCheck}}", obj : pghDiv, checkObj : pghCheck};
-        var work_loadCheck = {check : "{{volunteer.workCheck}}", obj : workDiv, checkObj : workCheck};
-        var license_loadCheck = {check : "{{volunteer.licenseCheck}}", obj : licenseDiv, checkObj : licenseCheck};
-        var student_loadCheck = {check : "{{volunteer.studentCheck}}", obj : upDiv, checkObj : upCheck};
-
-        var loadArray = [alumnus_loadCheck, pgh_loadCheck, work_loadCheck, license_loadCheck, student_loadCheck];
-
-        
-        loadArray.forEach(element => {
-            console.log(element.check);
-            if (element.check == "True") {
-                element.obj.style.display = "block";
-                element.checkObj.checked = true;
-            } else {
-                element.obj.style.display = "none";
-            }
+        document.getElementById("full_form").addEventListener("keydown", function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+          }
         });
-    }
 
-    document.getElementById("vol_form").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
+        function toggleForm() {
+          var form = document.getElementById("full_form");
+          form.style.display = "block";
         }
-    });
 
-    dropWork();
-    dropDate();
-    window.onload = startWindows;
+        dropWork();
+        dropDate();
 
-</script>
 
-{% endblock %}
+      </script>
+      {% endblock %}

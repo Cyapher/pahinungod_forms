@@ -102,35 +102,47 @@
 
     {% include 'navbar_temp.html' with show_vform=True show_programs=True show_search=True %}
 
-    <nav id="filterRow" class="navbar navbar-expand-lg">
-        <div class="container">
-            <form class="d-flex" action="{% url 'filter_date' %}">
-            <span class="navbar-text">Start</span>
-            <input name="start" class="form-control me-6 mx-2" type="date" class="form-control" placeholder="mm/dd/yyyy">
-            <span class="navbar-text">End</span>
-            <input name="end" class="form-control me-6 mx-2" type="date" class="form-control" placeholder="mm/dd/yyyy">
-            <input class="btn btn-dark" type="submit" value="Filter Date Range">
-            </form>
-            <form class="d-flex" action="{% url 'sort' %}" method="get">
-                <select class="form-select me-6 mx-2" name="column">
-                    <option selected>Column</option>
-                    <option value="first_name">Name</option>
-                    <option value="customStartDate">Start Date</option>
-                    <option value="occupation">Occupation</option>
-                </select>
-                <select class="form-select me-6 mx-2" name="order">
-                    <option selected>Order</option>
-                    <option value="asc">A-Z/Old-New</option>
-                    <option value="des">Z-A/New-Old</option>
-                </select>
-                <input class="btn btn-dark" type="submit" value="Sort">
-            </form>
-            <form class="d-flex" action="{% url 'search' %}">
-            <input name="q" class="form-control me-6 mx-2" type="search" placeholder="Search" aria-label="Search">
-            <input class="btn btn-dark" type="submit" value="Search">
-            </form>
+    <div class="collapse" id="navbarToggleExternalContent">
+        <div class="p-4">
+            <nav id="filterRow" class="navbar navbar-expand-lg">
+                <div class="container">
+                    <form class="d-flex" action="{% url 'filter_date' %}">
+                    <span class="navbar-text">Start</span>
+                    <input name="start" class="form-control me-6 mx-2" type="date" class="form-control" placeholder="mm/dd/yyyy">
+                    <span class="navbar-text">End</span>
+                    <input name="end" class="form-control me-6 mx-2" type="date" class="form-control" placeholder="mm/dd/yyyy">
+                    <input class="btn btn-dark" type="submit" value="Filter Date Range">
+                    </form>
+                    <form class="d-flex" action="{% url 'sort' %}" method="get">
+                        <select class="form-select me-6 mx-2" name="column">
+                            <option selected>Column</option>
+                            <option value="first_name">Name</option>
+                            <option value="customStartDate">Start Date</option>
+                            <option value="occupation">Occupation</option>
+                        </select>
+                        <select class="form-select me-6 mx-2" name="order">
+                            <option selected>Order</option>
+                            <option value="asc">A-Z/Old-New</option>
+                            <option value="des">Z-A/New-Old</option>
+                        </select>
+                        <input class="btn btn-dark" type="submit" value="Sort">
+                    </form>
+                    <form class="d-flex" action="{% url 'search' %}">
+                    <input name="q" class="form-control me-6 mx-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="btn btn-dark" type="submit" value="Search">
+                    </form>
+                </div>
+            </nav>
         </div>
-    </nav>
+      </div>
+      <nav class="navbar">
+        <div class="container-fluid">
+          <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-label="Toggle navigation">
+            Sort/Filter
+          </button>
+        </div>
+      </nav>
+
 
   <br>
   {% if volunteers %}
