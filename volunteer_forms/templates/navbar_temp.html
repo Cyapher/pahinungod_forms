@@ -12,6 +12,11 @@
             <a class="nav-link active text-light" aria-current="page" href="{% url 'programs' %}"><u>Programs</u></a>
         </li>
         {% endif %}
+        {% if show_pform %}
+        <li class="nav-item">
+          <a class="nav-link active text-light" aria-current="page" href="{% url 'add_program' %}"><u>Add Programs</u></a>
+        </li>
+        {% endif %}
       </ul>
       {% if admin is False %}
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">

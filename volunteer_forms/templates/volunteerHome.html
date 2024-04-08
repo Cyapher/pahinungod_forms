@@ -528,6 +528,7 @@
           <div class="popup-content container-fluid">
             <h5 class="h5">Select Programs</h5>
             <div class="row">
+            {% if programs %}
               {% for program in programs %}
               <div class="col-md-4 mb-4">
                 <div class="card h-100 d-flex flex-column">
@@ -546,6 +547,10 @@
             <div class="row">
               {% endif %}
               {% endfor %}
+              {% else %}
+              <h2 class="display-2" align="center">No programs.</h2>
+              <h6 class="display-6" align="center">lmao</h6>
+            {% endif %}
             </div>
           </div>
         </div>
