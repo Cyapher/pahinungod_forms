@@ -3,9 +3,6 @@
 {% block body %}
 
 <style>
-    th {
-        width: 100%;
-    }
 
     #navigation {
         background-color: #7B0100;
@@ -50,7 +47,7 @@
     }
 </style>
 
-{% include 'navbar_temp.html' with show_vform=True show_programs=False show_search=False %}
+{% include 'navbar_temp.html' with show_vform=True show_programs=False show_search=False admin=True %}
 
 <!-- <h3 align="center" class="display-5">Volunteers Page</h3> -->
 
@@ -65,10 +62,13 @@
         <tbody>
             {% for program in programs %}
             <tr>
-                <td>
+                <td class="text-wrap" style="width: 450px;">
                     <strong>
                             {{ program.name }} ({{program.code}}) 
                     </strong>
+                    <br>
+                    {{ program.description }}
+                </td>
                 <td align="center">
                     <!-- Edit -->
                     <form action="{% url 'edit_program' program.id %}">

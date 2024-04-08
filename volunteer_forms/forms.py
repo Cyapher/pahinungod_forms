@@ -32,7 +32,18 @@ class VolunteerForm(ModelForm):
         'bloodType' : 'Enter your blood type here',
         'religion' : 'Enter your religion here',
         'constituentUnit' : 'Enter your constituent unit here',
-        'specification' : 'Enter your specification here'
+        'specification' : 'Enter your specification here',
+        'prcLicense' : 'Enter your PRC License # here',
+        'dept' : 'Enter your department here',
+        'company' : 'Enter your company name here',
+        'officeAdd' : 'Enter your office address here',
+        'license_telephone' : 'Enter your company phone # here',
+        'license_email' : 'Enter your company email address here',
+        'workSched' : 'Enter your work schedule here',
+        'idNum' : 'Enter your ID # here',
+        'course' : 'Enter your course/program here',
+        'college' : 'Enter your college here',
+        'yearLvl' : 'Enter your year level here'
     }
 
     def __init__(self, *args, **kwargs):
