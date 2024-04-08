@@ -2,9 +2,25 @@ import datetime
 from typing import Any
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.conf import settings
 # from django import forms
 
 # Create your models here.
+    
+# FOR PARTNER TYPE
+class Type_obj(models.Model):
+    type_code = models.CharField(max_length=5)
+    type_of_partnership = models.CharField(max_length=64)
+
+    def save(self, *args, **kwargs):
+        if self.type_code:
+            self.type_code = self.type_code.upper()
+
+        super(Type_obj, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.type_code} : {self.type_of_partnership}"
+    
 # FOR SCOPE OF WORK
 class Scope_of_work(models.Model):
     Lecture = 'Lecture'
@@ -18,8 +34,6 @@ class Scope_of_work(models.Model):
         (Workshop, 'Workshop'),
         (Others, 'Others'),
     ]
-
-    # scope_of_work = models.One(max_length=1, choices=scope_of_work_choices)
 
 # FOR MULTIPLE FILE FIELD
 class Multiple_file_field(models.FileField):
@@ -45,20 +59,6 @@ class Multiple_file_field(models.FileField):
                     raise ValidationError({self.name: e}) 
         else:
             return []
-
-# FOR PARTNER TYPE
-class Type_obj(models.Model):
-    type_code = models.CharField(max_length=5)
-    type_of_partnership = models.CharField(max_length=64)
-
-    def save(self, *args, **kwargs):
-        if self.type_code:
-            self.type_code = self.type_code.upper()
-
-        super(Type_obj, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.type_code} : {self.type_of_partnership}"
 
 # PARTNER OBJ
 class Partner(models.Model):
@@ -117,11 +117,15 @@ class Partner(models.Model):
     Agreement_Start_Date = models.DateField(default=datetime.date.today, null=False, blank=False)
     Agreement_End_Date = models.DateField(null=False, blank=False)
 
-    # File Field
-    files = models.FileField(blank=False, null=False)
-    files_list = models.TextField(blank=True, null=True)
+    # FOREIGN KEY FOR EACH PARTNER
+    # Files = models.ForeignKey(Files_obj, on_delete=models.CASCADE, related_name='files') # ano lalagay dito HAHAHA
 
     def __str__(self):
         return f"{self.partner_name}"
 
-
+# FOR FILES
+class Files_obj(models.Model):
+    # File Field
+    file_field = models.FileField(upload_to="partners_forms/static/partner_requirements") # upload to where?
+    file_names = models.CharField(max_length=64,blank=True,null=True)
+    partner = models.ForeignKey(Partner, on_delete=models.CASCADE, related_name='partner', blank=True, null=True,)
