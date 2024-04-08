@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Select, ClearableFileInput
-from .models import Partner, Scope_of_work, Type_obj
+from .models import Partner, Scope_of_work, Type_obj, Files_obj
 from django import forms
 
 class PartnerForm(ModelForm):
@@ -37,7 +37,7 @@ class PartnerForm(ModelForm):
             self.fields['partnership_extension'].widget.attrs['initial'] = {'default'}
             self.fields['partnership_extension'].empty_label = 'Select Partnership Extension'
 
-            self.fields['files'].widget.attrs['multiple'] = True
+            # self.fields['files'].widget.attrs['multiple'] = True
 
             # For File Upload
             # self.fields['files'] = ClearableFileInput(attrs={'multiple': True})
@@ -65,13 +65,26 @@ class Type_of_partnerForm(ModelForm):
             if field_name in self.placeholders:
                 field.widget.attrs['placeholder'] = self.placeholders[field_name]
 
+class FilesForm(ModelForm):
+    class Meta:
+        model = Files_obj
+        fields = ['file_field']
+
+
+    def __init__(self, *args, **kwargs):
+        super(FilesForm, self).__init__(*args, **kwargs)
+
+        # For File Upload
+        # self.fields['files'] = ClearableFileInput(attrs={'multiple': True})
+        self.fields['file_field'].widget.attrs['multiple'] = True
+   
+
 class Scope_of_work(ModelForm):
     class Meta:
         model = Scope_of_work
         fields = '__all__'
 
-
- 
+    
 
 
 

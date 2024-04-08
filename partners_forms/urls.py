@@ -10,6 +10,7 @@ urlpatterns = [
     path('partner_form/', views.partner_form, name='partner_form'),
     path('add_partner/', views.add_partner, name='add_partner'),
     path('del_partner/<int:partner_id>', views.del_partner, name='del_partner'),
+    path('upd_partner/<int:partner_id>', views.upd_partner, name='upd_partner'),
     path('get_second_category_options/', views.get_second_category_options , name='get_second_category_options'),
     
     # TYPE OF PARTNERS
@@ -20,6 +21,7 @@ urlpatterns = [
     
     # MISC.
     # path('del_all/', views.del_all, name='del_all'),
+    # path('view-pdf/', views.pdf_view, name='pdf_view'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

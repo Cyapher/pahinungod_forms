@@ -24,7 +24,7 @@
 
     <h1 style="margin: auto; text-align: center;"> Partners Form </h1>
 
-        <form action="{% url 'add_partner' %}" enctype="multipart/form-data" method="POST" class="
+        <form enctype="multipart/form-data" method="POST" class="
         mb-3 p-4 
         d-flex flex-column 
         align-items-center justify-content-center border"> 
@@ -91,13 +91,10 @@
                     </div>
 
                     <!-- File Field -->
-                    {{ file_form.file_field }}
+                    {{ form.files }}
 
                 </div>
                 
-    
-            
-    
             <input type="submit">
         </form>
 
