@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 from volunteer_forms.models import Volunteer, Program
 from .forms import VolunteerForm, ProgramForm
@@ -103,6 +104,10 @@ def createVolunteer(request):
 
 def printVolunteers(request):
     volunteers = Volunteer.objects.all()
+    # p = Paginator(volunteers, 20)
+    # page = request.GET.get("page")
+    # volunteers = p.get_page(page)
+
     print(volunteers)
     return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
 
@@ -152,29 +157,6 @@ def view_volunteerStudent(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
     return render(request, "studentInfo_card.html", {'volunteer' : volunteer})
 
-def searchFilter(request):
-    query = request.GET.get('q')
-
-    if query:
-        volunteers = Volunteer.objects.filter(
-            Q(first_name__icontains=query) |
-            Q(middle_name__icontains=query) |
-            Q(last_name__icontains=query) |
-            Q(address__icontains=query) |
-            Q(age__icontains=query) |
-            Q(civilStatus__icontains=query) |
-            Q(sex__icontains=query) |
-            Q(specification__icontains=query) |
-            Q(occupation__icontains=query) |
-            Q(otherOccu__icontains=query) |
-            Q(programs__name__icontains=query) |
-            Q(programs__code__icontains=query) |
-            Q(customStartDate__icontains=query)
-        ).distinct()
-    else:
-        volunteers = Volunteer.objects.all()
-    
-    return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
 
 def printPrograms(request):
     programs = Program.objects.all()
@@ -213,6 +195,30 @@ def delProgram(request, program_id):
 
     return redirect('programs')
 
+def searchFilter(request):
+    query = request.GET.get('q')
+
+    if query:
+        volunteers = Volunteer.objects.filter(
+            Q(first_name__icontains=query) |
+            Q(middle_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(address__icontains=query) |
+            Q(age__icontains=query) |
+            Q(civilStatus__icontains=query) |
+            Q(sex__icontains=query) |
+            Q(specification__icontains=query) |
+            Q(occupation__icontains=query) |
+            Q(otherOccu__icontains=query) |
+            Q(programs__name__icontains=query) |
+            Q(programs__code__icontains=query) |
+            Q(customStartDate__icontains=query)
+        ).distinct()
+    else:
+        volunteers = Volunteer.objects.all()
+    
+    return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
+
 def searchDateRange(request):
     queryStart = request.GET.get('start')
     queryEnd = request.GET.get('end')
@@ -221,6 +227,10 @@ def searchDateRange(request):
         volunteers = Volunteer.objects.filter(Q(customStartDate__gte=queryStart) & Q(customStartDate__lte=queryEnd))
     else:
         volunteers = Volunteer.objects.all()
+    
+    # p = Paginator(volunteers, 20)
+    # page = request.GET.get("page")
+    # volunteers = p.get_page(page)
     
     return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
 
@@ -240,6 +250,10 @@ def sort_data(request):
         else:
             # Handle default case or error
             sorted_data = Volunteer.objects.all()
+
+        # p = Paginator(volunteers, 20)
+        # page = request.GET.get("page")
+        # volunteers = p.get_page(page)
 
         return render(request, 'volunteers_pg.html', {'volunteers': sorted_data})
 
