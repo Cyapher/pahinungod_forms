@@ -17,20 +17,23 @@
     width: calc(50% - 15px);
     height: calc(100% - 30px);
     /* background-color: rgba(0, 0, 0, 0.5); */
-    background-color:#ffffff;
+    background-color: #ffffff;
     /* color: white; */
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
-    border: 2px solid #000000;
+    border-radius: 15px;
+    border: 4px solid #000000;
     margin: 15px;
-    overflow:auto;
+    overflow: hidden;
   }
 
   .popup-content {
+    height: calc(100% - 30px);
     padding: 20px;
     text-align: center;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   textarea {
@@ -58,13 +61,6 @@
     <div id="signup_form" class="popup-container">
       <div class="popup" id="popup1">
         <div class="popup-content container-fluid">
-
-          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-          <br><br><br><br><br><br><br><br><br><br>
-          
-          <br>
-          <br>
           <table class="table table-bordered border-dark">
               <h5 class="h5">Volunteer Information</h5>
             <tbody>
@@ -418,121 +414,85 @@
             </tbody>
           </table>
           <br>
-          <table class="container-fluid mx-2">
-            <tr>
-              <td>
-                <table class="table table-sm table-bordered border-dark">
-                  <div id="insuranceDiv">
-                    <tr>
+          <div class="container-fluid mx-2">
+            <div class="row">
+              <div class="col">
+                <table class="table">
                       <h5>Insurance Information</h5>
-                      <small>During Pahinungod activities within or OUTSIDE UP</small>
-                    </tr>
-                    <tbody>
                       <tr>
-                        <td>
-                          <div>
                             {% for field in v_form %}
-
                             {% if field.name in insuranceFields %}
-
                             {% if field.name == "beneficiaries" %}
                             <div class="fieldWrapper">
-
                               <label id="multi_col" for="{{ field.id_for_label }}"
                                 class="form-label">Beneficiaries</label>
                               {{ field }}
-
                             </div>
                             {% endif %}
-
                             {% if field.name == "relation" %}
                             <div class="fieldWrapper">
-
                               <label id="multi_col" for="{{ field.id_for_label }}"
                                 class="form-label extra_form">Relation</label>
                               {{ field }}
-
                             </div>
                             {% endif %}
-
                             {% if field.name == "contactNum" %}
                             <div class="fieldWrapper">
-
                               <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact
                                 #</label>
                               {{ field }}
-
                             </div>
                             {% endif %}
-
                             {% if field.name == "contactEmail" %}
                             <div class="fieldWrapper">
-
                               <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact
                                 Email</label>
                               {{ field }}
-
                             </div>
                             {% endif %}
-
                             {% endif %}
-
                             {% endfor %}
-                          </div>
-                        </td>
                       </tr>
-                    </tbody>
-                  </div>
                 </table>
-              </td>
-              <td>
-
-                <table class="table table-sm table-bordered border-dark">
+              </div>
+              <div class="col">
+                <table class="table">
                   <div id="dateDiv">
                     <tbody>
                       <tr>
-                        <h5>Start Date</h5>
+                        <h5>When can you start?</h5>
                       </tr>
                       <tr>
-                        <td>
                           <div>
                             {% for field in v_form %}
-
                             {% if field.name in dateFields %}
-
                             {% if field.name == "startDate" %}
                             <div class="fieldWrapper">
-
                               <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Start Date</label>
                               {{ field }}
-
                             </div>
                             {% endif %}
-
                             {% if field.name == "customStartDate" %}
                             <div class="fieldWrapper">
-
                               <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Other
                                 Start Date</label>
                               {% render_field field type="date" class="form-control" placeholder="mm/dd/yyyy" %}
-
-
                             </div>
                             {% endif %}
-
                             {% endif %}
-
                             {% endfor %}
                           </div>
-                        </td>
+                      </tr>
+                      <tr>
+                        <br><br><br>
+                        <input class="btn btn-lg btn-outline-success" type="submit" value="Confirm Details">
                       </tr>
                     </tbody>
                   </div>
                 </table>
-              </td>
-            </tr>
-          </table>
-          <input class="btn btn-outline-success" type="submit" value="Confirm Volunteer">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -549,7 +509,7 @@
                     <h6 class="card-subtitle mb-2 text-muted">{{ program.name }}</h6>
                     <!-- Add your image here -->
                     <!-- Example: <img src="{{ program.image.url }}" class="img-fluid"> -->
-                    <p class="card-text">==desc here==</p>
+                    <p class="card-text">{{program.description}}</p>
                   </div>
                 </div>
               </div>

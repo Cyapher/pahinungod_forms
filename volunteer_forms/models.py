@@ -9,7 +9,7 @@ from django.db import models
 class Program(models.Model):
     code = models.CharField(max_length=10)
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=255)
+    description = models.TextField(max_length=255)
     program_img = models.ImageField(blank=True)
 
     def __str__(self):
