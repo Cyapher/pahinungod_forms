@@ -1,0 +1,75 @@
+{% extends 'baseVolunteer.html' %}
+
+{% block body %}
+
+<style>
+    .right_col {
+        padding-left: 10%;
+    }
+
+    table {
+        table-layout:auto;
+    }
+
+    td {
+        font-size: small;
+    }
+
+    .wrap_content {
+        word-break: break-word;
+    }
+</style>
+
+<div align="center">
+    <table class="table table-bordered border-dark">
+        <tr>
+            <td><strong>Occupation</strong></td>
+            {% if volunteer.occupation == "Other" %}
+            <td>{{ volunteer.otherOccu }}</td>
+            {% else %}
+            <td>{{ volunteer.occupation }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td><strong>Specification (UP Alumni)</strong></td>
+            <td>{{ volunteer.specification }}</td>
+        </tr>
+        <tr>
+            <td><strong>Constituent Unit (PGH)</strong></td>
+            <td>{{ volunteer.constituentUnit }}</td>
+        </tr>
+    </table>
+
+    <table class="table table-bordered border-dark">
+        <tr>
+            <td><strong>PRC License</strong></td>
+            <td>{{ volunteer.prcLicense }}</td>
+        </tr>
+        <tr>
+            <td><strong>Department</strong></td>
+            <td>{{ volunteer.dept }}</td>
+        </tr>
+        <tr>
+            <td><strong>Company</strong></td>
+            <td>{{ volunteer.company }}</td>
+        </tr>
+        <tr>
+            <td><strong>Office Address</strong></td>
+            <td class="wrap_content">{{ volunteer.officeAdd }}</td>
+        </tr>
+        <tr>
+            <td><strong>Office/Work Telephone</strong></td>
+            <td class="wrap_content">{{ volunteer.license_telephone }}</td>
+        </tr>
+        <tr>
+            <td><strong>Office/Work Email</strong></td>
+            <td class="wrap_content">{{ volunteer.license_email }}</td>
+        </tr>
+        <tr>
+            <td><strong>Work Schedule</strong></td>
+            <td class="wrap_content">{{ volunteer.workSched }}</td>
+        </tr>
+    </table>
+</div>
+
+{% endblock %}

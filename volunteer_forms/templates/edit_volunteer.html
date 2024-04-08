@@ -56,7 +56,12 @@
             </div>
           </div> -->
 
-      <a class="navbar-brand text-light disabled" style="pointer-events: none;">Volunteers Page</a>
+      <a class="navbar-brand text-light disabled" href="{% url 'list' %}">Volunteers Page</a>
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <a class="nav-link active text-light" aria-current="page" href="{% url 'vol_index' %}">Add Volunteers</a>
+        </li>
+    </ul>
       </div>
     </div>
 </nav>
@@ -66,11 +71,11 @@
 {% load widget_tweaks %}
 <div class="row justify-content-center" align="center">
     <div class="col-lg-10">
-        <form id="vol_form" action="{% url 'add' %}" method="post">
+        <form id="vol_form" action="{% url 'edit' volunteer.id %}" method="post">
             {% csrf_token %}
 
             <div>
-                <table class="table table-sm w-50">
+                <table class="table w-50">
                     <tbody>
                         <tr>
                             <h3>Volunteer Programs</h3>
@@ -84,7 +89,7 @@
                 </table>
             </div>
 
-            <table class="w-75 table table-sm table-bordered border-dark">
+            <table class="w-75 table table-bordered border-dark">
                 <thead>
                     <h3>Volunteer Information</h3>
                 </thead>
@@ -166,7 +171,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-sm table-bordered border-dark">
+            <table class="w-50 table table-bordered border-dark">
                 <thead data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle checked for Alumni">
                     <tr>
                         <td>
@@ -199,7 +204,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-sm table-bordered border-dark">
+            <table class="w-50 table table-bordered border-dark">
                 <thead>
                     <tr>
                         <td>
@@ -232,7 +237,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-sm table-bordered border-dark">
+            <table class="w-50 table table-bordered border-dark">
                 <thead>
                     <tr>
                         <td>
@@ -277,7 +282,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-sm table-bordered border-dark">
+            <table class="w-50 table table-bordered border-dark">
                 <thead>
                     <tr>
                         <td>
@@ -366,7 +371,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-sm table-bordered border-dark">
+            <table class="w-50 table table-bordered border-dark">
                 <thead>
                     <tr>
                         <td>
@@ -428,7 +433,7 @@
                 </tbody>
             </table>
 
-            <table class="w-50 table table-sm table-bordered border-dark">
+            <table class="w-50 table table-bordered border-dark">
                 <div id="insuranceDiv">
                 <tr>
                     <h3>Insurance Information</h3>
@@ -488,7 +493,7 @@
                 </div>
             </table>
 
-            <table class="w-25 table table-sm table-bordered border-dark">
+            <table class="w-25 table table-bordered border-dark">
                 <div id="dateDiv">
                     <tbody>
                         <tr>
@@ -551,9 +556,15 @@
     var licenseDiv = document.getElementById("license_div");
     var upDiv = document.getElementById("up_div");
 
+    var alumniCheck = document.getElementById("alumni_check");
+    var pghCheck = document.getElementById("pgh_check");    
+    var workCheck = document.getElementById("work_check");
+    var licenseCheck = document.getElementById("license_check");
+    var upCheck = document.getElementById("up_check");
+
 
     function toggleAlumni() {
-        var alumniCheck = document.getElementById("alumni_check");
+        
         
 
         if (alumniCheck.checked) {
@@ -564,7 +575,7 @@
     }
 
     function togglePGH() {
-        var pghCheck = document.getElementById("pgh_check");
+        
         
 
         if (pghCheck.checked) {
@@ -588,7 +599,6 @@
 
     function dropDate() {
         var dateDropValue = document.getElementById("id_startDate").value;
-        
 
         if (dateDropValue === "Other") {
             dateOther.removeAttribute("disabled");
@@ -599,7 +609,7 @@
     }
 
     function toggleWork() {
-        var workCheck = document.getElementById("work_check");
+        
         
 
         if (workCheck.checked) {
@@ -610,7 +620,7 @@
     }
 
     function toggleLicense() {
-        var licenseCheck = document.getElementById("license_check");
+        
         
 
         if (licenseCheck.checked) {
@@ -621,13 +631,34 @@
     }
 
     function toggleUP() {
-        var upCheck = document.getElementById("up_check");
+        
         
         if (upCheck.checked) {
             upDiv.style.display = "block";
         } else {
             upDiv.style.display = "none";
         }
+    }
+
+    function startWindows() {
+        var alumnus_loadCheck = {check : "{{volunteer.alumnusCheck}}", obj : alumniDiv, checkObj : alumniCheck};
+        var pgh_loadCheck = {check : "{{volunteer.pghCheck}}", obj : pghDiv, checkObj : pghCheck};
+        var work_loadCheck = {check : "{{volunteer.workCheck}}", obj : workDiv, checkObj : workCheck};
+        var license_loadCheck = {check : "{{volunteer.licenseCheck}}", obj : licenseDiv, checkObj : licenseCheck};
+        var student_loadCheck = {check : "{{volunteer.studentCheck}}", obj : upDiv, checkObj : upCheck};
+
+        var loadArray = [alumnus_loadCheck, pgh_loadCheck, work_loadCheck, license_loadCheck, student_loadCheck];
+
+        
+        loadArray.forEach(element => {
+            console.log(element.check);
+            if (element.check == "True") {
+                element.obj.style.display = "block";
+                element.checkObj.checked = true;
+            } else {
+                element.obj.style.display = "none";
+            }
+        });
     }
 
     document.getElementById("vol_form").addEventListener("keydown", function(event) {
@@ -638,5 +669,8 @@
 
     dropWork();
     dropDate();
+    window.onload = startWindows;
+
 </script>
+
 {% endblock %}
