@@ -1,4 +1,5 @@
 import datetime
+import os
 from typing import Any
 from django.db import models
 from django.core.exceptions import ValidationError
@@ -127,5 +128,11 @@ class Partner(models.Model):
 class Files_obj(models.Model):
     # File Field
     file_field = models.FileField(upload_to="partners_forms/static/partner_requirements") # upload to where?
-    file_names = models.CharField(max_length=64,blank=True,null=True)
+    file_name = models.CharField(max_length=64,blank=True,null=True)
     partner = models.ForeignKey(Partner, on_delete=models.CASCADE, related_name='partner', blank=True, null=True,)
+
+    def save(self, *args, **kwargs):
+        if self.file_field:
+            self.file_name = os.path.basename(self.file_field.name)
+
+        super(Files_obj, self).save(*args, **kwargs)

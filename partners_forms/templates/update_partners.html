@@ -1,104 +1,88 @@
 <!-- Extensions -->
 {% extends 'base_partner.html' %}
 {% load widget_tweaks %}
+{% load static %}
 
 {% block content %}
-    {% csrf_token %}
 
-    <style>
-        .form_div{
-            margin: auto;
-        }
+<h1 style="margin: auto; text-align: center;"> Update Partner Form </h1>
 
-        input, select {
-            margin-bottom: 2%;
-        }
+    <form action="{% url 'add_partner' %}" enctype="multipart/form-data" method="POST" class="
+    mb-3 p-4 
+    d-flex flex-column 
+    align-items-center justify-content-center border"> 
+        {% csrf_token %}
 
-        table, tr, td{
-            border: 2px solid black;
-            border-collapse: collapse;
-            margin: auto;
-        }
+        <!-- TABLE FORM -->
+            <!-- <table>
+                <tr>
+                    <td>
+                        <label for="id_partner_name">Partner Name: </label>
+                        {{ form.partner_name }}
+                    </td>
+                    <td>
+                        <label for="id_partnership_extension">Partnership Extension</label>
+                        {{ form.partnership_extension }}
+                    </td>
+                </tr>    
 
-    </style>
+                <tr>
+                    <td>  </td>
 
-    <h1 style="margin: auto; text-align: center;"> Partners Form </h1>
+                </tr>
 
-        <form enctype="multipart/form-data" method="POST" class="
-        mb-3 p-4 
-        d-flex flex-column 
-        align-items-center justify-content-center border"> 
-            {% csrf_token %}
     
-            <!-- TABLE FORM -->
-                <!-- <table>
-                    <tr>
-                        <td>
-                            <label for="id_partner_name">Partner Name: </label>
-                            {{ form.partner_name }}
-                        </td>
-                        <td>
-                            <label for="id_partnership_extension">Partnership Extension</label>
-                            {{ form.partnership_extension }}
-                        </td>
-                    </tr>    
-    
-                    <tr>
-                        <td>  </td>
-    
-                    </tr>
-    
-        
-                </table> -->
+            </table> -->
 
-                <!-- Overall Div -->
-                <div class="mb-5 w-75 flex-column d-flex align-items-center justify-content-center">
-                    
-                    {{ form.partner_name }}
- 
-                    {{ form.partnership_extension }}
-
-                    {{ form.stakeholder_category }}
-
-                    {{ form.second_category }}
-
-                    {{ form.other_choice }}
-
-                    <!-- Type of Partnership Field -->
-                    <div class="d-inline-flex flex-column w-100">
-                        <label for="id_type_of_partnership" class="col-auto col-form-label">Type of Partnership: </label>
-                        <div class="col-sm-100">
-                            {{ form.type_of_partnership }}
-                        </div>
-                    </div>
-
-                    <!-- Date Fields -->
-                    <div class="mb-2 form-row align-items-center justify-content-center d-flex">
-                        <div class="form-group row col-auto m-2">
-                            <!-- Start Date -->
-                            <label for="id_Agreement_Start_Date" class="col-auto col-form-label">Start Date</label>
-                            <div class="col-auto">
-                                {% render_field form.Agreement_Start_Date type="date" class='form-control' placeholder="mm/dd/yyyy" %}
-                            </div>        
-                        </div>
-                        <div class="form-group row col-auto m-2">
-                            <!-- End Date -->
-                            <label for="id_Agreement_End_Date" class="col-auto col-form-label">End Date</label>
-                            <div class="col-auto">
-                                {% render_field form.Agreement_End_Date type="date" class='form-control' placeholder="mm/dd/yyyy" %}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- File Field -->
-                    {{ form.files }}
-
-                </div>
+            <!-- Overall Div -->
+            <div class="mb-5 w-75 flex-column d-flex align-items-center justify-content-center">
                 
-            <input type="submit">
-        </form>
+                {{ form.partner_name }}
 
-        <!-- {{ form.as_p }} -->
+                {{ form.partnership_extension }}
+
+                {{ form.stakeholder_category }}
+
+                {{ form.second_category }}
+
+                {{ form.other_choice }}
+
+                <!-- Type of Partnership Field -->
+                <div class="d-inline-flex flex-column w-100">
+                    <label for="id_type_of_partnership" class="col-auto col-form-label">Type of Partnership: </label>
+                    <div class="col-sm-100">
+                        {{ form.type_of_partnership }}
+                    </div>
+                </div>
+
+                <!-- Date Fields -->
+                <div class="mb-2 form-row align-items-center justify-content-center d-flex">
+                    <div class="form-group row col-auto m-2">
+                        <!-- Start Date -->
+                        <label for="id_Agreement_Start_Date" class="col-auto col-form-label">Start Date</label>
+                        <div class="col-auto">
+                            {% render_field form.Agreement_Start_Date type="date" class='form-control' placeholder="mm/dd/yyyy" %}
+                        </div>        
+                    </div>
+                    <div class="form-group row col-auto m-2">
+                        <!-- End Date -->
+                        <label for="id_Agreement_End_Date" class="col-auto col-form-label">End Date</label>
+                        <div class="col-auto">
+                            {% render_field form.Agreement_End_Date type="date" class='form-control' placeholder="mm/dd/yyyy" %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Field -->
+                {{ file_form.file_field }}
+
+            </div>
+            
+
+        
+
+        <input type="submit">
+    </form>
 
     <script>
 
@@ -112,7 +96,7 @@
         // selectElement_second 
         const selectElement_second = document.getElementById('id_second_category');
         const selectElement_second_options = selectElement_second.options;
-        selectElement_second.style.display = 'none'; // Hide all second element (including options)
+        // selectElement_second.style.display = 'none'; // Hide all second element (including options)
 
         // otherField
         const otherField = document.getElementById('id_other_choice');
@@ -137,6 +121,46 @@
             function show_others_field(){
                 otherField.style.display = 'block';
             }
+
+            const selectedValue = selectElement.value;
+            console.log(selectedValue);
+            const secondSelectedValue = selectElement_second.value;
+            console.log(secondSelectedValue);
+            
+            // SPLITTTTTT
+
+            // Check value of stakeholder_category
+            if(selectedValue == 'Private'){
+                    console.log('HERE IN P')  
+                    selectElement_second.style.display = 'block';
+                    for (let i = 0; i < selectElement_second_options.length; i++) {
+                    const option = selectElement_second_options[i];
+                    // console.log(option)
+                        if (private.includes(option.value)) {
+                            option.style.display = 'block';
+                        } else{
+                            option.style.display = 'none';
+                        }
+                    }
+                } else if(selectedValue == 'Government'){
+                    console.log('HERE IN G')  
+                    selectElement_second.style.display = 'block';
+                    for (let i = 0; i < selectElement_second_options.length; i++) {
+                    const option = selectElement_second_options[i];
+                        if (government.includes(option.value)) {
+                            option.style.display = 'block';
+                        }else{
+                            option.style.display = 'none';
+                        }
+                    }
+                } 
+
+            if(secondSelectedValue == 'Others'){
+                    otherField.style.display = 'block';
+                } else{
+                    otherField.style.display = 'none';
+                }
+
             
             // Listen to stakeholder_category selected (P and G)
             selectElement.addEventListener('change', function(event) {
@@ -199,5 +223,6 @@
 
         // Event listener for the change event
     </script>
+
 
 {% endblock %}

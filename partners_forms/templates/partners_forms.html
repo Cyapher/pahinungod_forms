@@ -3,7 +3,6 @@
 {% load widget_tweaks %}
 
 {% block content %}
-    {% csrf_token %}
 
     <style>
         .form_div{
@@ -22,7 +21,7 @@
 
     </style>
 
-    <h1 style="margin: auto; text-align: center;"> Partners Form </h1>
+    <h1 style="margin: auto; text-align: center;"> Partner Form </h1>
 
         <form action="{% url 'add_partner' %}" enctype="multipart/form-data" method="POST" class="
         mb-3 p-4 
