@@ -35,31 +35,13 @@
         width: 100%;
     }
 
+    label {
+    font-size: small;
+    }
+
 </style>
 
-<nav id="navigation" class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-
-        <!-- <div id="carouselExampleCaptions" class="carousel container-sm w-25" data-bs-ride="carousel" align="center" style="max-width: 100px; margin: 0%;">
-            <div class="carousel-inner" style="max-height: 70px; max-width: 100px;">
-              <div class="carousel-item active" data-bs-interval="2000">
-                <img src="https://scontent.fcrk1-4.fna.fbcdn.net/v/t1.15752-9/433450881_771370008266401_2850824638274835436_n.png?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGUbQaT091NUe3cJMeWWZuzeeTHTSYpVXZ55MdNJilVdqoz3nC7kejsoD-EkkNrWhpWzMHAhqMic8AvOp_ZgGL2&_nc_ohc=-bhgQtiVquEAX8iBE74&_nc_ht=scontent.fcrk1-4.fna&oh=03_AdQyQCHRERsc9NpdMiOngFwDgOdRTnlZE9sJ68xxiFZ4HQ&oe=6621E345" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item" data-bs-interval="2000">
-                <img src="https://scontent.fcrk1-4.fna.fbcdn.net/v/t1.15752-9/433450881_771370008266401_2850824638274835436_n.png?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGUbQaT091NUe3cJMeWWZuzeeTHTSYpVXZ55MdNJilVdqoz3nC7kejsoD-EkkNrWhpWzMHAhqMic8AvOp_ZgGL2&_nc_ohc=-bhgQtiVquEAX8iBE74&_nc_ht=scontent.fcrk1-4.fna&oh=03_AdQyQCHRERsc9NpdMiOngFwDgOdRTnlZE9sJ68xxiFZ4HQ&oe=6621E345" class="d-block w-100" alt="...">
-                
-              </div>
-              <div class="carousel-item" data-bs-interval="2000">
-                <img src="https://scontent.fcrk1-4.fna.fbcdn.net/v/t1.15752-9/433450881_771370008266401_2850824638274835436_n.png?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGUbQaT091NUe3cJMeWWZuzeeTHTSYpVXZ55MdNJilVdqoz3nC7kejsoD-EkkNrWhpWzMHAhqMic8AvOp_ZgGL2&_nc_ohc=-bhgQtiVquEAX8iBE74&_nc_ht=scontent.fcrk1-4.fna&oh=03_AdQyQCHRERsc9NpdMiOngFwDgOdRTnlZE9sJ68xxiFZ4HQ&oe=6621E345" class="d-block w-100" alt="...">
-                
-              </div>
-            </div>
-          </div> -->
-
-      <a class="navbar-brand text-light disabled" style="pointer-events: none;">Volunteers Page</a>
-      </div>
-    </div>
-</nav>
+{% include 'navbar_temp.html' with show_vform=False show_programs=False show_search=False %}
 
 <br>
 
@@ -167,7 +149,7 @@
             </table>
 
             <table class="w-50 table table-sm table-bordered border-dark">
-                <thead data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle checked for Alumni">
+                <thead>
                     <tr>
                         <td>
                             <input type="checkbox" id="alumni_check" onchange="toggleAlumni()">

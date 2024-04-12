@@ -16,6 +16,10 @@
         background-color: #7B0100;
     }
 
+    #filterRow {
+        background-color: #ffffff;
+    }
+
     .btn_width {
         width: 160px;
     }
@@ -67,42 +71,87 @@
     }
 }
   td {
-    font-size: small;
+    font-size: medium;
   }
 
   .scrollable-content {
     max-height: 200px;
     overflow-y: auto;
+  } 
+
+  .programWidth {
+    width:20%;
+    max-width: 20px;
+  }
+
+  .dateFilter-block {
+    width: 100%;
+    max-width: 200px;
+    margin-right: 30px;
+  }
+
+  .sortable {
+    user-select: none;
+  }
+
+  .sortable:hover {
+    cursor: pointer;
   }
 
 </style>
 
-<nav id="navigation" class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <a class="navbar-brand text-light disabled" href="{% url 'list' %}">Volunteers Page</a>
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-            <a class="nav-link active text-light" aria-current="page" href="{% url 'vol_index' %}"><u>Volunteer Form</u></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active text-light" aria-current="page" href="{% url 'programs' %}"><u>Programs</u></a>
-        </li>
-    </ul>
-        <form class="d-flex" action="{% url 'search' %}">
-          <input name="q" class="form-control me-6 mx-2" type="search" placeholder="Search/Filter" aria-label="Search">
-          <input class="btn btn-dark" type="submit">
-        </form>
+    {% include 'navbar_temp.html' with show_vform=True show_programs=True show_search=True admin=True %}
+
+    <div class="collapse" id="navbarToggleExternalContent" style="width: 100%;">
+        <div class="p-4">
+            <nav id="filterRow" class="navbar navbar-expand-lg">
+                <div class="container">
+                    <form class="d-flex" action="{% url 'filter_date' %}">
+                    <span class="navbar-text">Start</span>
+                    <input name="start" class="form-control me-6 mx-2" type="date" class="form-control" placeholder="mm/dd/yyyy">
+                    <span class="navbar-text">End</span>
+                    <input name="end" class="form-control me-6 mx-2" type="date" class="form-control" placeholder="mm/dd/yyyy">
+                    <input class="btn btn-dark" type="submit" value="Filter Date Range">
+                    </form>
+                    <form class="d-flex" action="{% url 'sort' %}" method="get">
+                        <select class="form-select me-6 mx-2" name="column">
+                            <option selected>Column</option>
+                            <option value="first_name">Name</option>
+                            <option value="customStartDate">Start Date</option>
+                            <option value="occupation">Occupation</option>
+                        </select>
+                        <select class="form-select me-6 mx-2" name="order">
+                            <option selected>Order</option>
+                            <option value="asc">A-Z/Old-New</option>
+                            <option value="des">Z-A/New-Old</option>
+                        </select>
+                        <input class="btn btn-dark" type="submit" value="Sort">
+                    </form>
+                    <form class="d-flex" action="{% url 'search' %}">
+                    <input name="q" class="form-control me-6 mx-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="btn btn-dark" type="submit" value="Search">
+                    </form>
+                </div>
+            </nav>
+        </div>
       </div>
-    </div>
-  </nav>
+      <nav class="navbar">
+        <div class="container-fluid">
+          <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-label="Toggle navigation">
+            Sort/Filter
+          </button>
+        </div>
+      </nav>
+
 
   <br>
+  {% if volunteers %}
   <div align="center">
     <table id="volunteer_list" class="table table-bordered w-75">
         <thead class="table-light border-dark">
             <th style="width: 15%; max-width: 10px;">Name</th>
             <th style="width: 35%; max-width: 250px;">Specific Information</th>
-            <th style="width: 10%; max-width: 10px;">Programs</th>
+            <th class="programWidth">Programs</th>
             <th style="width: 10%; max-width: 10px;">Start Date</th>
             <th style="width: 5%; max-width: 10px;">Occupation</th>
             <th style="text-align: center;">Actions</th>
@@ -117,7 +166,7 @@
                     </strong>
                 </td>
                 <td style="width: 35%; max-width: 250px;">
-                    <div class="accordion">
+                    <div class="accordion my-3">
                         <div class="">
                             <h2 class="accordion-header" id="heading{{ forloop.counter }}">
                                 <div align="center" class="accordion-body collapsed">
@@ -160,11 +209,11 @@
                         </div>
                     </div>
                 </td>
-                <td style="width: 10%; max-width: 10px;">
+                <td class="programWidth">
                     {% for program in volunteer.programs.all %}
                                 <strong>
                                     <li>
-                                        {{ program.name }}
+                                        ({{ program.code }}) {{ program.name }}
                                     </li>
                                 </strong>
                     {% endfor %}   
@@ -186,8 +235,7 @@
                 <td align="center">
                     <!-- Edit -->
                     <h2>
-                        <div>
-                            <br>
+                        <div class="my-5">
                             <form action="{% url 'edit' volunteer.id %}" style="margin-bottom: 5px;">
                                 {% csrf_token %}
                                 <input type="submit" class="btn btn-outline-secondary btn-sm btn_width_act" value="Edit">
@@ -197,7 +245,6 @@
                                 {% csrf_token %}
                                 <input type="submit" class="btn btn-outline-danger btn-sm btn_width_act" value="Delete" onclick="return confirm('Are you sure?');" style="transform: translateY(10px);">
                             </form>
-                            <br>
                         </div>
                     </h2>
                 </td>
@@ -207,6 +254,12 @@
         </tbody>
     </table>
     </div>
+{% else %}
+
+<h2 class="display-2" align="center">No entries.</h2>
+<h6 class="display-6" align="center">lmao</h6>
+
+{% endif %}
 
 <script>    
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -262,6 +315,8 @@
         xhr.open('GET', '/volunteer/' + volunteerId + infoType, true);
         xhr.send();
     }
+
+
 
 </script>
 
