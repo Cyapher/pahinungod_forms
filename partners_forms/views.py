@@ -13,12 +13,17 @@ def home_page(request):
     return render(request, "home.html")
 
 def view_partners(request):
+    partners_list = {}
     partners = Partner.objects.all()
-    # for partner in partners:
-        # partner.files_list = [url.strip() for url in partner.files_list.split('\n')]
-        # print(f'IN VIEW: {partner.files_list}')
+    
+    for partner in partners:
+        files = Files_obj.objects.filter(partner=partner)
+        partners_list[partner] = files
 
-    return render(request, "view_partners.html", {'partners' : partners})
+    print(f'partners list: {partners_list}')
+
+    # return render(request, "view_partners.html", {'partners' : partners})
+    return render(request, "view_partners.html", {'partners' : partners, 'partners_list' : partners_list})
 
 def partner_form(request): # toPartnerForm Questionnairre
     scope_of_work_choices = Scope_of_work.scope_of_work_choices
@@ -80,7 +85,6 @@ def add_partner(request):
             for fi in uploaded_files:
                 file_dict = {'file_field': fi}
 
-
                 files_form = FilesForm(request.POST,file_dict)
                 if files_form.is_valid():
                     file_instance = files_form.save()
@@ -134,10 +138,8 @@ def del_partner(request, partner_id):
 
 def upd_partner(request, partner_id):
     to_update = Partner.objects.get(pk=partner_id)
-    form = PartnerForm(request.POST or None, request.FILES or None, instance=to_update) # fields
-    uploaded_files = request.FILES.getlist('files')
-    updated_files_list = ''
-    
+    # to_update_files = Files_obj.objects.get(pk=)
+
     if request.method == 'POST':
 
         if form.is_valid():
@@ -145,36 +147,21 @@ def upd_partner(request, partner_id):
 
             storage = FileSystemStorage(location='partner_requirements/')
 
-            # FOR MULTIPLE FILES
-            for file in uploaded_files:
-                filename = storage.save(file.name, file)
-                new_file_url = storage.url(filename)
-
-                print(f' In Loop: \n {new_file_url}')
-
-                # Append list (text field)
-                updated_files_list += new_file_url + '\n'
-                
-            updated_files_list = updated_files_list[:-1]
-            print(f'\n Files List: \n {updated_files_list}')
-            
-            # Update files_list
-            form.instance.files_list = updated_files_list
-
             form.save()
-            return redirect('view_partners')
+            return redirect('add_partner')
     else:
         print('partner not valid')
-        # return render(request, 'partners_forms.html', {'form': form})
+        form = PartnerForm(instance=to_update) # fields
+        # files_form = FilesForm(instance=uploaded_files)
 
         # Form is not valid, print error messages
-        # for field, errors in form.errors.items():
-        #     # Print error messages for each field
-        #     for error in errors:
-        #         print(f"Field '{field}': {error}")
+        for field, errors in form.errors.items():
+            # Print error messages for each field
+            for error in errors:
+                print(f"Field '{field}': {error}")
 
         # Render the form again with error messages
-        return render(request, 'update_partners.html', {'partner': to_update, 'form': partner_form})
+        return render(request, 'update_partners.html', {'partner': to_update, 'form': form})
 
 # MISC. ================================================================================================================
 
