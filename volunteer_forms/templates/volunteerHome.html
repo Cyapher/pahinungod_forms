@@ -48,6 +48,8 @@
   .card {
     display: flex;
     flex-direction: column;
+    border-color: #000000;
+    border-width: 2px;
   }
 
   .card-body {
@@ -63,6 +65,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .image_mat {
+    border: 3px solid black;
   }
 
 </style>
@@ -533,11 +539,10 @@
               <div class="col-md-4 mb-4">
                 <div class="card h-100 d-flex flex-column">
                   <div class="card-body">
+                    <img src="{{ program.program_img }}" class="img-fluid image_mat">
                     <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}">
                     <h5 class="card-title">{{ program.code }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{ program.name }}</h6>
-                    <!-- Add your image here -->
-                    <!-- Example: <img src="{{ program.image.url }}" class="img-fluid"> -->
                     {{ program.description }}
                   </div>
                 </div>
