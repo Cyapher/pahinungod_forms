@@ -1,0 +1,39 @@
+<nav id="navigation" class="navbar navbar-expand-lg sticky">
+    <div class="container-fluid">
+      <a class="navbar-brand text-light disabled" href="{% url 'list' %}">{% if admin %} Volunteers Page {% else %} Panginuhod Volunteers {% endif %}</a>
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% if show_vform %}
+        <li class="nav-item">
+            <a class="nav-link active text-light" aria-current="page" href="{% url 'home_vol' %}"><u>Home Page</u></a>
+        </li>
+        {% endif %}
+        {% if show_programs %}
+        <li class="nav-item">
+            <a class="nav-link active text-light" aria-current="page" href="{% url 'programs' %}"><u>Programs</u></a>
+        </li>
+        {% endif %}
+        {% if show_pform %}
+        <li class="nav-item">
+          <a class="nav-link active text-light" aria-current="page" href="{% url 'add_program' %}"><u>Add Programs</u></a>
+        </li>
+        {% endif %}
+      </ul>
+      {% if admin is False %}
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="navbar-brand text-light mx-5" aria-current="page" href="#">About Panginuhod</a>
+        </li>
+        <li class="nav-item">
+          <a class="navbar-brand text-light mx-5" aria-current="page" href="#">Partners</a>
+        </li>
+        <li class="nav-item">
+          <a class="navbar-brand text-light mx-5" aria-current="page" href="#">FAQ</a>
+        </li>
+      </ul>
+      {% endif %}
+      {% if show_signup %}
+        <input type="button" class="btn btn-dark" value="Sign Up" onclick="toggleForm()">
+      {% endif %}
+  </div>
+</div>
+</nav>

@@ -34,12 +34,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
     'volunteer_forms',
     'partners_forms',
+    'dashboard',
     'bootstrap5',
     'widget_tweaks',
     'django.contrib.admin',

@@ -3,9 +3,6 @@
 {% block body %}
 
 <style>
-    th {
-        width: 100%;
-    }
 
     #navigation {
         background-color: #7B0100;
@@ -50,30 +47,11 @@
     }
 </style>
 
-<nav id="navigation" class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <a class="navbar-brand text-light disabled" href="{% url 'list' %}">Volunteers Page</a>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link active text-light" aria-current="page" href="{% url 'vol_index' %}"><u>Volunteer
-                        Form</u>
-                    </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active text-light" aria-current="page" href="{% url 'add_program' %}"><u>Add Programs</u></a>
-            </li>
-        </ul>
-        <form class="d-flex" action="{% url 'search' %}">
-            <input name="q" class="form-control me-6 mx-2" type="search" placeholder="Search/Filter"
-                aria-label="Search">
-            <input class="btn btn-dark" type="submit">
-        </form>
-    </div>
-    </div>
-</nav>
+{% include 'navbar_temp.html' with show_vform=True show_programs=False show_search=False admin=True show_pform=True %}
 
 <!-- <h3 align="center" class="display-5">Volunteers Page</h3> -->
 
+{%  if programs %}
 <br>
 <div class="table-responsive">
     <table align="center" class="table table-bordered table-hover border-dark w-25 text-nowrap">
@@ -84,10 +62,13 @@
         <tbody>
             {% for program in programs %}
             <tr>
-                <td>
+                <td class="text-wrap" style="width: 450px;">
                     <strong>
                             {{ program.name }} ({{program.code}}) 
                     </strong>
+                    <br>
+                    {{ program.description }}
+                </td>
                 <td align="center">
                     <!-- Edit -->
                     <form action="{% url 'edit_program' program.id %}">
@@ -108,6 +89,12 @@
     </table>
 </div>
 
+{% else %}
+
+<h2 class="display-2" align="center">No entries.</h2>
+<h6 class="display-6" align="center">lmao</h6>
+
+{% endif %}
 <script>
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
