@@ -4,11 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pahinungod Forms</title>
+    <!-- IMPORTS -->
     {% load bootstrap5 %}
     {% bootstrap_css %}
+    {% load static %}
     {% bootstrap_javascript %}
 </head>
+
+<style>
+    .img {
+        width: 100px;
+        height: auto;
+    }
+</style>
+
 <body>
+    <!-- HEADER -->
+    <div class="mb-6" style="background-color: #7B0100;">
+        <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration: none; color: white">
+            <img src="{% static 'partners_forms/media/admin_icon.png' %}" alt="Admin Icon" class="img" style="background-color: #7B0100;">
+            <h1 class="h1">Admin Dashboard</h1>
+        </a>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg" style="background-color: #262626;">
+        <div class="container-fluid">
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+
+                    <!-- HOME -->
+                    <li class="nav-item">
+                        <a class="nav-link text-white" id="home" href="{% url 'dashboard' %}">Home</a>
+                    </li>
+
+                    <!-- DROP DOWN LIST -->
+                    <li class="nav-item dropdown">
+                        <!-- PARTNERS -->
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: white">Partners
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li>
+                                <a class="dropdown-item" id="partners" href="{% url 'view_partners' %}">Partners List</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" id="partner_form" href="{% url 'partner_form' %}">Add Partners</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" id="type_of_partner_form" href="{% url 'type_partner_form' %}">Add Type Partners</a>
+                            </li>
+                        </ul>
+
+                        
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <!-- VOLUNTEERS -->
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: white">Volunteers
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li>
+                                <!-- PLACE OTHER WEBPAGES HERE -->
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                
+            </div>
+        </div>
+        
+    </nav>
+        <ul class="nav nav-pills ">
+            <li class="nav-item">
+                <a class="nav-link text-white" id="home" href="{% url 'dashboard' %}">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="partners_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; color: white">Partners</a>
+            </li>
+
+            <!-- PARTNERS -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="partners_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; color: white">Partners</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" id="partners" href="{% url 'view_partners' %}">Partners</a>
+                        <a class="dropdown-item" id="partner_form" href="{% url 'partner_form' %}">Add Partners</a>
+    
+    
+                    </div>
+                </li>
+            </div>
+
+            <!-- VOLUNTEERS -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="partners_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; color: white">Volunteers</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <!-- PLACE OTHER WEBPAGES HERE -->
+                    </div>
+                </li>
+            </div>
+
+
+        </ul>
+
+    <!-- BLOCK -->
     {% block body %}
     {% endblock %}
 </body>
