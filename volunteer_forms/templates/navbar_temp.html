@@ -1,6 +1,7 @@
 <nav id="navigation" class="navbar navbar-expand-lg sticky">
     <div class="container-fluid">
-      <a class="navbar-brand text-light disabled" href="{% url 'list' %}">{% if admin %} Volunteers Page {% else %} Panginuhod Volunteers {% endif %}</a>
+      <img src="https://up.edu.ph/wp-content/uploads/2020/01/UP-Seal.png" alt="" style="max-width: 70px;">
+      <a class="navbar-brand text-light disabled mx-2" href="#">{% if admin %} Volunteers Page {% else %} Panginuhod Volunteers {% endif %}</a>
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         {% if show_vform %}
         <li class="nav-item">

@@ -4,10 +4,6 @@
 
 <style>
 
-    th {
-        width: 100%;
-    }
-
     #navigation {
         background-color: #7B0100;
     }
@@ -49,6 +45,7 @@
 
     table {
         table-layout:auto;
+        max-width: 80%;
     }
     
 
@@ -75,11 +72,6 @@
     overflow-y: auto;
   } 
 
-  .programWidth {
-    width:20%;
-    max-width: 20px;
-  }
-
   .dateFilter-block {
     width: 100%;
     max-width: 200px;
@@ -95,7 +87,7 @@
   }
 
 </style>
-      
+
       <div class="collapse" id="navbarToggleExternalContent" style="width: 110%;">
         <div class="p-4">
             <nav id="filterRow" class="navbar navbar-expand-lg">
@@ -157,26 +149,27 @@
 
   <br>
   {% if volunteers %}
-  <div align="center">
-    <table id="volunteer_list" class="table table-bordered w-75">
+  <!-- default -->
+  <div class="table-responsive">
+    <table id="volunteer_list" class="table table-bordered" align="center">
         <thead class="table-light border-dark">
-            <th style="width: 15%; max-width: 10px;">Name</th>
-            <th style="width: 35%; max-width: 250px;">Specific Information</th>
-            <th class="programWidth">Programs</th>
-            <th style="width: 10%; max-width: 10px;">Start Date</th>
-            <th style="width: 5%; max-width: 10px;">Occupation</th>
-            <th style="text-align: center;">Actions</th>
+            <th>Name</th>
+            <th>Specific Information</th>
+            <th>Programs</th>
+            <th>Start Date</th>
+            <th>Occupation</th>
+            <th>Actions</th>
 
         </thead>
         <tbody id="accordionExample" class="border-dark">
             {% for volunteer in volunteers %}
             <tr>
-                <td style="width: 15%; max-width: 10px; word-break: break-word;">
+                <td class="text-wrap">
                     <strong>
                         {{volunteer.first_name}} {{volunteer.last_name}}
                     </strong>
                 </td>
-                <td style="width: 35%; max-width: 250px;">
+                <td>
                     <div class="accordion my-3">
                         <div class="">
                             <h2 class="accordion-header" id="heading{{ forloop.counter }}">
@@ -220,7 +213,7 @@
                         </div>
                     </div>
                 </td>
-                <td class="programWidth">
+                <td>
                     {% for program in volunteer.programs.all %}
                                 <strong>
                                     <li>
@@ -229,10 +222,10 @@
                                 </strong>
                     {% endfor %}   
                 </td>
-                <td style="width: 10%; max-width: 10px;">
+                <td>
                     {{ volunteer.customStartDate }}
                 </td>
-                <td style="width: 10%; max-width: 10px;">
+                <td>
                     {% if volunteer.occupation == "Other" %}
                     
                     {{ volunteer.otherOccu }}
@@ -262,7 +255,7 @@
             {% endfor %}
         </tbody>
     </table>
-    </div>
+</div>
     
     <div class="container text-center mt-3">
         <nav aria-label="Page navigation">
@@ -302,10 +295,11 @@
         </nav>
         <p class="mt-3">Showing {{ volunteers.start_index }} - {{ volunteers.end_index }} out of {{ volunteers.paginator.count }} rows</p>
     </div>
+
 {% else %}
 
-<h2 class="display-2" align="center">No entries.</h2>
-<h6 class="display-6" align="center">lmao</h6>
+    <h2 class="display-2" align="center">No entries.</h2>
+    <h6 class="display-6" align="center">lmao</h6>
 
 {% endif %}
 
