@@ -71,21 +71,20 @@
     border: 3px solid black;
   }
 
+  body {
+    background-color: #014421;
+  }
+
+  .card-body:hover {
+        background-color: #f0f0f0; /* Change to desired grey color */
+        cursor: pointer;
+  }
+
 </style>
 
   {% include 'navbar_temp.html' with show_vform=False show_programs=False show_search=False show_signup=True admin=False %}
 
-  <div class="container-fluid d-flex">
-    <h1>left</h1>
-    <div class="table">
-      <div scope="row">
-        <div scope="col">
-          <h1 align="center">center</h1>
-        </div>
-      </div>
-    </div>
-    <h1>right</h1>
-  </div>
+  {% include 'home_layout.html' %}
 
   {% load widget_tweaks %}
   <div id="full_form">
@@ -538,9 +537,9 @@
               {% for program in programs %}
               <div class="col-md-4 mb-4">
                 <div class="card h-100 d-flex flex-column">
-                  <div class="card-body">
+                  <div class="card-body" onclick="toggleCheckbox('program{{ program.id }}')">
                     <img src="{{ program.program_img }}" class="img-fluid image_mat">
-                    <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}">
+                    <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}" >
                     <h5 class="card-title">{{ program.code }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{ program.name }}</h6>
                     {{ program.description }}
@@ -669,6 +668,21 @@
           form.style.display = "block";
         }
       }
+
+      function toggleCheckbox(checkboxId) {
+        var checkbox = document.getElementById(checkboxId);
+        var cardBody = checkbox.parentElement;
+        
+        if (checkbox) {
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                cardBody.style.backgroundColor = "#cbe5cb"; // Add green class
+            } else {
+                cardBody.style.backgroundColor = "#ffffff"; // Remove green class
+            }
+        }
+    }
 
       dropWork();
       dropDate();

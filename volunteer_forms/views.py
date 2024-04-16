@@ -9,6 +9,7 @@ from volunteer_forms.models import Volunteer, Program
 from .forms import VolunteerForm, ProgramForm
 
 logger = logging.getLogger(__name__)
+pagination_count = 5
 
 volunteerFields = ['first_name',
                        'middle_name',
@@ -105,7 +106,7 @@ def createVolunteer(request):
 def printVolunteers(request):
     volunteers = Volunteer.objects.all()
 
-    p = Paginator(volunteers, 2)
+    p = Paginator(volunteers, pagination_count)
     page = request.GET.get("page")
     volunteers = p.get_page(page)
 
@@ -215,7 +216,7 @@ def filterVolunteers(request):
         print("date filter = true")
         volunteers = searchDateRange(request, volunteers)
 
-    p = Paginator(volunteers, 1)
+    p = Paginator(volunteers, pagination_count)
     page = request.GET.get("page")
     volunteers = p.get_page(page)
 
