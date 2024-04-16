@@ -1,4 +1,4 @@
-{% extends 'baseVolunteer.html' %}
+{% extends 'base_dashboard.html' %}
 
 {% block body %}
 
@@ -47,9 +47,13 @@
     }
 </style>
 
-{% include 'navbar_temp.html' with show_vform=True show_programs=False show_search=False admin=True show_pform=True %}
-
-<!-- <h3 align="center" class="display-5">Volunteers Page</h3> -->
+<nav class="navbar navbar-expand">
+    <div class="container-fluid justify-content-between">
+      <form action="{% url 'add_program' %}">
+          <input class="btn btn-dark" type="submit" value="Add Programs">
+      </form>
+    </div>
+  </nav>
 
 {%  if programs %}
 <br>

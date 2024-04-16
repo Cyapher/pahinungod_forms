@@ -69,49 +69,20 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li>
-                                <!-- PLACE OTHER WEBPAGES HERE -->
+                                <a class="dropdown-item" href="{% url 'home_vol' %}">Volunteer Home Page</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'list' %}">Volunteer List</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'programs' %}">Programs List</a>
                             </li>
                         </ul>
                     </li>
                 </ul>
-                
             </div>
         </div>
-        
     </nav>
-        <ul class="nav nav-pills ">
-            <li class="nav-item">
-                <a class="nav-link text-white" id="home" href="{% url 'dashboard' %}">Home</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="partners_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; color: white">Partners</a>
-            </li>
-
-            <!-- PARTNERS -->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="partners_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; color: white">Partners</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" id="partners" href="{% url 'view_partners' %}">Partners</a>
-                        <a class="dropdown-item" id="partner_form" href="{% url 'partner_form' %}">Add Partners</a>
-    
-    
-                    </div>
-                </li>
-            </div>
-
-            <!-- VOLUNTEERS -->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="partners_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; color: white">Volunteers</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <!-- PLACE OTHER WEBPAGES HERE -->
-                    </div>
-                </li>
-            </div>
-
-
-        </ul>
 
     <!-- BLOCK -->
     {% block body %}
