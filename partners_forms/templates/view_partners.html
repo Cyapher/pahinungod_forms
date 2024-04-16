@@ -1,7 +1,7 @@
-{% extends 'base_partner.html' %}
+{% extends 'base_dashboard.html' %}
 {% load static %}
 
-{% block content %}
+{% block body %}
 
 <style>
     table {
@@ -11,9 +11,13 @@
 
 </style>
 
-<div class="d-flex justify-content-center">
-    <table rules="all" class="table table-bordered table-striped d-flex-col justify-content-center border">
+<h1 style="margin: auto; text-align: center;"> Partners List  </h1>
 
+<br>
+
+<div class="d-flex justify-content-center">
+
+    <table rules="all" class="table table-bordered table-striped d-flex-col justify-content-center border">
         {% if partners %}
         <thead>
             <th>Stakeholder Name</th>
@@ -25,7 +29,6 @@
         </thead>
         {% endif %}
 
-    
         <tbody>
             {% for partner in partners %}
     
