@@ -9,7 +9,7 @@ from django.conf import settings
 # Create your models here.
     
 # FOR PARTNER TYPE
-class Type_obj(models.Model):
+class Type(models.Model):
     type_code = models.CharField(max_length=5)
     type_of_partnership = models.CharField(max_length=64)
 
@@ -17,7 +17,7 @@ class Type_obj(models.Model):
         if self.type_code:
             self.type_code = self.type_code.upper()
 
-        super(Type_obj, self).save(*args, **kwargs)
+        super(Type, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.type_code} : {self.type_of_partnership}"
@@ -111,7 +111,7 @@ class Partner(models.Model):
                                     blank=True,)
     
     # Extra Fields
-    type_of_partnership = models.ManyToManyField(Type_obj, blank=True)
+    type_of_partnership = models.ManyToManyField(Type, blank=True)
     # scope_of_work = models.ManyToManyField(Scope_of_work, blank=True)
 
     # Date Field
@@ -125,7 +125,7 @@ class Partner(models.Model):
         return f"{self.partner_name}"
 
 # FOR FILES
-class Files_obj(models.Model):
+class File(models.Model):
     # File Field
     file_field = models.FileField(upload_to="partners_forms/static/partner_requirements") # upload to where?
     file_name = models.CharField(max_length=64,blank=True,null=True)
@@ -135,4 +135,4 @@ class Files_obj(models.Model):
         if self.file_field:
             self.file_name = os.path.basename(self.file_field.name)
 
-        super(Files_obj, self).save(*args, **kwargs)
+        super(File, self).save(*args, **kwargs)

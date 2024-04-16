@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Select, ClearableFileInput
-from .models import Partner, Scope_of_work, Type_obj, Files_obj
+from .models import Partner, Scope_of_work, Type, File
 from django import forms
 
 class PartnerForm(ModelForm):
@@ -44,7 +44,7 @@ class PartnerForm(ModelForm):
 
 class Type_of_partnerForm(ModelForm):
     class Meta:
-        model = Type_obj
+        model = Type
         fields = '__all__'
 
     placeholders = {
@@ -67,7 +67,7 @@ class Type_of_partnerForm(ModelForm):
 
 class FilesForm(ModelForm):
     class Meta:
-        model = Files_obj
+        model = File
         fields = ['file_field']
 
 

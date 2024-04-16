@@ -11,21 +11,34 @@
 
 </style>
 
-<h1 style="margin: auto; text-align: center;"> Partners List  </h1>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <h1 class="mx-5" style="margin: auto;"> Partners  </h1>
+
+        <!-- SEARCH -->
+        <form class="d-flex mx-5" action="{% url 'filterPartners' %}">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="search" aria-label="Search" name="q">
+            <button class="btn" type="submit">Search</button>
+        </form>
+    </div>
+    
+
+</nav>
 
 <br>
 
-<div class="d-flex justify-content-center">
+<div class="table-responsive d-flex justify-content-center">
 
     <table rules="all" class="table table-bordered table-striped d-flex-col justify-content-center border">
         {% if partners %}
         <thead>
-            <th>Stakeholder Name</th>
-            <th>Title of Partnership/Linkage</th>
-            <th>Stakeholder Category</th>
-            <th>Type of Partnership</th>
-            <th>Stakeholder Files</th>
-            <th></th>
+            <th class="align-baseline">Stakeholder Name</th>
+            <th class="align-baseline">Title of Partnership/Linkage</th>
+            <th class="align-baseline">Stakeholder Category</th>
+            <th class="align-baseline">Type of Partnership</th>
+            <th class="align-baseline">Stakeholder Files</th>
+            <th class="align-baseline">Actions</th>
         </thead>
         {% endif %}
 

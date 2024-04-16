@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from partners_forms.forms import PartnerForm, Type_of_partnerForm, FilesForm
-from .models import Partner, Scope_of_work, Type_obj, Files_obj
+from .models import Partner, Scope_of_work, Type, File
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 import os
@@ -17,7 +17,7 @@ def view_partners(request):
     partners = Partner.objects.all()
     
     for partner in partners:
-        files = Files_obj.objects.filter(partner=partner)
+        files = File.objects.filter(partner=partner)
         partners_list[partner] = files
 
     print(f'partners list: {partners_list}')
@@ -31,7 +31,7 @@ def partner_form(request): # toPartnerForm Questionnairre
     return render(request, "partners_forms.html", {'form' : PartnerForm(), 'file_form': FilesForm(),'scope_of_work_choices': scope_of_work_choices})
 
 def type_partner_form(request): # toTypePartnerForm Questionnairre
-    types = Type_obj.objects.all()
+    types = Type.objects.all()
     return render(request, "type_of_partnership_form.html", {'types': types,'form': Type_of_partnerForm()})
 
 # TYPE OF PARTNERSHIP ================================================================================================================
@@ -47,18 +47,18 @@ def add_type(request):
 
 def del_type(request, type_id):
     if request.method == 'POST':
-        to_delete = Type_obj.objects.get(pk=type_id)
+        to_delete = Type.objects.get(pk=type_id)
         to_delete.delete()
         # return HttpResponseRedirect(reverse('type_partner_form'))
         return redirect('type_partner_form')
     
 def upd_type(request, type_id):
     # print(type_id)
-    to_update = Type_obj.objects.get(pk=type_id)
+    to_update = Type.objects.get(pk=type_id)
     # print(to_update)
     type_form = Type_of_partnerForm(request.POST or None, instance=to_update) # fields
     # print(type_form)
-    all_types = Type_obj.objects.all()
+    all_types = Type.objects.all()
 
     if request.method == 'POST':
         if type_form.is_valid():
@@ -89,7 +89,7 @@ def add_partner(request):
                 if files_form.is_valid():
                     file_instance = files_form.save()
 
-                form_that_save = Files_obj.objects.get(pk=file_instance.id)
+                form_that_save = File.objects.get(pk=file_instance.id)
                 form_that_save.partner = partner_instance
                 form_that_save.save()
             
@@ -162,6 +162,22 @@ def upd_partner(request, partner_id):
 
         # Render the form again with error messages
         return render(request, 'update_partners.html', {'partner': to_update, 'form': form})
+
+def filterPartners(request):
+    query = request.GET.get('q')
+    print(f'query: {query}')
+
+    partners = Partner.objects.all()
+    partners_list = {}
+
+    for partner in partners:
+        files = File.objects.filter(partner=partner)
+        partners_list[partner] = files
+
+    # Search Partners
+    partners = partners.filter(partner_name__contains=query)
+    
+    return render(request, "view_partners.html", {'partners': partners, 'partners_list' : partners_list})
 
 # MISC. ================================================================================================================
 
