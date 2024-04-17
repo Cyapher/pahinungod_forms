@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <style>
+        /* Basic styling */
+
+        table {
+            table-layout:auto;
+            max-width: 80%;
+        }
+
+        .card_set {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+        }
+
+        .card {
+            width: calc(33.33% - 20px); /* Adjust for margins */
+            margin: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 768px) {
+            .card {
+                width: calc(100% - 20px); /* Adjust for margins */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: calc(100%); /* Adjust for margins */
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="card_set">
+        <div class="card">
+            <div class="card-content" align="center">
+                <h1 class="display-6" align="center"> Volunteer Metrics</h1>
+                <div class="table-responsive w-75">
+                    <table class="table table-bordered border-dark">
+                        <tr>
+                            <td><strong>Active Volunteers</strong></td>
+                            <td>{{ volunteers | length }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-content" align="center">
+                
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-content">
+                Card Content 3
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-content">
+                Card Content 4
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-content">
+                Card Content 5
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-content">
+                Card Content 6
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

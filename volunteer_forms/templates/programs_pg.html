@@ -9,7 +9,7 @@
     }
 
     .btn_width {
-        width: 50px;
+        width: 80px;
     }
 
     .button-grid {
@@ -25,7 +25,7 @@
     }
 
     .btn_width_act {
-        width: 50px;
+        width: 80px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -72,8 +72,10 @@
                     </strong>
                     <br>
                     {{ program.description }}
+                    <br>
+                    {{ program.program_img.path }}
                 </td>
-                <td align="center">
+                <td align="center" style="width: 100px;">
                     <!-- Edit -->
                     <form action="{% url 'edit_program' program.id %}">
                         {% csrf_token %}
