@@ -136,3 +136,10 @@ class File(models.Model):
             self.file_name = os.path.basename(self.file_field.name)
 
         super(File, self).save(*args, **kwargs)
+
+    def delete_file(self, *args, **kwargs):
+        path = "./partners_forms/static/partner_requirements/" + self.file_name
+        print(f'filename: {path}')
+
+        os.remove(path)
+        super(File, self).delete(*args, **kwargs)
