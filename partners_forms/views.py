@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from partners_forms.forms import PartnerForm, Type_of_partnerForm, FilesForm
-from .models import Partner, Scope_of_work, Type_obj, Files_obj
+from .models import Partner, Scope_of_work, Type, File
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 import os
@@ -17,7 +17,7 @@ def view_partners(request):
     partners = Partner.objects.all()
     
     for partner in partners:
-        files = Files_obj.objects.filter(partner=partner)
+        files = File.objects.filter(partner=partner)
         partners_list[partner] = files
 
     print(f'partners list: {partners_list}')
@@ -31,7 +31,7 @@ def partner_form(request): # toPartnerForm Questionnairre
     return render(request, "partners_forms.html", {'form' : PartnerForm(), 'file_form': FilesForm(),'scope_of_work_choices': scope_of_work_choices})
 
 def type_partner_form(request): # toTypePartnerForm Questionnairre
-    types = Type_obj.objects.all()
+    types = Type.objects.all()
     return render(request, "type_of_partnership_form.html", {'types': types,'form': Type_of_partnerForm()})
 
 # TYPE OF PARTNERSHIP ================================================================================================================
@@ -47,18 +47,18 @@ def add_type(request):
 
 def del_type(request, type_id):
     if request.method == 'POST':
-        to_delete = Type_obj.objects.get(pk=type_id)
+        to_delete = Type.objects.get(pk=type_id)
         to_delete.delete()
         # return HttpResponseRedirect(reverse('type_partner_form'))
         return redirect('type_partner_form')
     
 def upd_type(request, type_id):
     # print(type_id)
-    to_update = Type_obj.objects.get(pk=type_id)
+    to_update = Type.objects.get(pk=type_id)
     # print(to_update)
     type_form = Type_of_partnerForm(request.POST or None, instance=to_update) # fields
     # print(type_form)
-    all_types = Type_obj.objects.all()
+    all_types = Type.objects.all()
 
     if request.method == 'POST':
         if type_form.is_valid():
@@ -85,31 +85,14 @@ def add_partner(request):
             for fi in uploaded_files:
                 file_dict = {'file_field': fi}
 
-                files_form = FilesForm(request.POST,file_dict)
+                files_form = FilesForm(request.POST, file_dict)
                 if files_form.is_valid():
                     file_instance = files_form.save()
 
-                form_that_save = Files_obj.objects.get(pk=file_instance.id)
+                form_that_save = File.objects.get(pk=file_instance.id)
                 form_that_save.partner = partner_instance
                 form_that_save.save()
-            
-            # if files_form.is_valid():
-            #     print('files valid')
-            #     # files_form.partner = partner_instance
-            #     # print(f'new partner: {files_form.partner}')
-            #     files_form.save()
-            # else:
-            #     print('files not valid')
-            #     print(files_form.cleaned_data)  # Print cleaned form data
-
-            #     for field, errors in files_form.errors.items():
-            #         # Print error messages for each field
-            #         for error in errors:
-            #             print(f"Field '{field}': {error}")
-
-            #     # Form is not valid, render the form again with error messages
-            #     return render(request, 'partners_forms.html', {'form': form, 'file_form': files_form})
-            
+        
         else:
             print('partner not valid')
             print(form.cleaned_data)  # Print cleaned form data
@@ -129,39 +112,91 @@ def add_partner(request):
         files_form = FilesForm()
 
     return render(request, 'partners_forms.html', {'form': form, 'file_form': files_form})
-            
+
+def upd_partner(request, partner_id):
+    # Instances
+    to_update = Partner.objects.get(pk=partner_id) # Partner Instance
+    # print(f'to update: {partner_id}')
+    uploaded_files = File.objects.filter(partner=to_update) # Files Instance
+    # print(f'to update: {uploaded_files}')
+    updated_files = request.FILES.getlist('file_field')
+    print(f'updated files: {updated_files}')
+
+    # If ok ung mga fields
+    if request.method == 'POST':
+        # Forms
+        form = PartnerForm(request.POST or None, instance=to_update) # Partner Form
+        # files_form = FilesForm(request.POST or None, instance=uploaded_files)
+
+        if form.is_valid():
+            print('partner valid')
+            partner_instance = form.save()
+            partner_instance = Partner.objects.get(pk=partner_instance.id)
+            # print(f'partner instance: {partner_instance.id}')
+
+            # Delete Document
+            for file in uploaded_files:
+                # file.delete()
+                file.delete_file()
+
+            # Update
+            for fi in updated_files:
+                # Dictionary of files
+                file_dict = {'file_field': fi}
+
+                files_form = FilesForm(request.POST or None, file_dict)
+                if files_form.is_valid():
+                    print('files is valid')
+                    file_instance = files_form.save()
+                    print(f'file instance: {file_instance}')
+                else:
+                    print(f'File form errors: {files_form.errors}')
+                
+                form_that_save = File.objects.get(pk=file_instance.id)
+                form_that_save.partner = to_update
+                form_that_save.save()
+
+            return HttpResponseRedirect(reverse('view_partners'))
+    
+    # If papunta sa form
+    else:
+        form = PartnerForm(instance=to_update) # fields
+        files_form = FilesForm(request.POST or None, request.FILES)
+
+        # Render the form again with error messages
+        return render(request, 'update_partners.html', {'partner': to_update, 'form': form, 'file_form': files_form})
+
 def del_partner(request, partner_id):
     if request.method == 'POST':
         to_delete = Partner.objects.get(pk=partner_id)
+        files = File.objects.filter(partner=to_delete)
+        print(f'Files List: {files}')
+
+        # Delete Document
+        for file in files:
+            # file.delete()
+            file.delete_file()
+
+        # Delete Partner
         to_delete.delete()
+
         return redirect('view_partners')
 
-def upd_partner(request, partner_id):
-    to_update = Partner.objects.get(pk=partner_id)
-    # to_update_files = Files_obj.objects.get(pk=)
+def filterPartners(request):
+    query = request.GET.get('q')
+    print(f'query: {query}')
 
-    if request.method == 'POST':
+    partners = Partner.objects.all()
+    partners_list = {}
 
-        if form.is_valid():
-            print('partner is valid')
+    for partner in partners:
+        files = File.objects.filter(partner=partner)
+        partners_list[partner] = files
 
-            storage = FileSystemStorage(location='partner_requirements/')
-
-            form.save()
-            return redirect('add_partner')
-    else:
-        print('partner not valid')
-        form = PartnerForm(instance=to_update) # fields
-        # files_form = FilesForm(instance=uploaded_files)
-
-        # Form is not valid, print error messages
-        for field, errors in form.errors.items():
-            # Print error messages for each field
-            for error in errors:
-                print(f"Field '{field}': {error}")
-
-        # Render the form again with error messages
-        return render(request, 'update_partners.html', {'partner': to_update, 'form': form})
+    # Search Partners
+    partners = partners.filter(partner_name__contains=query)
+    
+    return render(request, "view_partners.html", {'partners': partners, 'partners_list' : partners_list})
 
 # MISC. ================================================================================================================
 

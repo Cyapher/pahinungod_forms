@@ -8,11 +8,16 @@ urlpatterns = [
     # PARTNERS
     path('view_partners/', views.view_partners, name='view_partners'),
     path('partner_form/', views.partner_form, name='partner_form'),
+
+    ## CRUD
     path('add_partner/', views.add_partner, name='add_partner'),
     path('del_partner/<int:partner_id>', views.del_partner, name='del_partner'),
     path('upd_partner/<int:partner_id>', views.upd_partner, name='upd_partner'),
+
+    ## Other Func.
     path('get_second_category_options/', views.get_second_category_options , name='get_second_category_options'),
-    
+    path('filter/', views.filterPartners , name='filterPartners'),
+
     # TYPE OF PARTNERS
     path('type_form/', views.type_partner_form, name='type_partner_form'),
     path('add_type/', views.add_type, name='add_type'),
