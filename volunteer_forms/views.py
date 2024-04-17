@@ -1,10 +1,12 @@
 import logging
+import os
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.db.models import Q
 from django.core.paginator import Paginator
 
+from pahinungod_forms import settings
 from volunteer_forms.models import Volunteer, Program
 from .forms import VolunteerForm, ProgramForm
 
@@ -180,20 +182,43 @@ def updateProgram(request, program_id):
     program = Program.objects.get(pk=program_id)
 
     if request.method == 'POST':
-        form = ProgramForm(request.POST, request.FILES, instance=program)
+        form = ProgramForm(request.POST, request.FILES)
 
         if form.is_valid():
-            form.save()
+            # If a new image is uploaded, update the program_img field
+            program_img = request.FILES.get("program_img")
+            if program_img:
+                # Get the relative path of the previous image
+                previous_image_path = program.program_img.path.replace(program.program_img.name, "volunteer_forms\\static\\" + program.program_img.name) if program.program_img else None
+                print(previous_image_path)
 
-            return redirect('programs')
+                # Save the form to update other fields
+                # program = form.save(commit=False)
+
+                # Delete the previous image file if it exists
+                if previous_image_path:
+                    # if os.path.exists(previous_image_path):
+                    os.remove(previous_image_path)
+
+                # Save the new image path to the program instance
+                form.program_img = program_img
+                program.delete()
+                form.save()
+
+            return redirect('programs')  # Redirect to the programs list view
     else:
         form = ProgramForm(instance=program)
-        programs = Program.objects.all()
-        return render(request, "edit_program.html", {"form" : form, "programs" : programs, "program" : program})
+        return render(request, "edit_program.html", {"form": form, "program": program})
+
     
 def delProgram(request, program_id):
     program = Program.objects.get(pk=program_id)
-    program.delete()
+
+    previous_image_path = program.program_img.path.replace(program.program_img.name, "volunteer_forms\\static\\" + program.program_img.name) if program.program_img else None
+    
+    if previous_image_path:
+        os.remove(previous_image_path)
+        program.delete()
 
     return redirect('programs')
 
