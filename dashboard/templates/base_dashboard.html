@@ -25,9 +25,9 @@
 <body>
     <!-- HEADER -->
     <div class="mb-6" style="background-color: #7B0100;">
-        <a href="{% url 'dashboard' %}" class="d-flex align-items-center" style="text-decoration: none; color: white">
-            <img src="{% static 'partners_forms/media/admin_icon.png' %}" alt="Admin Icon" class="img" style="background-color: #7B0100;">
-            <h1 class="h1">Admin Dashboard</h1>
+        <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration: none; color: white">
+            <img src="{% static 'partners_forms/media/admin_icon.png' %}" alt="Admin Icon" class="img my-2 mx-2" style="background-color: #7B0100; max-width: 80px;">
+            <h1 class="display-5 mx-1 my-1">Admin Dashboard</h1>
         </a>
     </div>
 
@@ -73,15 +73,19 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li>
-                                <!-- PLACE OTHER WEBPAGES HERE -->
+                                <a class="dropdown-item" href="{% url 'home_vol' %}">Volunteer Home Page</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'list' %}">Volunteer List</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'programs' %}">Programs List</a>
                             </li>
                         </ul>
                     </li>
                 </ul>
-                
             </div>
         </div>
-        
     </nav>
 
     <!-- BLOCK -->

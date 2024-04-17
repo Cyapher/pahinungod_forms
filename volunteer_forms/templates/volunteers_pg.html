@@ -1,16 +1,8 @@
-{% extends 'baseVolunteer.html' %}
+{% extends 'base_dashboard.html' %}
 
 {% block body %}
 
 <style>
-
-    body {
-        zoom: 90%;
-    }
-
-    th {
-        width: 100%;
-    }
 
     #navigation {
         background-color: #7B0100;
@@ -53,6 +45,7 @@
 
     table {
         table-layout:auto;
+        max-width: 80%;
     }
     
 
@@ -79,11 +72,6 @@
     overflow-y: auto;
   } 
 
-  .programWidth {
-    width:20%;
-    max-width: 20px;
-  }
-
   .dateFilter-block {
     width: 100%;
     max-width: 200px;
@@ -100,72 +88,88 @@
 
 </style>
 
-    {% include 'navbar_temp.html' with show_vform=True show_programs=True show_search=True admin=True %}
-
-    <div class="collapse" id="navbarToggleExternalContent" style="width: 100%;">
+      <div class="collapse" id="navbarToggleExternalContent" style="width: 110%;">
         <div class="p-4">
             <nav id="filterRow" class="navbar navbar-expand-lg">
                 <div class="container">
-                    <form class="d-flex" action="{% url 'filter_date' %}">
-                    <span class="navbar-text">Start</span>
-                    <input name="start" class="form-control me-6 mx-2" type="date" class="form-control" placeholder="mm/dd/yyyy">
-                    <span class="navbar-text">End</span>
-                    <input name="end" class="form-control me-6 mx-2" type="date" class="form-control" placeholder="mm/dd/yyyy">
-                    <input class="btn btn-dark" type="submit" value="Filter Date Range">
-                    </form>
-                    <form class="d-flex" action="{% url 'sort' %}" method="get">
+                    <form class="d-flex" action="{% url 'filter_vol' %}" method="get">
+                        {% if request.GET.start %}
+                        <input name="start" class="form-control me-6 mx-2" type="date" placeholder="mm/dd/yyyy" value="{{ request.GET.start }}">
+                        {% else %}
+                        <input name="start" class="form-control me-6 mx-2" type="date" placeholder="mm/dd/yyyy">
+                        {% endif %}
+                        {% if request.GET.end %}
+                        <input name="end" class="form-control me-6 mx-2" type="date" placeholder="mm/dd/yyyy" value="{{ request.GET.end }}">
+                        {% else %}
+                        <input name="end" class="form-control me-6 mx-2" type="date" placeholder="mm/dd/yyyy">
+                        {% endif %}
+                        <button type="submit" class="btn btn-dark" style="width: 140%;">
+                            Filter Date Range  <i class="fa-regular fa-calendar"></i>
+                        </button>
                         <select class="form-select me-6 mx-2" name="column">
-                            <option selected>Column</option>
-                            <option value="first_name">Name</option>
-                            <option value="customStartDate">Start Date</option>
-                            <option value="occupation">Occupation</option>
+                            <option {% if request.GET.column == 'first_name' %}selected{% endif %} value="first_name">Name</option>
+                            <option {% if request.GET.column == 'customStartDate' %}selected{% endif %} value="customStartDate">Start Date</option>
+                            <option {% if request.GET.column == 'occupation' %}selected{% endif %} value="occupation">Occupation</option>
                         </select>
                         <select class="form-select me-6 mx-2" name="order">
-                            <option selected>Order</option>
-                            <option value="asc">A-Z/Old-New</option>
-                            <option value="des">Z-A/New-Old</option>
+                            <option {% if request.GET.order == 'asc' %}selected{% endif %} value="asc">A-Z/Old-New</option>
+                            <option {% if request.GET.order == 'des' %}selected{% endif %} value="des">Z-A/New-Old</option>
                         </select>
-                        <input class="btn btn-dark" type="submit" value="Sort">
-                    </form>
-                    <form class="d-flex" action="{% url 'search' %}">
-                    <input name="q" class="form-control me-6 mx-2" type="search" placeholder="Search" aria-label="Search">
-                    <input class="btn btn-dark" type="submit" value="Search">
+                        <button type="submit" class="btn btn-dark" style="width: 100%;">
+                            Sort  <i class="fa-solid fa-sort"></i>
+                        </button>
+                        {% if request.GET.q %}
+                        <input name="q" class="form-control me-6 mx-2" type="search" placeholder="Search" aria-label="Search" value="{{ request.GET.q }}" style="width: 140%;">
+                        {% else %}
+                        <input name="q" class="form-control me-6 mx-2" type="search" placeholder="Search" aria-label="Search" style="width: 140%;">
+                        {% endif %}
+                        <button type="submit" class="btn btn-dark" style="width: 100%;">
+                            Search  <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
                     </form>
                 </div>
             </nav>
         </div>
-      </div>
-      <nav class="navbar">
-        <div class="container-fluid">
+    </div>
+    
+    
+
+      <nav class="navbar navbar-expand">
+        <div class="container-fluid justify-content-between">
           <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-label="Toggle navigation">
             Sort/Filter
           </button>
+          <form action="{% url 'list' %}">
+              <input class="btn btn-dark" type="submit" value="Reset Filters">
+          </form>
         </div>
       </nav>
+      
 
 
   <br>
   {% if volunteers %}
-  <div align="center">
-    <table id="volunteer_list" class="table table-bordered w-75">
+  <!-- default -->
+  <div class="table-responsive">
+    <table id="volunteer_list" class="table table-bordered" align="center">
         <thead class="table-light border-dark">
-            <th style="width: 15%; max-width: 10px;">Name</th>
-            <th style="width: 35%; max-width: 250px;">Specific Information</th>
-            <th class="programWidth">Programs</th>
-            <th style="width: 10%; max-width: 10px;">Start Date</th>
-            <th style="width: 5%; max-width: 10px;">Occupation</th>
-            <th style="text-align: center;">Actions</th>
+            <th>Name</th>
+            <th>Specific Information</th>
+            <th>Programs</th>
+            <th>Start Date</th>
+            <th>Occupation</th>
+            <th>Actions</th>
 
         </thead>
         <tbody id="accordionExample" class="border-dark">
             {% for volunteer in volunteers %}
             <tr>
-                <td style="width: 15%; max-width: 10px; word-break: break-word;">
+                <td class="text-wrap">
                     <strong>
                         {{volunteer.first_name}} {{volunteer.last_name}}
                     </strong>
                 </td>
-                <td style="width: 35%; max-width: 250px;">
+                <td>
                     <div class="accordion my-3">
                         <div class="">
                             <h2 class="accordion-header" id="heading{{ forloop.counter }}">
@@ -209,7 +213,7 @@
                         </div>
                     </div>
                 </td>
-                <td class="programWidth">
+                <td>
                     {% for program in volunteer.programs.all %}
                                 <strong>
                                     <li>
@@ -218,10 +222,10 @@
                                 </strong>
                     {% endfor %}   
                 </td>
-                <td style="width: 10%; max-width: 10px;">
+                <td>
                     {{ volunteer.customStartDate }}
                 </td>
-                <td style="width: 10%; max-width: 10px;">
+                <td>
                     {% if volunteer.occupation == "Other" %}
                     
                     {{ volunteer.otherOccu }}
@@ -237,12 +241,10 @@
                     <h2>
                         <div class="my-5">
                             <form action="{% url 'edit' volunteer.id %}" style="margin-bottom: 5px;">
-                                {% csrf_token %}
                                 <input type="submit" class="btn btn-outline-secondary btn-sm btn_width_act" value="Edit">
                             </form>
                         <!-- Delete -->
                             <form action="{% url 'del_volunteer' volunteer.id %}">
-                                {% csrf_token %}
                                 <input type="submit" class="btn btn-outline-danger btn-sm btn_width_act" value="Delete" onclick="return confirm('Are you sure?');" style="transform: translateY(10px);">
                             </form>
                         </div>
@@ -253,13 +255,55 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
+    
+    <div class="container text-center mt-3">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if volunteers.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="First">
+                            <span aria-hidden="true">&laquo; First</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ volunteers.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&lsaquo; Previous</span>
+                        </a>
+                    </li>
+                {% endif %}
+    
+                <li class="page-item disabled">
+                    <span class="page-link">
+                        Page {{ volunteers.number }} of {{ volunteers.paginator.num_pages }}.
+                    </span>
+                </li>
+    
+                {% if volunteers.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ volunteers.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">Next &rsaquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ volunteers.paginator.num_pages }}" aria-label="Last">
+                            <span aria-hidden="true">Last &raquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <p class="mt-3">Showing {{ volunteers.start_index }} - {{ volunteers.end_index }} out of {{ volunteers.paginator.count }} rows</p>
     </div>
+
 {% else %}
 
-<h2 class="display-2" align="center">No entries.</h2>
-<h6 class="display-6" align="center">lmao</h6>
+    <h2 class="display-2" align="center">No entries.</h2>
+    <h6 class="display-6" align="center">lmao</h6>
 
 {% endif %}
+
+
 
 <script>    
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
