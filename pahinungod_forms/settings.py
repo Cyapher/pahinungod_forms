@@ -147,22 +147,6 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
 
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         'SCOPE' : [
-#             'profile',
-#             'email'
-#         ],
-#         'APP': {
-#             'client_id': '157732665861-b6gntvopmi3bjb55g7upglt0ljllk47s.apps.googleusercontent.com',
-#             'secret': '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',
-#         },
-#         'AUTH_PARAMS': {
-#             'access_type':'online',
-#         }
-#     }
-# }
-
 SITE_ID = 2
 
 LOGIN_REDIRECT_URL = '/dashboard/pahinungod_home'
