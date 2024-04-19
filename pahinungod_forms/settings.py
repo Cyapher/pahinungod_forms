@@ -50,7 +50,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_bootstrap4',
-    'crispy_forms'
+    'crispy_forms',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google'
 ]
 
 MIDDLEWARE = [
@@ -61,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'pahinungod_forms.urls'
@@ -135,3 +141,29 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'SCOPE' : [
+#             'profile',
+#             'email'
+#         ],
+#         'APP': {
+#             'client_id': '157732665861-b6gntvopmi3bjb55g7upglt0ljllk47s.apps.googleusercontent.com',
+#             'secret': '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',
+#         },
+#         'AUTH_PARAMS': {
+#             'access_type':'online',
+#         }
+#     }
+# }
+
+SITE_ID = 2
+
+LOGIN_REDIRECT_URL = '/dashboard/pahinungod_home'
+LOGOUT_REDIRECT_URL = '/dashboard/pahinungod_home'

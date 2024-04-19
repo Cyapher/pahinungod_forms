@@ -518,9 +518,9 @@
             {% for program in programs %}
             <div class="col-md-4 mb-4">
               <div class="card h-100 d-flex flex-column">
-                <div class="card-body" onclick="toggleCheckbox('program{{ program.id }}')">
+                <div class="card-body" onclick="toggleCheckbox('program{{ program.id }}')" {% if program in volunteer.programs.all %} style="background-color: #cbe5cb" {% endif %}>
                   <img src="..{{ program.program_img.url }}" class="img-fluid image_mat">
-                  <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}" hidden>
+                  <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}" {% if program in volunteer.programs.all %}checked{% endif %} hidden>
                   <h5 class="card-title">{{ program.code }}</h5>
                   <h6 class="card-subtitle mb-2 text-muted">{{ program.name }}</h6>
                   {{ program.description }}
