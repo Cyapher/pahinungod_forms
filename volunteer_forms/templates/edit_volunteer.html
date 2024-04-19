@@ -519,7 +519,7 @@
             <div class="col-md-4 mb-4">
               <div class="card h-100 d-flex flex-column">
                 <div class="card-body" onclick="toggleCheckbox('program{{ program.id }}')">
-                  <img src="{{ program.program_img.url }}" class="img-fluid image_mat" hidden>
+                  <img src="..{{ program.program_img.url }}" class="img-fluid image_mat">
                   <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}" hidden>
                   <h5 class="card-title">{{ program.code }}</h5>
                   <h6 class="card-subtitle mb-2 text-muted">{{ program.name }}</h6>
