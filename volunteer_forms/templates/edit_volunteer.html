@@ -4,38 +4,7 @@
 
 <style>
 
-    body {
-        width: 100%;
-        height: 100%;
-        margin: 0px;
-        padding: 0px;
-        overflow-x: hidden; 
-    }
-
-    td, th {
-        padding: 10%;
-    }
-
-    textarea {
-        max-height: 100px;
-        resize: none;
-    }
-
-    #multi_col {
-        padding-left: 1%;
-
-    }
-    
-    .extra_form {
-        margin-top: 1%;
-    }
-
-    #navigation {
-        background-color: #7B0100;
-        width: 100%;
-    }
-
-    .popup-container {
+.popup-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -49,20 +18,23 @@
     width: calc(50% - 15px);
     height: calc(100% - 30px);
     /* background-color: rgba(0, 0, 0, 0.5); */
-    background-color:#ffffff;
+    background-color: #ffffff;
     /* color: white; */
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
-    border: 2px solid #000000;
+    border-radius: 15px;
+    border: 4px solid #000000;
     margin: 15px;
-    overflow: auto;
+    overflow: hidden;
   }
 
   .popup-content {
+    height: calc(100% - 30px);
     padding: 20px;
     text-align: center;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   textarea {
@@ -71,35 +43,43 @@
   }
 
   .card {
-  display: flex;
-  flex-direction: column;
-}
+    display: flex;
+    flex-direction: column;
+    border-color: #000000;
+    border-width: 2px;
+  }
 
-.card-body {
-  flex-grow: 1;
-}
+  .card-body {
+    flex-grow: 1;
+  }
 
+  .home_body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image_mat {
+    border: 3px solid black;
+  }
+
+  .card-body:hover {
+        background-color: #f0f0f0;
+        cursor: pointer;
+  }
 
 </style>
 
-{% include 'navbar_temp.html' with show_vform=False show_programs=False show_search=False %}
-
-<br>
 
 {% load widget_tweaks %}
-  <form id="full_form" action="{% url 'add' %}" method="post">
+<div id="full_form">
+  <form method="post">
     {% csrf_token %}
     <div id="signup_form" class="popup-container">
       <div class="popup" id="popup1">
         <div class="popup-content container-fluid">
-
-          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-          <br><br><br><br><br><br><br><br><br><br><br><br>
-          
-          <br>
-          <br>
           <table class="table table-bordered border-dark">
-              <h5 class="h5">Volunteer Information</h5>
+            <h5 class="h5">Volunteer Information</h5>
             <tbody>
               <tr>
                 <td>
@@ -178,7 +158,7 @@
             </tbody>
           </table>
 
-          <table class="table table-sm table-bordered border-dark">
+          <table class="w-75 table table-sm table-bordered border-dark" align="center">
             <thead>
               <tr>
                 <td for="alumni_check">
@@ -190,15 +170,15 @@
             <tbody>
               <tr>
                 <td id="alumni_div" style="display: none;">
-                  <div>
                     {% for field in v_form %}
 
                     {% if field.name in alumnusFields %}
 
                     <div class="fieldWrapper">
 
-                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Constituent
-                        Unit</label>
+                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">
+                        Constituent Unit
+                      </label>
                       {{ field }}
 
                     </div>
@@ -206,13 +186,12 @@
                     {% endif %}
 
                     {% endfor %}
-                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
 
-          <table class="table table-sm table-bordered border-dark">
+          <table class="w-75 table table-sm table-bordered border-dark" align="center">
             <thead>
               <tr>
                 <td>
@@ -224,7 +203,6 @@
             <tbody>
               <tr>
                 <td id="pgh_div" style="display: none;">
-                  <div>
                     {% for field in v_form %}
 
                     {% if field.name in pghFields %}
@@ -240,13 +218,12 @@
                     {% endif %}
 
                     {% endfor %}
-                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
 
-          <table class="table table-sm table-bordered border-dark">
+          <table class="w-75 table table-sm table-bordered border-dark" align="center">
             <thead>
               <tr>
                 <td>
@@ -258,13 +235,12 @@
             <tbody>
               <tr>
                 <td id="work_div" style="display: none;">
-                  <div>
                     {% for field in v_form %}
 
                     {% if field.name in workFields %}
 
                     {% if field.name == "occupation" %}
-                    <div class="fieldWrapper">
+                    <div class="fieldWrapper mb-4">
 
                       <label id="multi_col" for="{{ field.id_for_label }}"
                         class="form-label extra_form">Occupation</label>
@@ -287,13 +263,12 @@
                     {% endif %}
 
                     {% endfor %}
-                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
 
-          <table class="table table-sm table-bordered border-dark">
+          <table class="w-75 table table-sm table-bordered border-dark" align="center">
             <thead>
               <tr>
                 <td>
@@ -305,13 +280,12 @@
             <tbody>
               <tr>
                 <td id="license_div" style="display: none;">
-                  <div>
                     {% for field in v_form %}
 
                     {% if field.name in licenseFields %}
 
                     {% if field.name == "prcLicense" %}
-                    <div class="fieldWrapper">
+                    <div class="fieldWrapper mb-4">
 
                       <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">PRC License
                         #</label>
@@ -321,7 +295,7 @@
                     {% endif %}
 
                     {% if field.name == "dept" %}
-                    <div class="fieldWrapper">
+                    <div class="fieldWrapper mb-4">
 
                       <label id="multi_col" for="{{ field.id_for_label }}"
                         class="form-label extra_form">Department</label>
@@ -331,7 +305,7 @@
                     {% endif %}
 
                     {% if field.name == "company" %}
-                    <div class="fieldWrapper">
+                    <div class="fieldWrapper mb-4">
 
                       <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Company</label>
                       {{ field }}
@@ -340,7 +314,7 @@
                     {% endif %}
 
                     {% if field.name == "officeAdd" %}
-                    <div class="fieldWrapper">
+                    <div class="fieldWrapper mb-4">
 
                       <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office
                         Address</label>
@@ -350,7 +324,7 @@
                     {% endif %}
 
                     {% if field.name == "license_telephone" %}
-                    <div class="fieldWrapper">
+                    <div class="fieldWrapper mb-4">
 
                       <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office
                         Telephone #</label>
@@ -360,7 +334,7 @@
                     {% endif %}
 
                     {% if field.name == "license_email" %}
-                    <div class="fieldWrapper">
+                    <div class="fieldWrapper mb-4">
 
                       <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office
                         Email</label>
@@ -382,13 +356,12 @@
                     {% endif %}
 
                     {% endfor %}
-                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
 
-          <table class="table table-sm table-bordered border-dark">
+          <table class="w-75 table table-sm table-bordered border-dark" align="center">
             <thead>
               <tr>
                 <td>
@@ -451,148 +424,123 @@
             </tbody>
           </table>
           <br>
-          <table class="container-fluid mx-2">
-            <tr>
-              <td>
-                <table class="table table-sm table-bordered border-dark">
-                  <div id="insuranceDiv">
-                    <tr>
+          <div class="container-fluid mx-2">
+            <div class="row">
+              <div class="col">
+                <table class="table">
                       <h5>Insurance Information</h5>
-                      <small>During Pahinungod activities within or OUTSIDE UP</small>
-                    </tr>
-                    <tbody>
                       <tr>
-                        <td>
-                          <div>
                             {% for field in v_form %}
-
                             {% if field.name in insuranceFields %}
-
                             {% if field.name == "beneficiaries" %}
                             <div class="fieldWrapper">
-
                               <label id="multi_col" for="{{ field.id_for_label }}"
                                 class="form-label">Beneficiaries</label>
                               {{ field }}
-
                             </div>
                             {% endif %}
-
                             {% if field.name == "relation" %}
                             <div class="fieldWrapper">
-
                               <label id="multi_col" for="{{ field.id_for_label }}"
                                 class="form-label extra_form">Relation</label>
                               {{ field }}
-
                             </div>
                             {% endif %}
-
                             {% if field.name == "contactNum" %}
                             <div class="fieldWrapper">
-
                               <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact
                                 #</label>
                               {{ field }}
-
                             </div>
                             {% endif %}
-
                             {% if field.name == "contactEmail" %}
                             <div class="fieldWrapper">
-
                               <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact
                                 Email</label>
                               {{ field }}
-
                             </div>
                             {% endif %}
-
                             {% endif %}
-
                             {% endfor %}
-                          </div>
-                        </td>
                       </tr>
-                    </tbody>
-                  </div>
                 </table>
-              </td>
-              <td>
-
-                <table class="table table-sm table-bordered border-dark">
+              </div>
+              <div class="col">
+                <table class="table">
                   <div id="dateDiv">
                     <tbody>
                       <tr>
-                        <h5>Start Date</h5>
+                        <h5>When can you start?</h5>
                       </tr>
                       <tr>
-                        <td>
                           <div>
                             {% for field in v_form %}
-
                             {% if field.name in dateFields %}
-
                             {% if field.name == "startDate" %}
                             <div class="fieldWrapper">
-
                               <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Start Date</label>
                               {{ field }}
-
                             </div>
                             {% endif %}
-
                             {% if field.name == "customStartDate" %}
                             <div class="fieldWrapper">
-
                               <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Other
                                 Start Date</label>
                               {% render_field field type="date" class="form-control" placeholder="mm/dd/yyyy" %}
-
-
                             </div>
                             {% endif %}
-
                             {% endif %}
-
                             {% endfor %}
                           </div>
-                        </td>
+                      </tr>
+                      <tr>
+                        <br><br><br>
+                        <input class="btn btn-lg btn-outline-success" type="submit" value="Confirm Details">
                       </tr>
                     </tbody>
                   </div>
                 </table>
-              </td>
-            </tr>
+              </div>
+            </div>
+          </div>
+
+          </td>
+          </tr>
           </table>
-          <input class="btn btn-outline-success" type="submit" value="Confirm Volunteer">
         </div>
       </div>
 
       <div class="popup" id="popup2" style="margin-left: -1px;">
         <div class="popup-content container-fluid">
+          <h5 class="h5">Select Programs</h5>
           <div class="row">
+          {% if programs %}
             {% for program in programs %}
-              <div class="col-md-4 mb-3">
-                <div class="card h-100 d-flex flex-column">
-                  <div class="card-body">
-                    <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}">
-                    <h5 class="card-title">{{ program.code }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ program.name }}</h6>
-                    <!-- Add your image here -->
-                    <!-- Example: <img src="{{ program.image.url }}" class="img-fluid"> -->
-                    <p class="card-text">==desc here==</p>
-                  </div>
+            <div class="col-md-4 mb-4">
+              <div class="card h-100 d-flex flex-column">
+                <div class="card-body" onclick="toggleCheckbox('program{{ program.id }}')">
+                  <img src="{{ program.program_img.url }}" class="img-fluid image_mat" hidden>
+                  <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}" hidden>
+                  <h5 class="card-title">{{ program.code }}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">{{ program.name }}</h6>
+                  {{ program.description }}
                 </div>
               </div>
-              {% if forloop.counter|divisibleby:3 and not forloop.last %}
-                </div><div class="row">
-              {% endif %}
+            </div>
+            {% if forloop.counter|divisibleby:3 and not forloop.last %}
+          </div>
+          <div class="row">
+            {% endif %}
             {% endfor %}
+            {% else %}
+            <h2 class="display-2" align="center">No programs.</h2>
+            <h6 class="display-6" align="center">lmao</h6>
+          {% endif %}
           </div>
         </div>
-      </div>      
-    </form>
+      </div>
+  </form>
+</div>
 
 <script>
 
@@ -713,11 +661,28 @@
         });
     }
 
-    document.getElementById("vol_form").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
+    document.getElementById("full_form").addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
         }
-    });
+      });
+
+      function toggleCheckbox(checkboxId) {
+        var checkbox = document.getElementById(checkboxId);
+        var cardBody = checkbox.parentElement;
+        
+        if (checkbox) {
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                cardBody.style.backgroundColor = "#cbe5cb"; // Add green class
+            } else {
+                cardBody.style.backgroundColor = "#ffffff"; // Remove green class
+                cardBody.classList.add("card-body")
+            }
+        }
+    }
+
 
     dropWork();
     dropDate();

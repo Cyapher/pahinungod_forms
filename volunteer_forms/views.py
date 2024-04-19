@@ -128,7 +128,7 @@ def updateVolunteer(request, volunteer_id):
     else:
         form = VolunteerForm(instance=volunteer)
         programs = Program.objects.all()
-        return render(request, "volunteerUpdate.html", {"volunteer" : volunteer, 'v_form' : form,
+        return render(request, "edit_volunteer.html", {"volunteer" : volunteer, 'v_form' : form,
                                                        'programs' : programs,
                                                    'volunteerFields' : volunteerFields,
                                                     'alumnusFields' : alumnusFields,
@@ -137,7 +137,8 @@ def updateVolunteer(request, volunteer_id):
                                                     'licenseFields' : licenseFields,
                                                     'insuranceFields' : insuranceFields,
                                                     'studentFields' : studentFields,
-                                                    'dateFields' : dateFields})
+                                                    'dateFields' : dateFields,
+                                                    'pathStart' : "volunteer"})
 
 def deleteVolunteer(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
