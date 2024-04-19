@@ -6,7 +6,7 @@
 
 <div class="d-flex justify-content-center ">
     <!-- TABLE DIV -->
-    <div class="d-flex border">
+    <div class="d-flex border w-50">
         <table rules="all" class="table table-responsive table-striped d-flex-col justify-content-center">
     
             <thead>
@@ -23,7 +23,7 @@
                     </td>
                     <td>
                         <!-- BUTTONS -->
-                        <div class="d-flex border"> 
+                        <div class="d-flex justify-content-end"> 
                             <form action="{% url 'upd_type' type.id %}">
                                 {% csrf_token %}
                                 <input type="submit" value="Update">
@@ -52,8 +52,9 @@
     </div>
 
     <!-- FORM DIV -->
-    <div class="mx-5 d-flex align-self-start ">
+    <div class="mx-5 d-flex flex-column">
 
+        <h2> Add Type Here: </h2>
         {% if type %}
             <form action="{% url 'upd_type' type.id %}" method="POST">
                 {% csrf_token %}

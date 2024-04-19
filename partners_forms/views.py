@@ -186,17 +186,43 @@ def filterPartners(request):
     query = request.GET.get('q')
     print(f'query: {query}')
 
+    # get all partners
     partners = Partner.objects.all()
     partners_list = {}
 
+    # Get all files of specified partners
     for partner in partners:
         files = File.objects.filter(partner=partner)
         partners_list[partner] = files
 
+    # Check Action (Search, Filter, Sort)
+    if(query):
+        partners = partners.filter(partner_name__contains=query)
+        pass
+
     # Search Partners
-    partners = partners.filter(partner_name__contains=query)
+    # partners = partners.filter(partner_name__contains=query)
     
     return render(request, "view_partners.html", {'partners': partners, 'partners_list' : partners_list})
+
+def searchFilter(request, partners):
+    query = request.GET.get('q')
+
+    if query:
+        partners = partners.filter(
+            Q(partner_name__contains=query) |
+            Q(partnership_extension__contains=query) | 
+            Q(stakeholder_category__contains=query) | 
+            Q(second_category__contains=query) | 
+            Q(other_choice__contains=query) | 
+            Q(type_of_partnership__contains=query) | 
+            Q(Agreement_Start_Date__contains=query) 
+            ).distinct()
+    elif query == '':
+        partners = partners.all()
+    else:
+        print('no partner with this query')
+        return None
 
 # MISC. ================================================================================================================
 

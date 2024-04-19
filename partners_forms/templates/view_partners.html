@@ -13,13 +13,13 @@
 
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
-        <h1 class="mx-5" style="margin: auto;"> Partners  </h1>
+        <h1 class="mx-5" style="margin: auto;"> Partners </h1>
 
         <!-- SEARCH -->
         <form class="d-flex mx-5" action="{% url 'filterPartners' %}">
             {% csrf_token %}
-            <input class="form-control me-2" type="search" placeholder="search" aria-label="Search" name="q">
-            <button class="btn" type="submit">Search</button>
+            <input class="form-control me-2" type="search" placeholder="search" aria-label="Search" name="q" id="id_search_field">
+            <button class="btn" type="submit" id="id_search_button">Search</button>
         </form>
     </div>
     
@@ -30,7 +30,7 @@
 
 <div class="table-responsive d-flex justify-content-center">
 
-    <table rules="all" class="table table-bordered table-striped d-flex-col justify-content-center center overflow-scroll border">
+    <table rules="all" class="table table-bordered table-striped d-flex-col justify-content-center center overflow-scroll border" id="id_partners_table">
         {% if partners %}
         <thead>
             <th class="align-baseline">Stakeholder Name</th>
@@ -123,6 +123,24 @@
 <script>
     document.getElementById('partners').className += ' active bg-secondary'
 
+    const search_button = document.getElementById('id_search_button');
+    const search_field = document.getElementById('id_search_field');
+    
+
+
+    search_button.addEventListener('click', function(event){
+        const partners_table = document.getElementById('id_partners_table');
+        var partners_table_count = partners_table.childElementCount;
+        var isEmpty = false;
+
+        console.log(partners_table.childElementCount);
+        
+        if(partners_table.childElementCount){
+            console.log('blank')
+        }
+        
+    
+    })
 </script>
 
 {% endblock %}
