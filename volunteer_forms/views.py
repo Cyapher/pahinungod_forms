@@ -1,13 +1,17 @@
 import logging
+import os
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.db.models import Q
+from django.core.paginator import Paginator
 
+from pahinungod_forms import settings
 from volunteer_forms.models import Volunteer, Program
 from .forms import VolunteerForm, ProgramForm
 
 logger = logging.getLogger(__name__)
+pagination_count = 5
 
 volunteerFields = ['first_name',
                        'middle_name',
@@ -103,6 +107,11 @@ def createVolunteer(request):
 
 def printVolunteers(request):
     volunteers = Volunteer.objects.all()
+
+    p = Paginator(volunteers, pagination_count)
+    page = request.GET.get("page")
+    volunteers = p.get_page(page)
+
     print(volunteers)
     return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
 
@@ -152,11 +161,98 @@ def view_volunteerStudent(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
     return render(request, "studentInfo_card.html", {'volunteer' : volunteer})
 
-def searchFilter(request):
+
+def printPrograms(request):
+    programs = Program.objects.all()
+    print(programs)
+    return render(request, "programs_pg.html", {"programs" : programs})
+
+def createProgram(request):
+    if request.method == 'POST':
+        form = ProgramForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect('programs')
+    else:
+        return render(request, "form_program.html", {"form" : ProgramForm()})
+
+def updateProgram(request, program_id):
+    program = Program.objects.get(pk=program_id)
+
+    if request.method == 'POST':
+        form = ProgramForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            # If a new image is uploaded, update the program_img field
+            program_img = request.FILES.get("program_img")
+            if program_img:
+                # Get the relative path of the previous image
+                previous_image_path = program.program_img.path.replace(program.program_img.name, "volunteer_forms\\static\\" + program.program_img.name) if program.program_img else None
+                print(previous_image_path)
+
+                # Save the form to update other fields
+                # program = form.save(commit=False)
+
+                # Delete the previous image file if it exists
+                if previous_image_path:
+                    # if os.path.exists(previous_image_path):
+                    os.remove(previous_image_path)
+
+                # Save the new image path to the program instance
+                form.program_img = program_img
+                program.delete()
+                form.save()
+
+            return redirect('programs')  # Redirect to the programs list view
+    else:
+        form = ProgramForm(instance=program)
+        return render(request, "edit_program.html", {"form": form, "program": program})
+
+    
+def delProgram(request, program_id):
+    program = Program.objects.get(pk=program_id)
+
+    previous_image_path = program.program_img.path.replace(program.program_img.name, "volunteer_forms\\static\\" + program.program_img.name) if program.program_img else None
+    
+    if previous_image_path:
+        os.remove(previous_image_path)
+        program.delete()
+
+    return redirect('programs')
+
+def filterVolunteers(request):
+    query = request.GET.get('q')
+    queryStart = request.GET.get('start')
+    queryEnd = request.GET.get('end')
+    column = request.GET.get('column')
+    order = request.GET.get('order')
+
+    volunteers = Volunteer.objects.all()
+
+    if (query):
+        print("search = true")
+        volunteers = searchFilter(request, volunteers)
+    if (column and order):
+        print("sort = true")
+        volunteers = sort_data(request, volunteers)
+    if (queryStart and queryEnd):
+        print("date filter = true")
+        volunteers = searchDateRange(request, volunteers)
+
+    p = Paginator(volunteers, pagination_count)
+    page = request.GET.get("page")
+    volunteers = p.get_page(page)
+
+    return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
+
+
+def searchFilter(request, volunteers):
     query = request.GET.get('q')
 
     if query:
-        volunteers = Volunteer.objects.filter(
+        volunteers = volunteers.filter(
             Q(first_name__icontains=query) |
             Q(middle_name__icontains=query) |
             Q(last_name__icontains=query) |
@@ -172,59 +268,22 @@ def searchFilter(request):
             Q(customStartDate__icontains=query)
         ).distinct()
     else:
-        volunteers = Volunteer.objects.all()
+        volunteers = volunteers.all()
     
-    return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
+    return volunteers
 
-def printPrograms(request):
-    programs = Program.objects.all()
-    print(programs)
-    return render(request, "programs_pg.html", {"programs" : programs})
-
-def createProgram(request):
-    if request.method == 'POST':
-        form = ProgramForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-
-            return redirect('programs')
-    else:
-        return render(request, "form_program.html", {"form" : ProgramForm()})
-
-def updateProgram(request, program_id):
-    program = Program.objects.get(pk=program_id)
-
-    if request.method == 'POST':
-        form = ProgramForm(request.POST, instance=program)
-
-        if form.is_valid():
-            form.save()
-
-            return redirect('programs')
-    else:
-        form = ProgramForm(instance=program)
-        programs = Program.objects.all()
-        return render(request, "edit_program.html", {"form" : form, "programs" : programs, "program" : program})
-    
-def delProgram(request, program_id):
-    program = Program.objects.get(pk=program_id)
-    program.delete()
-
-    return redirect('programs')
-
-def searchDateRange(request):
+def searchDateRange(request, volunteers):
     queryStart = request.GET.get('start')
     queryEnd = request.GET.get('end')
 
     if queryStart and queryEnd:
-        volunteers = Volunteer.objects.filter(Q(customStartDate__gte=queryStart) & Q(customStartDate__lte=queryEnd))
+        volunteers = volunteers.filter(Q(customStartDate__gte=queryStart) & Q(customStartDate__lte=queryEnd))
     else:
-        volunteers = Volunteer.objects.all()
+        volunteers = volunteers.all()
     
-    return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
+    return volunteers
 
-def sort_data(request):
+def sort_data(request, volunteers):
     if request.method == 'GET':
         # Get the values submitted in the form
         column = request.GET.get('column')
@@ -232,15 +291,15 @@ def sort_data(request):
 
         # Your sorting logic here
         if column == 'first_name':
-            sorted_data = Volunteer.objects.all().order_by('first_name' if order == 'asc' else '-first_name')
+            sorted_data = volunteers.all().order_by('first_name' if order == 'asc' else '-first_name')
         elif column == 'customStartDate':
-            sorted_data = Volunteer.objects.all().order_by('customStartDate' if order == 'asc' else '-customStartDate')
+            sorted_data = volunteers.all().order_by('customStartDate' if order == 'asc' else '-customStartDate')
         elif column == 'occupation':
-            sorted_data = Volunteer.objects.all().order_by('occupation' if order == 'asc' else '-occupation')
+            sorted_data = volunteers.all().order_by('occupation' if order == 'asc' else '-occupation')
         else:
             # Handle default case or error
-            sorted_data = Volunteer.objects.all()
+            sorted_data = volunteers.all()
 
-        return render(request, 'volunteers_pg.html', {'volunteers': sorted_data})
+        return sorted_data
 
 

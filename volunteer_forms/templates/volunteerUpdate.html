@@ -1,4 +1,5 @@
 {% extends 'baseVolunteer.html' %}
+{% load static %}
 
 {% block body %}
 
@@ -44,10 +45,16 @@
   .card {
   display: flex;
   flex-direction: column;
+  border-color: #000000;
+  border-width: 2px;
 }
 
 .card-body {
   flex-grow: 1;
+}
+
+.image_mat {
+  border: 3px solid black;
 }
 
 
@@ -61,6 +68,12 @@
     <div id="signup_form" class="popup-container">
       <div class="popup" id="popup1">
         <div class="popup-content container-fluid">
+          <form action="{% url 'list' %}" method="get">
+            <button type="submit" class="btn btn-dark" style="text-align: left;">
+                <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
+          </form>
+          <br><br>
           <table class="table table-bordered border-dark">
               <h5 class="h5">Volunteer Information</h5>
             <tbody>
@@ -500,15 +513,15 @@
         <div class="popup-content container-fluid">
             <h5 class="h5">Volunteer Programs</h5>
           <div class="row">
+          {% if programs %}
             {% for program in programs %}
-              <div class="col-md-4 mb-3">
+              <div class="col-md-4 mb-4">
                 <div class="card h-100 d-flex flex-column">
                   <div class="card-body">
+                    <img src='{% static program.program_img.name|cut:"volunteer_forms/static/" %}' class="img-fluid image_mat">
                     <input class="form-check-input" type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}" {% if program in volunteer.programs.all %}checked{% endif %}>
                     <h5 class="card-title">{{ program.code }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{ program.name }}</h6>
-                    <!-- Add your image here -->
-                    <!-- Example: <img src="{{ program.image.url }}" class="img-fluid"> -->
                     <p class="card-text">{{program.description}}</p>
                   </div>
                 </div>
@@ -517,6 +530,10 @@
                 </div><div class="row">
               {% endif %}
             {% endfor %}
+            {% else %}
+              <h2 class="display-2" align="center">No programs.</h2>
+              <h6 class="display-6" align="center">lmao</h6>
+            {% endif %}
           </div>
         </div>
       </div>      
