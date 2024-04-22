@@ -24,20 +24,33 @@
         <li class="nav-item">
           <a class="navbar-brand text-light mx-4" aria-current="page" href="#">FAQ</a>
         </li>
-        <li class="nav-item">
-          <a class="navbar-brand text-light" aria-current="page" href="{% provider_login_url 'google' %}">Login</a>
-        </li>
+        {% endif %}
+        {% if user.is_authenticated %}
+          {% if user.volunteer.middle_name %}
+          <li class="nav-item">
+            <a class="navbar-brand text-light mx-4" aria-current="page" href="{% url 'edit' user.volunteer.id %}">Edit Profile</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="navbar-brand text-light mx-4" aria-current="page" href="{% url 'edit' user.volunteer.id %}">Apply as Volunteer!</a>
+          </li>
+          {% endif %}
+        {% endif %}
     </ul>
-      {% endif %}
-      {% if user.is_authenticated %}
-        <form action="{% url 'edit' user.volunteer.id %}">
-          <input type="submit" class="btn btn-dark" value="Apply as Volunteer!">
+        {% if user.is_authenticated %}
+          <div class="nav-item">
+            <a class="navbar-brand disabled text-light mx-4" aria-current="page" href="">Welcome, {{user.volunteer.first_name}}!</a>
+          </div>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <form action="{% url 'account_logout' %}">
+          <input type="submit" class="btn btn-dark" value="Log Out">
         </form>
-      {% else %}
+        {% else %}
         <form action="{% provider_login_url 'google' %}">
-          <input type="submit" class="btn btn-dark" value="Log in/Sign up">
+          <input type="submit" class="btn btn-dark" value="Log In/Sign Up">
         </form>
-      {% endif %}
+        {% endif %}
   </div>
 </div>
 </nav>
