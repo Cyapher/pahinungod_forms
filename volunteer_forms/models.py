@@ -3,8 +3,14 @@ from datetime import timedelta
 from datetime import date
 from django import forms
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
+
+class AuthUser(AbstractUser):
+
+    def __str__(self):
+        return f"{self.username}"
 
 class Program(models.Model):
     code = models.CharField(max_length=10)
@@ -15,15 +21,15 @@ class Program(models.Model):
     def __str__(self):
         return f"{self.code}: {self.name}" 
 
-class Volunteer(models.Model):
-    first_name = models.CharField(max_length=50)
-    middle_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    address = models.CharField(max_length=100)
-    mobile = models.CharField(max_length=13)
-    telephone = models.CharField(max_length=10)
-    email = models.CharField(max_length=50)
-    birthdate = models.DateField(max_length=50)
+class Volunteer(AuthUser):
+    # first_name = models.CharField(max_length=50)
+    middle_name = models.CharField(max_length=50, null=True)
+    # last_name = models.CharField(max_length=50)
+    address = models.CharField(max_length=100, null=True)
+    mobile = models.CharField(max_length=13, null=True)
+    telephone = models.CharField(max_length=10, null=True)
+    # email = models.CharField(max_length=50)
+    birthdate = models.DateField(max_length=50, null=True)
     age = models.IntegerField(blank=True, null=True)
 
     civilStatusChoices = [
@@ -37,10 +43,10 @@ class Volunteer(models.Model):
         ('Other/Will not disclose', 'Other/Will not disclose')
     ]
 
-    civilStatus = models.CharField(max_length=50, choices=civilStatusChoices)
-    sex = models.CharField(max_length=50, choices=sexChoices)
-    bloodType = models.CharField(max_length=3)
-    religion = models.CharField(max_length=100)
+    civilStatus = models.CharField(max_length=50, choices=civilStatusChoices, null=True)
+    sex = models.CharField(max_length=50, choices=sexChoices, null=True)
+    bloodType = models.CharField(max_length=3, null=True)
+    religion = models.CharField(max_length=100, null=True)
     healthConditions = models.TextField(blank=True, null=True)
     skillsHobbies = models.TextField(blank=True, null=True)
     foodRestrictions = models.TextField(blank=True, null=True)
@@ -61,9 +67,9 @@ class Volunteer(models.Model):
     occupation = models.CharField(max_length=50, choices=occuChoices, blank=True, null=True)
     otherOccu = models.CharField(max_length=50, blank=True, null=True)
 
-    beneficiaries = models.CharField(max_length=50)
-    relation = models.CharField(max_length=50)
-    contactNum = models.CharField(max_length=50)
+    beneficiaries = models.CharField(max_length=50, null=True)
+    relation = models.CharField(max_length=50, null=True)
+    contactNum = models.CharField(max_length=50, null=True)
     contactEmail = models.CharField(max_length=50, blank=True, null=True)
 
     # license
@@ -99,7 +105,7 @@ class Volunteer(models.Model):
         ('Other', 'Other')
         ]
 
-    startDate = models.CharField(max_length=50, choices=startChoices)
+    startDate = models.CharField(max_length=50, choices=startChoices, null=True)
     customStartDate = models.DateField(max_length=50, blank=True, null=True)
 
     alumnusCheck = models.BooleanField(default=False)

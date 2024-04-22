@@ -149,5 +149,7 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 2
 
-LOGIN_REDIRECT_URL = '/dashboard/pahinungod_home'
+LOGIN_REDIRECT_URL = '/volunteer/'
 LOGOUT_REDIRECT_URL = '/dashboard/pahinungod_home'
+
+AUTH_USER_MODEL = 'volunteer_forms.AuthUser'
