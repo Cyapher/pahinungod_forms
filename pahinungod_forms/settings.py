@@ -71,7 +71,7 @@ ROOT_URLCONF = 'pahinungod_forms.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -145,6 +145,22 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 2
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE' : [
+            'profile',
+            'email'
+        ],
+        'APP': {
+            'client_id': '157732665861-b6gntvopmi3bjb55g7upglt0ljllk47s.apps.googleusercontent.com',
+            'secret': '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',
+        },
+        'AUTH_PARAMS': {
+            'access_type':'online',
+        }
+    }
+}
 
 LOGIN_REDIRECT_URL = '/volunteer/'
 LOGOUT_REDIRECT_URL = '/dashboard/pahinungod_home'
