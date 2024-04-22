@@ -107,6 +107,7 @@ def createVolunteer(request):
 
 def printVolunteers(request):
     volunteers = Volunteer.objects.all()
+    volunteers = volunteers.filter(Q(is_superuser=False))
 
     p = Paginator(volunteers, pagination_count)
     page = request.GET.get("page")
@@ -119,12 +120,15 @@ def updateVolunteer(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
 
     if request.method == 'POST':
+        print("post======================")
         form = VolunteerForm(request.POST, instance=volunteer)
 
         if form.is_valid():
             form.save()
 
             return redirect('list')
+        else:
+            logger.error("Form submission failed with errors: %s", form.errors)
     else:
         form = VolunteerForm(instance=volunteer)
         programs = Program.objects.all()
@@ -231,6 +235,7 @@ def filterVolunteers(request):
     order = request.GET.get('order')
 
     volunteers = Volunteer.objects.all()
+    volunteers = volunteers.filter(Q(is_superuser=False))
 
     if (query):
         print("search = true")

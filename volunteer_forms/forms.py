@@ -14,6 +14,12 @@ class VolunteerForm(ModelForm):
         model = Volunteer
         fields = '__all__'
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['required'] = False
+        self.fields['password'].widget.attrs['required'] = False
+        self.fields['date_joined'].widget.attrs['required'] = False
+
 
     widgets = {
         'healthConditions' : forms.Textarea(attrs={'rows' : 2}),
