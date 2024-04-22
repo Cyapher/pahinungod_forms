@@ -7,4 +7,3 @@ from django.forms import CheckboxSelectMultiple
 
 admin.site.register(Program)
 admin.site.register(Volunteer)
-admin.site.register(AuthUser)

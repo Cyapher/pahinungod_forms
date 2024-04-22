@@ -1,3 +1,5 @@
+{% load socialaccount %}
+
 <nav id="navigation" class="navbar navbar-expand-lg sticky">
     <div class="container-fluid">
       <img src="https://up.edu.ph/wp-content/uploads/2020/01/UP-Seal.png" alt="" style="max-width: 70px;">
@@ -22,10 +24,19 @@
         <li class="nav-item">
           <a class="navbar-brand text-light mx-4" aria-current="page" href="#">FAQ</a>
         </li>
-      </ul>
+        <li class="nav-item">
+          <a class="navbar-brand text-light" aria-current="page" href="{% provider_login_url 'google' %}">Login</a>
+        </li>
+    </ul>
       {% endif %}
-      {% if show_signup %}
-        <input type="button" class="btn btn-dark" value="Sign Up" onclick="toggleForm()">
+      {% if user.is_authenticated %}
+        <form action="{% url 'edit' user.volunteer.id %}">
+          <input type="submit" class="btn btn-dark" value="Apply as Volunteer!">
+        </form>
+      {% else %}
+        <form action="{% provider_login_url 'google' %}">
+          <input type="submit" class="btn btn-dark" value="Log in/Sign up">
+        </form>
       {% endif %}
   </div>
 </div>
