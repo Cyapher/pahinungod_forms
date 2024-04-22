@@ -12,6 +12,9 @@ import os
 def home_page(request):
     return render(request, "home.html")
 
+def admin_login(request):
+    return render(request, "admin_login.html")
+
 def view_partners(request):
     partners_list = {}
     partners = Partner.objects.all()
