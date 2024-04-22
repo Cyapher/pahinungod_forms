@@ -76,7 +76,7 @@
   }
 
   .card-body:hover {
-        background-color: #f0f0f0; /* Change to desired grey color */
+        background-color: #f0f0f0;
         cursor: pointer;
   }
 
@@ -531,7 +531,7 @@
   
         <div class="popup" id="popup2" style="margin-left: -1px;">
           <div class="popup-content container-fluid">
-            <h5 class="h5">Select Programs</h5>
+            <h5 class="h5">Select Programs (click to select)</h5>
             <div class="row">
             {% if programs %}
               {% for program in programs %}
@@ -539,7 +539,8 @@
                 <div class="card h-100 d-flex flex-column">
                   <div class="card-body" onclick="toggleCheckbox('program{{ program.id }}')">
                     <img src="{{ program.program_img }}" class="img-fluid image_mat">
-                    <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}" >
+                    <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}" hidden>
+                    <br><br>
                     <h5 class="card-title">{{ program.code }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{ program.name }}</h6>
                     {{ program.description }}
@@ -553,7 +554,7 @@
               {% endfor %}
               {% else %}
               <h2 class="display-2" align="center">No programs.</h2>
-              <h6 class="display-6" align="center">lmao</h6>
+              <!-- <h6 class="display-6" align="center">lmao</h6> -->
             {% endif %}
             </div>
           </div>
@@ -680,6 +681,7 @@
                 cardBody.style.backgroundColor = "#cbe5cb"; // Add green class
             } else {
                 cardBody.style.backgroundColor = "#ffffff"; // Remove green class
+                cardBody.classList.add("card-body")
             }
         }
     }
