@@ -15,7 +15,7 @@ class AuthUser(AbstractUser):
     date_joined = models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined', null=True, blank=True)
 
     def __str__(self):
-        return f"{self.username}"
+        return f"{self.email}"
 
 class Program(models.Model):
     code = models.CharField(max_length=10)
