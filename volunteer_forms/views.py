@@ -145,6 +145,38 @@ def updateVolunteer(request, volunteer_id):
                                                     'pathStart' : "volunteer"})
 
 @login_required(login_url='home_vol')
+def updateVolunteerPrograms(request, volunteer_id):
+    volunteer = Volunteer.objects.get(pk=volunteer_id)
+
+    if request.method == 'POST':
+        form = VolunteerForm(request.POST, instance=volunteer)
+
+        if form.is_valid():
+            form.save()
+
+            if (request.user.is_superuser):
+                return redirect('list')
+            else:
+                return redirect('home_vol')
+
+        else:
+            logger.error("Form submission failed with errors: %s", form.errors)
+    else:
+        form = VolunteerForm(instance=volunteer)
+        programs = Program.objects.all()
+        return render(request, "edit_vol_program.html", {"volunteer" : volunteer, 'v_form' : form,
+                                                       'programs' : programs,
+                                                   'volunteerFields' : volunteerFields,
+                                                    'alumnusFields' : alumnusFields,
+                                                    'pghFields' : pghFields,
+                                                    'workFields' : workFields,
+                                                    'licenseFields' : licenseFields,
+                                                    'insuranceFields' : insuranceFields,
+                                                    'studentFields' : studentFields,
+                                                    'dateFields' : dateFields,
+                                                    'pathStart' : "volunteer"})
+
+@login_required(login_url='home_vol')
 @user_passes_test(is_superuser, login_url='home_vol')
 def deleteVolunteer(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
