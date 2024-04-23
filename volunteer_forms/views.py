@@ -62,17 +62,7 @@ def is_superuser(user):
 def homePage(request):
 
     programs = Program.objects.all()
-    return render(request, "volunteerHome.html",
-                  {'v_form' : VolunteerForm(),
-                   'programs' : programs,
-                   'volunteerFields' : volunteerFields,
-                   'alumnusFields' : alumnusFields,
-                   'pghFields' : pghFields,
-                   'workFields' : workFields,
-                   'licenseFields' : licenseFields,
-                   'insuranceFields' : insuranceFields,
-                   'studentFields' : studentFields,
-                   'dateFields' : dateFields})
+    return render(request, "volunteerHome.html")
 
 def index(request):
     
@@ -122,6 +112,7 @@ def printVolunteers(request):
     print(volunteers)
     return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
 
+@login_required(login_url='home_vol')
 def updateVolunteer(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
 
