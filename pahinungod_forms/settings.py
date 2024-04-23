@@ -166,3 +166,4 @@ LOGIN_REDIRECT_URL = '/volunteer/'
 LOGOUT_REDIRECT_URL = '/dashboard/pahinungod_home'
 
 AUTH_USER_MODEL = 'volunteer_forms.AuthUser'
+SOCIALACCOUNT_LOGIN_ON_GET=True

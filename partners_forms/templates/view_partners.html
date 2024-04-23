@@ -28,106 +28,130 @@
 
 <br>
 
-<div class="table-responsive d-flex justify-content-center">
+<!-- CENTRAL PANEL -->
+<div id="central_panel" class="d-flex flex-row">
+    
+    <!-- FILTERS -->
+    <div class="dropdown px-3">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+            Filter By:
+        </button>
+        <form action="" class="dropdown-menu p-4">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    Name
+                </label>
+            </div>
 
-    <table rules="all" class="table table-bordered table-striped d-flex-col justify-content-center center overflow-scroll border" id="id_partners_table">
-        {% if partners %}
-        <thead>
-            <th class="align-baseline">Stakeholder Name</th>
-            <th class="align-baseline">Title of Partnership/Linkage</th>
-            <th class="align-baseline">Stakeholder Category</th>
-            <th class="align-baseline">Type of Partnership</th>
-            <th class="align-baseline">Start Date</th>
-            <th class="align-baseline">End Date</th>
-            <th class="align-baseline">Stakeholder Files</th>
-            <th class="align-baseline">Actions</th>
-        </thead>
-        {% endif %}
+            
+        </form>
 
-        <tbody>
-            {% for partner in partners %}
+    </div>
+
+    <!-- PARTNERS TABLE LIST -->
+    <div class="table-responsive d-flex justify-content-center">
+
+        <table rules="all" class="table table-bordered table-striped d-flex-col justify-content-center center overflow-scroll border" id="id_partners_table">
+            {% if partners %}
+            <thead>
+                <th class="align-baseline">Partner</th>
+                <th class="align-baseline">Title of Partnership/Linkage</th>
+                <th class="align-baseline">Stakeholder Category</th>
+                <th class="align-baseline">Type of Partnership</th>
+                <th class="align-baseline">Start Date</th>
+                <th class="align-baseline">End Date</th>
+                <th class="align-baseline">Stakeholder Files</th>
+                <th class="align-baseline">Actions</th>
+            </thead>
+            {% endif %}
     
-            <tr>
-                <td>
-                    <p> {{ partner.partner_name }} </p>
-                </td>
-                <td>
-                    <p> {{ partner.partnership_extension }} </p>
-                </td>
-                <td>
-                    <p> {{ partner.stakeholder_category }} - 
-                        {% if partner.second_category == 'Others' %} 
-                            {{ partner.other_choice }}
-                        {% else %}
-                            {{ partner.second_category }}
-                        {% endif %}
-                    </p>
-                </td>
-                <td>
-                    <!-- TYPES -->
-                    {% for type in partner.type_of_partnership.all %}
-    
-                        <li>({{type.type_code}}) {{type.type_of_partnership}}</li>
-                        
-                        {% empty %}
-                        <p> No Type Placed </p>
-    
-                    {% endfor %}
-                </td>
-                <td>
-                    <p> {{ partner.Agreement_Start_Date }} </p>
-                </td>
-                <td>
-                    <p> {{ partner.Agreement_End_Date }} </p>
-                </td>
-                <td>
-                    <!-- FILES -->
-                    <ul>
-                        {% for partner_item, file_list in partners_list.items %}
-                            {% if partner_item == partner %}
-                                {% for file in file_list %}
-                                    <!-- <p>{{ file.file_field }}</p>
-                                    <p>{{ file.file_name }}</p> -->
-                                    {% with "partner_requirements/"|add:file.file_name as file_path %}
-                                        <li><a href="{% static file_path %}" target="_blank">{{ file.file_name }}</a></li>
-                                    {% endwith %}
-                                {% endfor %}
+            <tbody>
+                {% for partner in partners %}
+        
+                <tr>
+                    <td>
+                        <p> {{ partner.partner_name }} </p>
+                    </td>
+                    <td>
+                        <p> {{ partner.partnership_extension }} </p>
+                    </td>
+                    <td>
+                        <p> {{ partner.stakeholder_category }} - 
+                            {% if partner.second_category == 'Others' %} 
+                                {{ partner.other_choice }}
+                            {% else %}
+                                {{ partner.second_category }}
                             {% endif %}
+                        </p>
+                    </td>
+                    <td>
+                        <!-- TYPES -->
+                        {% for type in partner.type_of_partnership.all %}
+        
+                            <li>({{type.type_code}}) {{type.type_of_partnership}}</li>
+                            
+                            {% empty %}
+                            <p> No Type Placed </p>
+        
                         {% endfor %}
-                    </ul>
-                </td>
-                
-                <!-- ACTIONS -->
-                <td>
-                    <div class="d-flex justify-content-center">
-                        <form class="px-2" action="{% url 'upd_partner' partner.id %}">
-                            {% csrf_token %}
-                            <input type="submit" value="Update">
-                        </form>
-                        <form class="px-2" action="{% url 'del_partner' partner.id %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" value="Delete">
-                        </form>
-                    </div>                    
-                </td>
-            </tr>     
+                    </td>
+                    <td>
+                        <p> {{ partner.Agreement_Start_Date }} </p>
+                    </td>
+                    <td>
+                        <p> {{ partner.Agreement_End_Date }} </p>
+                    </td>
+                    <td>
+                        <!-- FILES -->
+                        <ul>
+                            {% for partner_item, file_list in partners_list.items %}
+                                {% if partner_item == partner %}
+                                    {% for file in file_list %}
+                                        <!-- <p>{{ file.file_field }}</p>
+                                        <p>{{ file.file_name }}</p> -->
+                                        {% with "partner_requirements/"|add:file.file_name as file_path %}
+                                            <li><a href="{% static file_path %}" target="_blank">{{ file.file_name }}</a></li>
+                                        {% endwith %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </td>
     
-            {% empty %}
-            <tr>
-                <td colspan="6" align="center">
-                    <h2 id="id_isEmpty">No Partners Available</h2>
-                    <p>Nu bayun...</p>
-                </td>
-            </tr>
-                
-    
-            {% endfor %}
-    
-        </tbody>
+                    <!-- ACTIONS -->
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <form class="px-2" action="{% url 'upd_partner' partner.id %}">
+                                {% csrf_token %}
+                                <input type="submit" value="Update">
+                            </form>
+                            <form class="px-2" action="{% url 'del_partner' partner.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" value="Delete">
+                            </form>
+                        </div>                    
+                    </td>
+                </tr>     
         
+                {% empty %}
+                <tr>
+                    <td colspan="6" align="center">
+                        <h2 id="id_isEmpty">No Partners Available</h2>
+                        <p>Nu bayun...</p>
+                    </td>
+                </tr>
+                    
         
-    </table>
+                {% endfor %}
+        
+            </tbody>
+            
+        </table>
+    </div>
 </div>
+
+
 
 
 <!-- <script>

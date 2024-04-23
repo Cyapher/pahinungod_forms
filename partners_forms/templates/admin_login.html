@@ -8,38 +8,86 @@
 
 <style>
     .body {
-        background-color: #014421;
+        background-color: #FCF5E5;
     }
 
     .center-panel {
-        background-color: whitesmoke;
+        background: rgba(255, 255, 255);
         border-radius: 16px;
-        border-style: solid;
-        border-width: 5px;
+        display: inline-block;
+        cursor: pointer;
+
+    }
+
+    .img {
+        width: 30%;
+        height: auto;
+    }
+
+    .circular--square { 
+        border-radius: 50%; 
+        margin-bottom: -20px;
+        z-index: 1;
+        padding: 10px;
     }
 
     #red-color {
         color: #7B0100;
-        border-color: #7B0100;
+        background-color: #7B0100;
+    }
+
+    #dark-green-color {
+        color: #023219;
+    }
+    
+    #parchment {
+        color: #FCF5E5;
     }
 
 </style>
 
-<body class="body d-flex flex-column">
+<body class="body">
     <!-- IMPORTS -->
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     {% load static %}
+    {% load socialaccount %}
+
+    <!-- <h1 class="display-1 text-center">Pahinungod Forms</h1> -->
     
-    <div id="red-color" class="center-panel rounded-lg">
-        <div class="">
-            <h3 class="display-3 text-center">Pahinungod Forms</h3>
+
+    <div class="d-flex flex-column align-items-center vh-100 justify-content-center">
+
+        
+        <!-- CENTER PANEL -->
+        <div class="d-flex">
+            <div class="bg-light h-50">
+                <h1>Pahinungod Forms</h1>
+            </div>
+            <div class="d-flex flex-column align-items-center bg-light">
+                <img src="{% static 'partners_forms/media/admin_icon.png' %}" alt="Admin Icon" class="img circular--square" style="background-color: #7B0100;">
+        
+                <form id="login_form" action="{% provider_login_url 'google' %}">
+                    <div class="d-flex center-panel flex-column p-4" id="red-color">            
+                            <h1 id="parchment">Admin Login/Sign Up</h1>
+                    </div>
+                </form>
+            </div>
         </div>
+
     </div>
 
-    
-    
-
 </body>
+
+<script>
+    const form = document.getElementById('login_form');
+    const div = document.getElementById('red-color');
+
+    div.addEventListener('click', () => {
+        form.submit();
+    })
+
+</script>
+
 </html>
