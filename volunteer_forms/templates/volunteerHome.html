@@ -4,6 +4,7 @@
 
 <style>
 
+/* start styling for pop-up logout btn */
 .popup-container {
       display: none;
       justify-content: center;
@@ -26,49 +27,16 @@
       border-radius: 5px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
-
-  textarea {
-    max-height: 125px;
-    resize: none;
-  }
-
-  #full_form {
-    display: none;
-  }
-
-  .card {
-    display: flex;
-    flex-direction: column;
-    border-color: #000000;
-    border-width: 2px;
-  }
-
-  .card-body {
-    flex-grow: 1;
-  }
+  
+  /* end styling for pop-up logout btn */
 
   #navigation {
     background-color: #7B0100;
     width: 100%;
   }
 
-  .home_body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .image_mat {
-    border: 3px solid black;
-  }
-
   body {
     background-color: #014421;
-  }
-
-  .card-body:hover {
-        background-color: #f0f0f0;
-        cursor: pointer;
   }
 
 </style>
@@ -88,7 +56,6 @@
 
   <script>
 
-    
     function toggleLogout() {
       var logout_div = document.getElementById("popup");
       
