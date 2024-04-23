@@ -48,6 +48,9 @@
   {% if user %}
     <div class="popup-container" id="popup">
       <div class="popup">
+        <div align="right" style="cursor: pointer;">
+          <i class="fa-solid fa-xmark fa-xl" onclick=toggleLogout()></i>
+        </div>
         {% include 'account/logout.html' %}
         </div>
       </div>
@@ -59,7 +62,7 @@
     function toggleLogout() {
       var logout_div = document.getElementById("popup");
       
-      if (logout_div.style.display == "none") {
+      if (logout_div.style.display == "flex") {
         logout_div.style.display = "none";
       } else {
         logout_div.style.display = "flex"

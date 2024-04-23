@@ -21,8 +21,7 @@ urlpatterns = [
     path("addProgram", views.createProgram, name="add_program"),
     path("filterDate", views.searchDateRange, name="filter_date"),
     path("sort", views.sort_data, name="sort"),
-    path("filter", views.filterVolunteers, name="filter_vol"),
-    path("logout", views.logout_view, name="log_out")
+    path("filter", views.filterVolunteers, name="filter_vol")
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
