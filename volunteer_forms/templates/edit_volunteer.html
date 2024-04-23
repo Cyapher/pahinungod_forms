@@ -82,6 +82,7 @@
             <h5 class="h5">Volunteer Information</h5>
             <tbody>
               <tr>
+                {% render_field v_form.is_active style="display:none" %}
                 <td>
                   <label class="form-label">First Name</label>
                   {{v_form.first_name}}
