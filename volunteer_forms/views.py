@@ -330,5 +330,8 @@ def sort_data(request, volunteers):
             sorted_data = volunteers.all()
 
         return sorted_data
+    
+def logout_view(request):
+    return render(request, "profile_popup.html")
 
 
