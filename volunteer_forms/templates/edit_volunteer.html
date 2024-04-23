@@ -4,6 +4,10 @@
 
 <style>
 
+  body {
+    background-color: #014421;
+  }
+
 .popup-container {
     position: fixed;
     top: 0;
@@ -513,7 +517,7 @@
 
       <div class="popup" id="popup2" style="margin-left: -1px;">
         <div class="popup-content container-fluid">
-          <h5 class="h5">Select Programs</h5>
+          <h5 class="h5">Select Programs (Click to select/unselect)</h5>
           <div class="row">
           {% if programs %}
             {% for program in programs %}
