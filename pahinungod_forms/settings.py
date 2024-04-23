@@ -16,10 +16,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
-
 STATIC_URL = '/static/'
 MEDIA_ROOT = ''
 MEDIA_URL = ''
@@ -41,6 +37,7 @@ INSTALLED_APPS = [
     'volunteer_forms',
     'partners_forms',
     'dashboard',
+    'users',
     'bootstrap5',
     'widget_tweaks',
     'django.contrib.admin',
