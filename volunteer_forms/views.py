@@ -363,3 +363,6 @@ def sort_data(request, volunteers):
 
         return sorted_data
 
+def client_view(request, volunteer_id):
+
+    return render(request, "volunteerProfile.html")

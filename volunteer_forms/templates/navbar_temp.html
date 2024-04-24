@@ -41,6 +41,7 @@
         {% endif %}
     </ul>
         {% if user.is_authenticated %}
+        <button id="view_profile_btn" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#profileModal">View Profile</button>
           <div class="nav-item">
             <a class="navbar-brand disabled text-light mx-4" aria-current="page" href="">Welcome, {{user.volunteer.first_name}}!</a>
           </div>
