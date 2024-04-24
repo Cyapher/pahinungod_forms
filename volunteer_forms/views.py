@@ -363,4 +363,3 @@ def sort_data(request, volunteers):
 
         return sorted_data
 
-
