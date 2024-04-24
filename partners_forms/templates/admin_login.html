@@ -20,7 +20,7 @@
     }
 
     .img {
-        width: 30%;
+        width: 22%;
         height: auto;
     }
 
@@ -38,6 +38,7 @@
 
     #dark-green-color {
         color: #023219;
+        background-color: #023219;
     }
     
     #parchment {
@@ -59,18 +60,18 @@
 
     <div class="d-flex flex-column align-items-center vh-100 justify-content-center">
 
-        
         <!-- CENTER PANEL -->
-        <div class="d-flex">
-            <div class="bg-light h-50">
-                <h1>Pahinungod Forms</h1>
+        <div class="d-flex justify-content-center" style="height: 50%;">
+            <div class="h-100 w-50 p-4" id="dark-green-color" style="border-radius: 16px 0px 0px 16px;">
+                <h1 class="display-3 text-white">Pahinungod Forms</h1>
+                <h6 class="text-white" >Lorem ipsum dolor sit amet. Non ratione doloribus et quos nihil ut expedita iure! Et tempore suscipit ea rerum sint et officia cumque et rerum voluptatem hic corporis voluptas eos deserunt veniam et quod quasi. Hic deserunt quibusdam At minus Quis At sunt fugit ab sequi nihil quo similique veniam et neque doloribus eos eligendi maxime. Ea culpa repudiandae ea nesciunt odio aut animi maiores est impedit quia in dolores praesentium in voluptatem enim sed nesciunt fuga.</h6>
             </div>
-            <div class="d-flex flex-column align-items-center bg-light">
-                <img src="{% static 'partners_forms/media/admin_icon.png' %}" alt="Admin Icon" class="img circular--square" style="background-color: #7B0100;">
+            <div class="d-flex flex-column align-items-center bg-light pt-5" style="border-style: solid; border-radius: 0px 16px 16px 0px;">
+                <img src="{% static 'partners_forms/media/admin_icon.png' %}" alt="Admin Icon" class="img circular--square" style="background-color: #7B0100; margin-top: -100px ; margin-bottom: 50px;">
         
                 <form id="login_form" action="{% provider_login_url 'google' %}">
                     <div class="d-flex center-panel flex-column p-4" id="red-color">            
-                            <h1 id="parchment">Admin Login/Sign Up</h1>
+                            <h3 id="parchment">Admin Login/Sign Up</h3>
                     </div>
                 </form>
             </div>
