@@ -29,10 +29,10 @@
 <br>
 
 <!-- CENTRAL PANEL -->
-<div id="central_panel" class="d-flex flex-row">
+<div id="central_panel" class="d-flex justify-content-center">
     
     <!-- FILTERS -->
-    <div class="dropdown px-3">
+    <!-- <div class="dropdown px-3">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
             Filter By:
         </button>
@@ -47,12 +47,67 @@
             
         </form>
 
+    </div> -->
+
+    <div style="width: 15%;">
+        <h5> Filter by: </h5>
+        <!-- USING ACCORDION -->
+        <div class="accordion-flush" id="accordionParent">
+            <!-- HEADER: DATE -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Date
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionParent">
+                <div class="accordion-body">
+                    <div class="mb-2">
+                        <label for="start">Start Date</label>
+                        <input id="start" name="start" class="form-control" type="date" placeholder="mm/dd/yyyy">
+                    </div>
+                    <div class="mb-2">
+                        <label for="end">End Date</label>
+                        <input id="end" name="end" class="form-control" type="date" placeholder="mm/dd/yyyy">
+                    </div>
+                </div>
+            </div>
+
+            <!-- HEADER: CATEGORY -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Category
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionParent">
+                <div class="accordion-body">
+                    <!-- <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="partner" checked>
+                        <label class="form-check-label" for="partner">
+                          Partner
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="title">
+                        <label class="form-check-label" for="title">
+                          Title
+                        </label>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
     </div>
+
+    
 
     <!-- PARTNERS TABLE LIST -->
     <div class="table-responsive d-flex justify-content-center">
 
-        <table rules="all" class="table table-bordered table-striped d-flex-col justify-content-center center overflow-scroll border" id="id_partners_table">
+        <table rules="all" class="table table-bordered table-striped justify-content-center overflow-scroll border" id="id_partners_table">
             {% if partners %}
             <thead>
                 <th class="align-baseline">Partner</th>
