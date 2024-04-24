@@ -46,28 +46,19 @@
   {% include 'home_layout.html' %}
   
   {% if user %}
-    <div class="popup-container" id="popup">
-      <div class="popup">
-        <div align="right" style="cursor: pointer;">
-          <i class="fa-solid fa-xmark fa-xl" onclick=toggleLogout()></i>
-        </div>
-        {% include 'account/logout.html' %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sign Out</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {% include 'account/logout.html' %}
+          </div>
         </div>
       </div>
     </div>
   {% endif %}
-
-  <script>
-
-    function toggleLogout() {
-      var logout_div = document.getElementById("popup");
-      
-      if (logout_div.style.display == "flex") {
-        logout_div.style.display = "none";
-      } else {
-        logout_div.style.display = "flex"
-      }
-    }
   
-  </script>
-  {% endblock %}
+{% endblock %}

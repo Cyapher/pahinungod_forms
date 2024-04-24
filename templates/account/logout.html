@@ -1,9 +1,9 @@
 {% load allauth i18n %}
 {% block content %}
 <div align="center">
-    <h5 class="display-5">Sign Out</h5>
+    <!-- <h5 class="display-5">Sign Out</h5> -->
 </div>
-    <p>{% trans 'Are you sure you want to sign out?' %}</p>
+    <p align="center">{% trans 'Are you sure you want to sign out?' %}</p>
     {% url 'account_logout' as action_url %}
     {% element form method="post" action=action_url no_visible_fields=True %}
         {% slot body %}
