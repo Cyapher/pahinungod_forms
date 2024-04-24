@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 from pahinungod_forms import settings
 from volunteer_forms.models import Volunteer, Program
 from .forms import VolunteerForm, ProgramForm
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 logger = logging.getLogger(__name__)
 pagination_count = 5
@@ -55,20 +56,13 @@ studentFields = ['idNum',
 dateFields = ['startDate',
               'customStartDate']
 
+def is_superuser(user):
+    return user.is_authenticated and user.is_superuser
+
 def homePage(request):
 
     programs = Program.objects.all()
-    return render(request, "volunteerHome.html",
-                  {'v_form' : VolunteerForm(),
-                   'programs' : programs,
-                   'volunteerFields' : volunteerFields,
-                   'alumnusFields' : alumnusFields,
-                   'pghFields' : pghFields,
-                   'workFields' : workFields,
-                   'licenseFields' : licenseFields,
-                   'insuranceFields' : insuranceFields,
-                   'studentFields' : studentFields,
-                   'dateFields' : dateFields})
+    return render(request, "volunteerHome.html")
 
 def index(request):
     
@@ -105,8 +99,11 @@ def createVolunteer(request):
                                                     'studentFields' : studentFields,
                                                     'dateFields' : dateFields})
 
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def printVolunteers(request):
     volunteers = Volunteer.objects.all()
+    volunteers = volunteers.filter(Q(is_superuser=False))
 
     p = Paginator(volunteers, pagination_count)
     page = request.GET.get("page")
@@ -115,6 +112,7 @@ def printVolunteers(request):
     print(volunteers)
     return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
 
+@login_required(login_url='home_vol')
 def updateVolunteer(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
 
@@ -124,7 +122,13 @@ def updateVolunteer(request, volunteer_id):
         if form.is_valid():
             form.save()
 
-            return redirect('list')
+            if (request.user.is_superuser):
+                return redirect('list')
+            else:
+                return redirect('home_vol')
+
+        else:
+            logger.error("Form submission failed with errors: %s", form.errors)
     else:
         form = VolunteerForm(instance=volunteer)
         programs = Program.objects.all()
@@ -140,34 +144,47 @@ def updateVolunteer(request, volunteer_id):
                                                     'dateFields' : dateFields,
                                                     'pathStart' : "volunteer"})
 
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def deleteVolunteer(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
     volunteer.delete()
 
     return redirect('list')
 
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def view_volunteerInfo(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
     return render(request, "volunteerInfo_card.html", {'volunteer' : volunteer})
 
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def view_volunteerLicense(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
     return render(request, "licenseInfo_card.html", {'volunteer' : volunteer})
 
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def view_volunteerInsurance(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
     return render(request, "insuranceInfo_card.html", {'volunteer' : volunteer})
 
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def view_volunteerStudent(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
     return render(request, "studentInfo_card.html", {'volunteer' : volunteer})
 
-
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def printPrograms(request):
     programs = Program.objects.all()
     print(programs)
     return render(request, "programs_pg.html", {"programs" : programs})
 
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def createProgram(request):
     if request.method == 'POST':
         form = ProgramForm(request.POST, request.FILES)
@@ -179,6 +196,8 @@ def createProgram(request):
     else:
         return render(request, "form_program.html", {"form" : ProgramForm()})
 
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def updateProgram(request, program_id):
     program = Program.objects.get(pk=program_id)
 
@@ -211,7 +230,8 @@ def updateProgram(request, program_id):
         form = ProgramForm(instance=program)
         return render(request, "edit_program.html", {"form": form, "program": program})
 
-    
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def delProgram(request, program_id):
     program = Program.objects.get(pk=program_id)
 
@@ -223,6 +243,8 @@ def delProgram(request, program_id):
 
     return redirect('programs')
 
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def filterVolunteers(request):
     query = request.GET.get('q')
     queryStart = request.GET.get('start')
@@ -231,6 +253,7 @@ def filterVolunteers(request):
     order = request.GET.get('order')
 
     volunteers = Volunteer.objects.all()
+    volunteers = volunteers.filter(Q(is_superuser=False))
 
     if (query):
         print("search = true")
@@ -248,7 +271,8 @@ def filterVolunteers(request):
 
     return render(request, "volunteers_pg.html", {"volunteers" : volunteers})
 
-
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def searchFilter(request, volunteers):
     query = request.GET.get('q')
 
@@ -273,6 +297,8 @@ def searchFilter(request, volunteers):
     
     return volunteers
 
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def searchDateRange(request, volunteers):
     queryStart = request.GET.get('start')
     queryEnd = request.GET.get('end')
@@ -284,6 +310,8 @@ def searchDateRange(request, volunteers):
     
     return volunteers
 
+@login_required(login_url='home_vol')
+@user_passes_test(is_superuser, login_url='home_vol')
 def sort_data(request, volunteers):
     if request.method == 'GET':
         # Get the values submitted in the form
