@@ -60,8 +60,7 @@ def is_superuser(user):
     return user.is_authenticated and user.is_superuser
 
 def homePage(request):
-
-    programs = Program.objects.all()
+    
     return render(request, "volunteerHome.html")
 
 def index(request):
