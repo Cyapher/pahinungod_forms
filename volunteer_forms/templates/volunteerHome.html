@@ -3,81 +3,40 @@
 {% block body %}
 
 <style>
-  .popup-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
 
-  .popup {
-    width: calc(50% - 15px);
-    height: calc(100% - 30px);
-    /* background-color: rgba(0, 0, 0, 0.5); */
-    background-color: #ffffff;
-    /* color: white; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 15px;
-    border: 4px solid #000000;
-    margin: 15px;
-    overflow: hidden;
-  }
+/* start styling for pop-up logout btn */
+.popup-container {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(1, 68, 33, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
 
-  .popup-content {
-    height: calc(100% - 30px);
-    padding: 20px;
-    text-align: center;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  textarea {
-    max-height: 125px;
-    resize: none;
-  }
-
-  #full_form {
-    display: none;
-  }
-
-  .card {
-    display: flex;
-    flex-direction: column;
-    border-color: #000000;
-    border-width: 2px;
-  }
-
-  .card-body {
-    flex-grow: 1;
-  }
+    .popup {
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+  
+  /* end styling for pop-up logout btn */
 
   #navigation {
     background-color: #7B0100;
     width: 100%;
   }
 
-  .home_body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .image_mat {
-    border: 3px solid black;
-  }
-
   body {
     background-color: #014421;
-  }
-
-  .card-body:hover {
-        background-color: #f0f0f0;
-        cursor: pointer;
   }
 
 </style>
@@ -85,132 +44,21 @@
   {% include 'navbar_temp.html' with show_vform=False show_programs=False show_search=False show_signup=True admin=False %}
 
   {% include 'home_layout.html' %}
-
-  <script>
-      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-      })
-
-      var alumniDiv = document.getElementById("alumni_div");
-      var pghDiv = document.getElementById("pgh_div");
-      var dateOther = document.getElementById("id_customStartDate");
-      var workDiv = document.getElementById("work_div");
-      var licenseDiv = document.getElementById("license_div");
-      var upDiv = document.getElementById("up_div");
-
-
-      function toggleAlumni() {
-        var alumniCheck = document.getElementById("alumni_check");
-
-
-        if (alumniCheck.checked) {
-          alumniDiv.style.display = "block";
-        } else {
-          alumniDiv.style.display = "none";
-        }
-      }
-
-      function togglePGH() {
-        var pghCheck = document.getElementById("pgh_check");
-
-
-        if (pghCheck.checked) {
-          pghDiv.style.display = "block";
-        } else {
-          pghDiv.style.display = "none";
-        }
-      }
-
-      function dropWork() {
-        var workDropValue = document.getElementById("id_occupation").value;
-        var workOther = document.getElementById("id_otherOccu");
-
-        if (workDropValue === "Other") {
-          workOther.removeAttribute("disabled");
-        }
-        else {
-          workOther.setAttribute("disabled", "disabled");
-        }
-      }
-
-      function dropDate() {
-        var dateDropValue = document.getElementById("id_startDate").value;
-
-
-        if (dateDropValue === "Other") {
-          dateOther.removeAttribute("disabled");
-        }
-        else {
-          dateOther.setAttribute("disabled", "disabled");
-        }
-      }
-
-      function toggleWork() {
-        var workCheck = document.getElementById("work_check");
-
-
-        if (workCheck.checked) {
-          workDiv.style.display = "block";
-        } else {
-          workDiv.style.display = "none";
-        }
-      }
-
-      function toggleLicense() {
-        var licenseCheck = document.getElementById("license_check");
-
-
-        if (licenseCheck.checked) {
-          licenseDiv.style.display = "block";
-        } else {
-          licenseDiv.style.display = "none";
-        }
-      }
-
-      function toggleUP() {
-        var upCheck = document.getElementById("up_check");
-
-        if (upCheck.checked) {
-          upDiv.style.display = "block";
-        } else {
-          upDiv.style.display = "none";
-        }
-      }
-
-      document.getElementById("full_form").addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-          event.preventDefault();
-        }
-      });
-
-      function toggleForm() {
-        var form = document.getElementById("full_form");
-        if (form.style.display == "block") {
-          form.style.display = "none";
-          form.reset();
-        } else {
-          form.style.display = "block";
-        }
-      }
-
-      function toggleCheckbox(checkboxId) {
-        var checkbox = document.getElementById(checkboxId);
-        var cardBody = checkbox.parentElement;
-        
-        if (checkbox) {
-            checkbox.checked = !checkbox.checked;
-            
-            if (checkbox.checked) {
-                cardBody.style.backgroundColor = "#cbe5cb"; // Add green class
-            } else {
-                cardBody.style.backgroundColor = "#ffffff"; // Remove green class
-                cardBody.classList.add("card-body")
-            }
-        }
-    }
-
-      dropWork();
-      dropDate();
-  </script>
-  {% endblock %}
+  
+  {% if user %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sign Out</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {% include 'account/logout.html' %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  
+{% endblock %}

@@ -43,9 +43,7 @@
           </div>
         {% endif %}
         {% if user.is_authenticated %}
-        <form action="{% url 'account_logout' %}">
-          <input type="submit" class="btn btn-dark" value="Log Out">
-        </form>
+          <button id="log_out_btn" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Log Out</button>
         {% else %}
         <form action="{% provider_login_url 'google' %}">
           <input type="submit" class="btn btn-dark" value="Log In/Sign Up">
