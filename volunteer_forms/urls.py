@@ -9,6 +9,7 @@ urlpatterns = [
     path("list", views.printVolunteers, name="list"),
     path("add", views.createVolunteer, name="add"),
     path("edit/<int:volunteer_id>", views.updateVolunteer, name="edit"),
+    path("editPrograms/<int:volunteer_id>", views.updateVolunteerPrograms, name="edit_programs"),
     path("delete/<int:volunteer_id>", views.deleteVolunteer, name="del_volunteer"),
     path("<int:volunteer_id>/info", views.view_volunteerInfo, name="viewInfo"),
     path("<int:volunteer_id>/license", views.view_volunteerLicense, name="viewLicense"),
