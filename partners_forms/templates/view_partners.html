@@ -6,7 +6,7 @@
 <style>
     table {
         table-layout:auto;
-        max-width: 90%;
+        max-width: 95%;
     }
 
 </style>
@@ -32,77 +32,154 @@
 <div id="central_panel" class="d-flex justify-content-center">
     
     <!-- FILTERS -->
-    <!-- <div class="dropdown px-3">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
-            Filter By:
-        </button>
-        <form action="" class="dropdown-menu p-4">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                <label class="form-check-label" for="flexRadioDefault2">
-                    Name
-                </label>
-            </div>
+    <div class="d-flex-col">
+           <!-- APPLY FORM -->
+        <form action="{% url 'filterPartners' %}" class="d-flex-col mb-2">
+            {% csrf_token %}
 
-            
-        </form>
-
-    </div> -->
-
-    <div style="width: 15%;">
-        <h5> Filter by: </h5>
-        <!-- USING ACCORDION -->
-        <div class="accordion-flush" id="accordionParent">
-            <!-- HEADER: DATE -->
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        Date
-                    </button>
-                </h2>
-            </div>
-            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionParent">
-                <div class="accordion-body">
-                    <div class="mb-2">
-                        <label for="start">Start Date</label>
-                        <input id="start" name="start" class="form-control" type="date" placeholder="mm/dd/yyyy">
-                    </div>
-                    <div class="mb-2">
-                        <label for="end">End Date</label>
-                        <input id="end" name="end" class="form-control" type="date" placeholder="mm/dd/yyyy">
+            <h5> Filter by: </h5>
+            <!-- ACCORDION ROOT -->
+            <div class="accordion-flush" id="accordionParent">
+                <!-- HEADER: Date -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" 
+                        data-bs-toggle="collapse" data-bs-target="#collapseOne" 
+                        aria-expanded="false" aria-controls="collapseOne">
+                            Date
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseOne" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <div class="mb-2">
+                            <label for="start">Start Date</label>
+                            <input id="start" name="start" class="form-control" type="date" placeholder="mm/dd/yyyy">
+                        </div>
+                        <div class="mb-2">
+                            <label for="end">End Date</label>
+                            <input id="end" name="end" class="form-control" type="date" placeholder="mm/dd/yyyy">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- HEADER: CATEGORY -->
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Category
-                    </button>
-                </h2>
-            </div>
-            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionParent">
-                <div class="accordion-body">
-                    <!-- <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" id="partner" checked>
-                        <label class="form-check-label" for="partner">
-                          Partner
-                        </label>
+                <!-- HEADER: Title of Partnership -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Title of Partnership
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseTwo" class="accordion-collapse collapse">
+                    <!-- Django Forms For Loop -->
+                    <div class="accordion-body">
+                        {% for extension in partnership_extension_choices %}
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="{{extension.1}}" id="{{extension.1}}" name="partnership_extensions"> 
+                            <p> {{extension.1}} </p>
+                        </div>
+
+                        {% endfor %}
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="category" id="title">
-                        <label class="form-check-label" for="title">
-                          Title
-                        </label>
+
+                    <!-- <div class="accordion-body">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="category" id="HT:BLS" checked>
+                            <label class="form-check-label" for="partner">
+                                Health Training: Basic Life Support 
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="category" id="HT:BAandPFA">
+                            <label class="form-check-label" for="HT:BAandPFA">
+                                Health Training: Breast Advocacy and PFA
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="category" id="HT:FAST">
+                            <label class="form-check-label" for="HT:FAST">
+                                Health Training: FAST 
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="category" id="HE:OH">
+                            <label class="form-check-label" for="HE:OH">
+                                Health Education: Oral Health
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="category" id="HE:MHPS">
+                            <label class="form-check-label" for="HE:MHPS">
+                                Health Education: MHPS
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="category" id="DPT">
+                            <label class="form-check-label" for="DPT">
+                                Disaster Preparedness Training
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="category" id="DPL">
+                            <label class="form-check-label" for="DPL">
+                                Disaster Preparedness Lecture
+                            </label>
+                        </div>
                     </div> -->
                 </div>
+
+                <!-- HEADER: Stakeholder Category -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Stakeholder Category
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseThree" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <!-- <div class="form-check">
+                            <input class="form-check-input" type="radio" name="category" id="partner" checked>
+                            <label class="form-check-label" for="partner">
+                            Partner
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="category" id="title">
+                            <label class="form-check-label" for="title">
+                            Title
+                            </label>
+                        </div> -->
+                    </div>
+                </div>
+
             </div>
+
+            <!-- APPLY BUTTON -->
+            <div class="d-grid mt-2">
+                <button class="p-2">Apply</button>
+            </div>
+            
+
+        </form>
+
+        <!-- CANCEL FORM -->
+
+        <div class="d-flex justify-content-end">
+            <a href="">Clear Filters</a>
         </div>
+
+        <form action="" class="d-flex-col flex-fill">
+            {% csrf_token %}
+
+            <!-- <button class="p-2 flex-fill">Clear</button> -->
+        </form>
 
     </div>
 
-    
+ 
 
     <!-- PARTNERS TABLE LIST -->
     <div class="table-responsive d-flex justify-content-center">

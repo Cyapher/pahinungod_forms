@@ -5,6 +5,7 @@ from partners_forms.forms import PartnerForm, Type_of_partnerForm, FilesForm
 from .models import Partner, Scope_of_work, Type, File
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
+from django.db.models import Q
 import os
 
 # Create your views here.
@@ -18,6 +19,17 @@ def admin_login(request):
 def view_partners(request):
     partners_list = {}
     partners = Partner.objects.all()
+
+    # PARTNERSHIP EXTENSION
+    partnership_extension_choices = [
+        ('Health Training: Basic Life Support', 'Health Training: Basic Life Support'),
+        ('Health Training: Breast Advocacy and PFA', 'Health Training: Breast Advocacy and PFA'),
+        ('Health Training: FAST', 'Health Training: FAST'),
+        ('Health Education: Oral Health', 'Health Education: Oral Health'),
+        ('Health Education: MHPS', 'Health Education: MHPS'),
+        ('Disaster Preparedness Training', 'Disaster Preparedness Training'),
+        ('Disaster Preparedness Lecture', 'Disaster Preparedness Lecture'),
+    ]
     
     for partner in partners:
         files = File.objects.filter(partner=partner)
@@ -26,7 +38,7 @@ def view_partners(request):
     print(f'partners list: {partners_list}')
 
     # return render(request, "view_partners.html", {'partners' : partners})
-    return render(request, "view_partners.html", {'partners' : partners, 'partners_list' : partners_list})
+    return render(request, "view_partners.html", {'partners' : partners, 'partners_list' : partners_list, 'partnership_extension_choices': partnership_extension_choices})
 
 def partner_form(request): # toPartnerForm Questionnairre
     scope_of_work_choices = Scope_of_work.scope_of_work_choices
@@ -186,9 +198,6 @@ def del_partner(request, partner_id):
         return redirect('view_partners')
 
 def filterPartners(request):
-    query = request.GET.get('q')
-    print(f'query: {query}')
-
     # get all partners
     partners = Partner.objects.all()
     partners_list = {}
@@ -198,34 +207,53 @@ def filterPartners(request):
         files = File.objects.filter(partner=partner)
         partners_list[partner] = files
 
+    # Search Partner
+    query = request.GET.get('q')
+    print(f'query: {query}')
+
+    # Filter Partner
+    # +++++ Partnership Extension +++++
+    partner_extensions = request.GET.getlist('partnership_extensions')
+    for extension in partner_extensions:
+        print(f'partnership extensions: {extension}')
+
     # Check Action (Search, Filter, Sort)
-    if(query):
-        partners = partners.filter(partner_name__contains=query)
+    if(query): # Search Partners
+        # partners = partners.filter(partner_name__contains=query)
+        partners = searchFilter(partners, query)
+    elif(partner_extensions):
+        
         pass
 
-    # Search Partners
-    # partners = partners.filter(partner_name__contains=query)
-    
-    return render(request, "view_partners.html", {'partners': partners, 'partners_list' : partners_list})
+    # return render(request, "view_partners.html", {'partners': partners, 'partners_list' : partners_list})
+    return HttpResponseRedirect(reverse('view_partners'))
 
-def searchFilter(request, partners):
-    query = request.GET.get('q')
+def searchFilter(partners, query):
 
-    if query:
-        partners = partners.filter(
-            Q(partner_name__contains=query) |
-            Q(partnership_extension__contains=query) | 
-            Q(stakeholder_category__contains=query) | 
-            Q(second_category__contains=query) | 
-            Q(other_choice__contains=query) | 
-            Q(type_of_partnership__contains=query) | 
-            Q(Agreement_Start_Date__contains=query) 
-            ).distinct()
+    partners = partners.filter(
+        Q(partner_name__icontains=query) |
+        Q(partnership_extension__icontains=query) | 
+        Q(stakeholder_category__icontains=query) | 
+        Q(second_category__icontains=query) | 
+        Q(other_choice__icontains=query) | 
+        Q(type_of_partnership__type_code__icontains=query) | 
+        Q(type_of_partnership__type_of_partnership__icontains=query)
+        ).distinct()
+
+    if partners.exists():
+        print('partner exists')
+        print(f'partners: {partners}')
+        return partners
     elif query == '':
         partners = partners.all()
     else:
         print('no partner with this query')
         return None
+    
+    return partners
+
+def partner_extensions_query(request, partners):
+    pass
 
 # MISC. ================================================================================================================
 
