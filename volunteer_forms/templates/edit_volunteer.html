@@ -510,7 +510,11 @@
         </div>
       </div>
 
+      {% if user.is_superuser or user.is_staff %}
+        <div class="popup" id="popup2" style="margin-left: -1px;">
+      {% else %}
       <div class="popup" id="popup2" style="margin-left: -1px; display: none;">
+      {% endif %}
         <div class="popup-content container-fluid">
           <h5 class="h5">Select Programs (Click to select/unselect)</h5>
           <div class="row">
