@@ -87,58 +87,80 @@
   }
 
 </style>
+<form class="d-flex justify-content-center" action="{% url 'filter_vol' %}" method="get">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table>
+                        <label>Start Date Filter</label>
+                        <div id="input_date_fil" class="input-group mb-2">
+                        <span class="input-group-text">Start Date</span>
+                            {% if request.GET.start %}
+                            <input id="date_filter_start" name="start" class="form-control me-6" type="date" placeholder="mm/dd/yyyy" value="{{ request.GET.start }}">
+                            {% else %}
+                            <input id="date_filter_start" name="start" class="form-control me-6 mr-2" type="date" placeholder="mm/dd/yyyy">
+                            {% endif %}
 
-      <div class="collapse" id="navbarToggleExternalContent" style="width: 110%;">
-        <div class="p-4">
-            <nav id="filterRow" class="navbar navbar-expand-lg">
-                <div class="container">
-                    <form class="d-flex" action="{% url 'filter_vol' %}" method="get">
-                        {% if request.GET.start %}
-                        <input name="start" class="form-control me-6 mx-2" type="date" placeholder="mm/dd/yyyy" value="{{ request.GET.start }}">
-                        {% else %}
-                        <input name="start" class="form-control me-6 mx-2" type="date" placeholder="mm/dd/yyyy">
-                        {% endif %}
-                        {% if request.GET.end %}
-                        <input name="end" class="form-control me-6 mx-2" type="date" placeholder="mm/dd/yyyy" value="{{ request.GET.end }}">
-                        {% else %}
-                        <input name="end" class="form-control me-6 mx-2" type="date" placeholder="mm/dd/yyyy">
-                        {% endif %}
-                        <button type="submit" class="btn btn-dark" style="width: 140%;">
-                            Filter Date Range  <i class="fa-regular fa-calendar"></i>
-                        </button>
-                        <select class="form-select me-6 mx-2" name="column">
-                            <option {% if request.GET.column == 'first_name' %}selected{% endif %} value="first_name">Name</option>
-                            <option {% if request.GET.column == 'customStartDate' %}selected{% endif %} value="customStartDate">Start Date</option>
-                            <option {% if request.GET.column == 'occupation' %}selected{% endif %} value="occupation">Occupation</option>
-                        </select>
-                        <select class="form-select me-6 mx-2" name="order">
-                            <option {% if request.GET.order == 'asc' %}selected{% endif %} value="asc">A-Z/Old-New</option>
-                            <option {% if request.GET.order == 'des' %}selected{% endif %} value="des">Z-A/New-Old</option>
-                        </select>
-                        <button type="submit" class="btn btn-dark" style="width: 100%;">
-                            Sort  <i class="fa-solid fa-sort"></i>
-                        </button>
-                        {% if request.GET.q %}
-                        <input name="q" class="form-control me-6 mx-2" type="search" placeholder="Search" aria-label="Search" value="{{ request.GET.q }}" style="width: 140%;">
-                        {% else %}
-                        <input name="q" class="form-control me-6 mx-2" type="search" placeholder="Search" aria-label="Search" style="width: 140%;">
-                        {% endif %}
-                        <button type="submit" class="btn btn-dark" style="width: 100%;">
-                            Search  <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
-                    </form>
-                </div>
-            </nav>
+                            <span class="input-group-text"> End Date</span>
+                            {% if request.GET.end %}
+                            <input id="date_filter_end" name="end" class="form-control me-6" type="date" placeholder="mm/dd/yyyy" value="{{ request.GET.end }}">
+                            {% else %}
+                            <input id="date_filter_end" name="end" class="form-control me-6" type="date" placeholder="mm/dd/yyyy">
+                            {% endif %}
+                        </div>
+
+                        <label>Sorting</label>
+                        <div class="container border px-3 py-2 mb-2">
+                            <label>Column</label>
+                            <div id="input_sort_fil" class="input-group mb-3">
+                                <select class="form-select me-6" name="column">
+                                    <option {% if request.GET.column == 'first_name' %}selected{% endif %} value="first_name">Name</option>
+                                    <option {% if request.GET.column == 'customStartDate' %}selected{% endif %} value="customStartDate">Start Date</option>
+                                    <option {% if request.GET.column == 'occupation' %}selected{% endif %} value="occupation">Occupation</option>
+                                </select>
+                            </div>
+    
+                            <label>Order</label>
+                            <div id="input_sort_fil" class="input-group mb-2">
+                                <select class="form-select me-6" name="order">
+                                    <option {% if request.GET.order == 'asc' %}selected{% endif %} value="asc">A-Z/Old-New</option>
+                                    <option {% if request.GET.order == 'des' %}selected{% endif %} value="des">Z-A/New-Old</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <label>Search</label>
+                        <div class="input-group">
+                            <span class="input-group-text">Search Query</span>
+                            {% if request.GET.q %}
+                            <input name="q" class="form-control me-6" type="search" placeholder="Search" aria-label="Search" value="{{ request.GET.q }}">
+                            {% else %}
+                            <input name="q" class="form-control me-6" type="search" placeholder="Search" aria-label="Search">
+                            {% endif %}
+                        </div>
+                </table>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success">Apply Filters</button>
+            </div>
+        </div>
         </div>
     </div>
+</form>
     
     
 
       <nav class="navbar navbar-expand">
         <div class="container-fluid justify-content-between">
-          <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-label="Toggle navigation">
+          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Sort/Filter
-          </button>
+        </button>
           <form action="{% url 'list' %}">
               <input class="btn btn-dark" type="submit" value="Reset Filters">
           </form>
@@ -151,7 +173,50 @@
   {% if volunteers %}
   <!-- default -->
   <div class="table-responsive">
-    <table id="volunteer_list" class="table table-bordered" align="center">
+    <table id="volunteer_list" class="table table-bordered caption-top" align="center">
+        {% if request.GET %}
+        <caption>
+            <em>
+                Filters: 
+            </em>
+            {% for key, value_list in request.GET.items %}
+                {% if value_list %}
+                    {% if key == "start" %}
+                        Start Date: {{ value_list }} // 
+                    {% endif %}
+                    {% if key == "end" %}
+                        End Date: {{ value_list }} //
+                    {% endif %}
+                    {% if key == "column" %}
+                       Sort Column:                        
+                       {% if value_list == "first_name" %}
+                        First Name 
+                        //
+                        {% elif value_list == "occupation" %}
+                        Occupation 
+                        //
+                        {% else %}
+                        Start Date 
+                        //
+                        {% endif %}
+                    {% endif %}
+                    {% if key == "order" %}
+                    Sort Order: 
+                    {% if value_list == "asc" %}
+                        Ascending 
+                        //
+                        {% else %}
+                        Descending 
+                        //
+                        {% endif %}
+                    {% endif %}
+                    {% if key == "q" %}
+                        Search Query: <em>"{{ value_list }}"</em>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            </caption>
+        {% endif %}
         <thead class="table-light border-dark">
             <th>Name</th>
             <th>Specific Information</th>
