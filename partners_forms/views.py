@@ -43,7 +43,8 @@ def view_partners(request):
 def partner_form(request): # toPartnerForm Questionnairre
     scope_of_work_choices = Scope_of_work.scope_of_work_choices
     # print(f'scope_of_work_choices: {scope_of_work_choices}')
-    return render(request, "partners_forms.html", {'form' : PartnerForm(), 'file_form': FilesForm(),'scope_of_work_choices': scope_of_work_choices})
+    return render(request, "partners_forms.html", {'form' : PartnerForm()
+    , 'file_form': FilesForm(),'scope_of_work_choices': scope_of_work_choices})
 
 def type_partner_form(request): # toTypePartnerForm Questionnairre
     types = Type.objects.all()
