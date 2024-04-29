@@ -671,6 +671,51 @@
         }
       });
 
+    document.addEventListener('DOMContentLoaded', function() {
+      alumniCheck.addEventListener('change', function() {
+        if (!this.checked) {
+          document.getElementById('id_constituentUnit').value = '';
+        }
+      })
+
+      pghCheck.addEventListener('change', function() {
+        if (!this.checked) {
+          document.getElementById('id_specification').value = '';
+        }
+      })
+
+      
+      workCheck.addEventListener('change', function() {
+        if (!this.checked) {
+          document.getElementById('id_occupation').value = '';
+          document.getElementById('id_otherOccu').value = '';
+        }
+      })
+
+      licenseCheck.addEventListener('change', function() {
+        if (!this.checked) {
+          document.getElementById('id_prcLicense').value = '';
+          document.getElementById('id_dept').value = '';
+          document.getElementById('id_company').value = '';
+          document.getElementById('id_officeAdd').value = '';
+          document.getElementById('id_license_telephone').value = '';
+          document.getElementById('id_license_email').value = '';
+          document.getElementById('id_workSched').value = '';
+        }
+      })
+
+      upCheck.addEventListener('change', function() {
+        if (!this.checked) {
+          document.getElementById('id_idNum').value = '';
+          document.getElementById('id_course').value = '';
+          document.getElementById('id_college').value = '';
+          document.getElementById('id_yearLvl').value = '';
+        }
+      })
+
+
+    })
+
       function toggleCheckbox(checkboxId) {
         var checkbox = document.getElementById(checkboxId);
         var cardBody = checkbox.parentElement;
