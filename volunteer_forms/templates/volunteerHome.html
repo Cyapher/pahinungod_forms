@@ -118,12 +118,18 @@
         <div class="modal-content">
 
           <!-- header -->
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Profile</h5>
+          <div class="modal-header" style="background-color: #7B0100;">
+            <h5 class="modal-title text-white" id="exampleModalLabel">Profile</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
           <!-- body -->
+          <div id="" style="background-color: #7B0100; border-radius: 0 0 25px 25px; margin-top: -5px;" class="d-flex justify-content-center">
+            <div class="d-flex-col align-items-center">
+              <h6 class="display-6 m-0 text-white">{{user.volunteer}}</h6>
+              <p id="basic_info" class="justify-self-center m-0 text-center"> {{user.volunteer.email}} </p>
+            </div>
+          </div>
           <div class="modal-body">
             {% include 'volunteerProfile.html' %}
           </div>
