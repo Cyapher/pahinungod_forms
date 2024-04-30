@@ -18,7 +18,7 @@
         <!-- SEARCH -->
         <form class="d-flex mx-5" action="{% url 'filterPartners' %}">
             {% csrf_token %}
-            <input class="form-control me-2" type="search" placeholder="search" aria-label="Search" name="q" id="id_search_field">
+            <input class="form-control me-2" type="search" placeholder="search" aria-label="Search" name="q" id="id_search_field" value="{{ request.GET.q }}">
             <button class="btn" type="submit" id="id_search_button">Search</button>
         </form>
     </div>
@@ -54,11 +54,11 @@
                     <div class="accordion-body">
                         <div class="mb-2">
                             <label for="start">Start Date</label>
-                            <input id="start" name="start" class="form-control" type="date" placeholder="mm/dd/yyyy">
+                            <input id="start" name="start" class="form-control" type="date" placeholder="mm/dd/yyyy" value="{{ request.GET.start }}">
                         </div>
                         <div class="mb-2">
                             <label for="end">End Date</label>
-                            <input id="end" name="end" class="form-control" type="date" placeholder="mm/dd/yyyy">
+                            <input id="end" name="end" class="form-control" type="date" placeholder="mm/dd/yyyy" value="{{ request.GET.end }}">
                         </div>
                     </div>
                 </div>
@@ -77,11 +77,12 @@
                         {% for extension in partnership_extension_choices %}
 
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="{{extension.1}}" id="{{extension.1}}" name="partnership_extensions"> 
+                            <input class="form-check-input" type="checkbox" value="{{extension.1}}" id="{{extension.1}}" name="partnership_extensions" {% if extension.1 in partnership_filters %}checked{% endif %}> 
                             <p> {{extension.1}} </p>
                         </div>
 
                         {% endfor %}
+                        <p>{{ partner_filters }}</p>
                     </div>
 
                     <!-- <div class="accordion-body">
@@ -140,18 +141,68 @@
                 </div>
                 <div id="collapseThree" class="accordion-collapse collapse">
                     <div class="accordion-body">
-                        <!-- <div class="form-check">
-                            <input class="form-check-input" type="radio" name="category" id="partner" checked>
-                            <label class="form-check-label" for="partner">
-                            Partner
-                            </label>
-                        </div>
+
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="category" id="title">
-                            <label class="form-check-label" for="title">
-                            Title
-                            </label>
-                        </div> -->
+                            <input class="form-check-input" name="category_radio" type="radio" id="primary_radio" value="1" {% if category_radio == '1' %}checked{% endif %}>
+                            <label for="primary_radio">Filter By Primary Category</label>
+                        </div>
+                        <br>
+
+                        <div id="primary_categories">
+                            {% for category in stakeholder_category_choices %}
+    
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="{{category.1}}" id="{{category.1}}" name="primary_categories" {% if category.1 in primary_filters %}checked{% endif %}> 
+                                <p> {{category.1}} </p>
+                            </div>
+    
+                            {% endfor %}
+                        </div>
+
+
+                        <hr>
+
+                        <div class="form-check">
+                            <input class="form-check-input" name="category_radio" type="radio" id="secondary_radio" value="2" {% if category_radio == '2' %}checked{% endif %}>
+                            <label for="secondary_radio">Filter By Secondary Category</label>
+                        </div>
+                        <br>
+
+                        <div id="secondary_categories">
+                            {% for category in second_category_choices %}
+    
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="{{category.1}}" id="{{category.1}}" name="secondary_categories" {% if category.1 in secondary_filters %}checked{% endif %}> 
+                                <p> {{category.1}} </p>
+                            </div>
+    
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Partnership Type
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseFour" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+
+                        <div id="typefilter_div">
+                            {% for type in types %}
+    
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="{{type.type_code}}" id="{{type.type_code}}" name="type_filters" {% if type.type_code in type_filters %}checked{% endif %}> 
+                                <p> {{type.type_code}} </p>
+                            </div>
+    
+                            {% endfor %}
+                        </div>
+
                     </div>
                 </div>
 
@@ -159,7 +210,7 @@
 
             <!-- APPLY BUTTON -->
             <div class="d-grid mt-2">
-                <button class="p-2">Apply</button>
+                <button type="submit" class="p-2">Apply</button>
             </div>
             
 
@@ -168,7 +219,7 @@
         <!-- CANCEL FORM -->
 
         <div class="d-flex justify-content-end">
-            <a href="">Clear Filters</a>
+            <a href="{% url 'view_partners' %}">Clear Filters</a>
         </div>
 
         <form action="" class="d-flex-col flex-fill">
@@ -268,7 +319,7 @@
         
                 {% empty %}
                 <tr>
-                    <td colspan="6" align="center">
+                    <td colspan="6" align="center" class="vw-100">
                         <h2 id="id_isEmpty">No Partners Available</h2>
                         <p>Nu bayun...</p>
                     </td>
@@ -286,33 +337,57 @@
 
 
 
-<!-- <script>
-    document.getElementById('partners').className += ' active bg-secondary'
+<script>
 
-    const search_button = document.getElementById('id_search_button');
-    const search_field = document.getElementById('id_search_field');
-    
-    if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-        console.info( "This page is reloaded" );
+    const primaryRadio = document.getElementById('primary_radio');
+    const secondaryRadio = document.getElementById('secondary_radio');
+    const primary_checkboxes = document.querySelectorAll("#primary_categories input[type='checkbox']");
+    const secondary_checkboxes = document.querySelectorAll("#secondary_categories input[type='checkbox']");
+
+    // Function to disable checkboxes
+    function disableCheckboxes(checkboxes) {
+        checkboxes.forEach((checkbox) => {
+            checkbox.disabled = true;
+            checkbox.checked = false;
+        });
     }
 
-    search_button.addEventListener('click', function(event){
-        const partners_table = document.getElementById('id_partners_table');
-        var partners_table_count = partners_table.childElementCount;
-        var isEmpty = false;
+    // Function to enable checkboxes
+    function enableCheckboxes(checkboxes) {
+        checkboxes.forEach((checkbox) => {
+            checkbox.disabled = false;
+        });
+    }
 
-        console.log(partners_table.childElementCount);
-        
-        if(partners_table.childElementCount === 1){
-            console.log('blank')
-            
-            isEmpty = true;
-            
-            document.getElementById("id_isEmpty").innerHTML = "yourTextHere";
+    // Event listener for radio button changes
+    primaryRadio.addEventListener('change', function () {
+        if (this.checked) {
+            enableCheckboxes(primary_checkboxes);
+            disableCheckboxes(secondary_checkboxes);
         }
+    });
+
+    secondaryRadio.addEventListener('change', function () {
+        if (this.checked) {
+            enableCheckboxes(secondary_checkboxes);
+            disableCheckboxes(primary_checkboxes);
+        }
+    });
+
+    var category_radio = "{{ category_radio }}"
+
+    if (category_radio==1 || category_radio==null) {
         
+    } else {
+        disableCheckboxes(primary_checkboxes);
+    }
     
-    })
-</script> -->
+    if (category_radio==2 || category_radio==null) {
+        
+    } else {
+        disableCheckboxes(secondary_checkboxes);
+    }
+
+</script>
 
 {% endblock %}

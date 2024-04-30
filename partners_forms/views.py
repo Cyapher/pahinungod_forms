@@ -10,6 +10,33 @@ import os
 
 # Create your views here.
 # WEB PAGES ================================================================================================================
+
+# PARTNERSHIP EXTENSION
+partnership_extension_choices = [
+    ('Health Training: Basic Life Support', 'Health Training: Basic Life Support'),
+    ('Health Training: Breast Advocacy and PFA', 'Health Training: Breast Advocacy and PFA'),
+    ('Health Training: FAST', 'Health Training: FAST'),
+    ('Health Education: Oral Health', 'Health Education: Oral Health'),
+    ('Health Education: MHPS', 'Health Education: MHPS'),
+    ('Disaster Preparedness Training', 'Disaster Preparedness Training'),
+    ('Disaster Preparedness Lecture', 'Disaster Preparedness Lecture'),
+]
+
+# STAKEHOLDER CATEGORY
+stakeholder_category_choices = [
+    ('Private', 'Private'),
+    ('Government', 'Government'),
+]
+
+second_category_choices = [
+    ('NGO', 'NGO',),
+    ('Company', 'Company'),
+    ('Educational Institution (Private)', 'Educational Institution (Private)'),
+    ('LGU', 'LGU'),
+    ('National Government Agency', 'National Government Agency'),
+    ('Educational Institution (Government)', 'Educational Institution (Government)')
+]
+
 def home_page(request):
     return render(request, "home.html")
 
@@ -20,16 +47,6 @@ def view_partners(request):
     partners_list = {}
     partners = Partner.objects.all()
 
-    # PARTNERSHIP EXTENSION
-    partnership_extension_choices = [
-        ('Health Training: Basic Life Support', 'Health Training: Basic Life Support'),
-        ('Health Training: Breast Advocacy and PFA', 'Health Training: Breast Advocacy and PFA'),
-        ('Health Training: FAST', 'Health Training: FAST'),
-        ('Health Education: Oral Health', 'Health Education: Oral Health'),
-        ('Health Education: MHPS', 'Health Education: MHPS'),
-        ('Disaster Preparedness Training', 'Disaster Preparedness Training'),
-        ('Disaster Preparedness Lecture', 'Disaster Preparedness Lecture'),
-    ]
     
     for partner in partners:
         files = File.objects.filter(partner=partner)
@@ -37,8 +54,15 @@ def view_partners(request):
 
     print(f'partners list: {partners_list}')
 
+    types = Type.objects.all()
+
     # return render(request, "view_partners.html", {'partners' : partners})
-    return render(request, "view_partners.html", {'partners' : partners, 'partners_list' : partners_list, 'partnership_extension_choices': partnership_extension_choices})
+    return render(request, "view_partners.html", {'partners' : partners, 
+                                                  'types' : types,
+                                                  'partners_list' : partners_list, 
+                                                  'partnership_extension_choices': partnership_extension_choices,
+                                                  'stakeholder_category_choices' : stakeholder_category_choices,
+                                                  'second_category_choices' : second_category_choices})
 
 def partner_form(request): # toPartnerForm Questionnairre
     scope_of_work_choices = Scope_of_work.scope_of_work_choices
@@ -217,19 +241,49 @@ def filterPartners(request):
     partner_extensions = request.GET.getlist('partnership_extensions')
     for extension in partner_extensions:
         print(f'partnership extensions: {extension}')
+        # print(partner_extensions)
+
+    # +++++ Date (Start & End) +++++
+    start = request.GET.get('start')
+    end = request.GET.get('end')
+
+    # +++++ Category (Primary & Secondary) +++++
+    category_radio = request.GET.get('category_radio')
+    primary_list = request.GET.getlist('primary_categories')
+    secondary_list = request.GET.getlist('secondary_categories')
+
+    # +++++ Partnership Type +++++
+    type_list = request.GET.getlist('type_filters')
 
     # Check Action (Search, Filter, Sort)
     if(query): # Search Partners
         # partners = partners.filter(partner_name__contains=query)
-        partners = searchFilter(partners, query)
-    elif(partner_extensions):
-        
-        pass
+        partners = searchFilter(request, partners, query)
+    if(partner_extensions):
+        partners = partner_extensions_query(request, partners, partner_extensions)
+    if(start or end):
+        partners = dateFilter(request, partners, start, end)
+    if(category_radio):
+        partners = categoryFilter(request, category_radio, primary_list, secondary_list, partners)
+    if(type_list):
+        partners = typeFilter(request, partners, type_list)
 
-    # return render(request, "view_partners.html", {'partners': partners, 'partners_list' : partners_list})
-    return HttpResponseRedirect(reverse('view_partners'))
 
-def searchFilter(partners, query):
+    types = Type.objects.all()
+    return render(request, "view_partners.html", {'partners': partners, 
+                                                  'types' : types,
+                                                  'category_radio' : category_radio,
+                                                  'partnership_filters' : partner_extensions,
+                                                  'primary_filters' : primary_list,
+                                                  'secondary_filters' : secondary_list,
+                                                  'type_filters' : type_list,
+                                                  'partners_list' : partners_list, 
+                                                  'partnership_extension_choices': partnership_extension_choices,
+                                                  'stakeholder_category_choices' : stakeholder_category_choices,
+                                                  'second_category_choices' : second_category_choices})
+    # return HttpResponseRedirect(reverse('view_partners'))
+
+def searchFilter(request, partners, query):
 
     partners = partners.filter(
         Q(partner_name__icontains=query) |
@@ -241,7 +295,7 @@ def searchFilter(partners, query):
         Q(type_of_partnership__type_of_partnership__icontains=query)
         ).distinct()
 
-    if partners.exists():
+    if partners:
         print('partner exists')
         print(f'partners: {partners}')
         return partners
@@ -253,8 +307,77 @@ def searchFilter(partners, query):
     
     return partners
 
-def partner_extensions_query(request, partners):
-    pass
+def partner_extensions_query(request, partners, query):
+
+    q_objects = Q()
+
+    for value in query:
+        q_objects |= Q(partnership_extension=value)
+
+    partners = partners.filter(q_objects)
+    
+    if partners:
+        return partners
+    else:
+        return None
+
+def typeFilter(request, partners, query):
+
+    q_objects = Q()
+
+    for value in query:
+        q_objects |= Q(type_of_partnership__type_code=value)
+
+    partners = partners.filter(q_objects)
+
+    print("===========")
+    print(q_objects)
+
+    if partners:
+        return partners
+    else:
+        return None
+
+# dateFilter
+# -- (both start and end) return partner if partnership_start >= queryStart && partnership_end <= queryEnd
+# -- (start only) return partner if partnership_start >= queryStart
+# -- (end only) return partner if partnership_end <= queryEnd
+# categoryFilter
+# -- (1) private, government (2) private categories (3) govt categories
+# typeFilter
+# -- similar to partner extensions query
+
+def dateFilter(request, partners, start, end):
+    if start and end:
+        partners = partners.filter(Q(Agreement_Start_Date__gte=start) & Q(Agreement_End_Date__lte=end))
+    elif start:
+        partners = partners.filter(Q(Agreement_Start_Date__gte=start))
+    elif end:
+        partners = partners.filter(Q(Agreement_End_Date__lte=end))
+
+    if partners:
+        return partners
+    else:
+        return None
+    
+def categoryFilter(request, category_radio, primary_list, secondary_list, partners):
+
+    q_objects = Q()
+
+    if(category_radio=='1'):
+        for value in primary_list:
+            q_objects |= Q(stakeholder_category=value)
+    elif(category_radio=='2'):
+        for value in secondary_list:
+            q_objects |= Q(second_category=value)
+
+    partners = partners.filter(q_objects)
+
+    if partners:
+        return partners
+    else:
+        return None
+
 
 # MISC. ================================================================================================================
 
