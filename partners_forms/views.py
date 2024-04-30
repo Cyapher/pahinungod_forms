@@ -6,6 +6,7 @@ from .models import Partner, Scope_of_work, Type, File
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.db.models import Q
+from django.core.paginator import Paginator
 import os
 
 # Create your views here.
@@ -37,6 +38,8 @@ second_category_choices = [
     ('Educational Institution (Government)', 'Educational Institution (Government)')
 ]
 
+pagination_count = 1
+
 def home_page(request):
     return render(request, "home.html")
 
@@ -47,12 +50,15 @@ def view_partners(request):
     partners_list = {}
     partners = Partner.objects.all()
 
-    
     for partner in partners:
         files = File.objects.filter(partner=partner)
         partners_list[partner] = files
 
     print(f'partners list: {partners_list}')
+
+    p = Paginator(partners, pagination_count)
+    page = request.GET.get("page")
+    partners = p.get_page(page)
 
     types = Type.objects.all()
 
@@ -255,6 +261,10 @@ def filterPartners(request):
     # +++++ Partnership Type +++++
     type_list = request.GET.getlist('type_filters')
 
+    # +++++ Partnership Type +++++
+    column = request.GET.get('column')
+    order = request.GET.get('order')
+
     # Check Action (Search, Filter, Sort)
     if(query): # Search Partners
         # partners = partners.filter(partner_name__contains=query)
@@ -267,7 +277,12 @@ def filterPartners(request):
         partners = categoryFilter(request, category_radio, primary_list, secondary_list, partners)
     if(type_list):
         partners = typeFilter(request, partners, type_list)
+    if(column and order):
+        partners = sortPartners(request, partners, column, order)
 
+    p = Paginator(partners, pagination_count)
+    page = request.GET.get("page")
+    partners = p.get_page(page)
 
     types = Type.objects.all()
     return render(request, "view_partners.html", {'partners': partners, 
@@ -338,15 +353,6 @@ def typeFilter(request, partners, query):
     else:
         return None
 
-# dateFilter
-# -- (both start and end) return partner if partnership_start >= queryStart && partnership_end <= queryEnd
-# -- (start only) return partner if partnership_start >= queryStart
-# -- (end only) return partner if partnership_end <= queryEnd
-# categoryFilter
-# -- (1) private, government (2) private categories (3) govt categories
-# typeFilter
-# -- similar to partner extensions query
-
 def dateFilter(request, partners, start, end):
     if start and end:
         partners = partners.filter(Q(Agreement_Start_Date__gte=start) & Q(Agreement_End_Date__lte=end))
@@ -378,6 +384,15 @@ def categoryFilter(request, category_radio, primary_list, secondary_list, partne
     else:
         return None
 
+def sortPartners(request, partners, column, order):
+
+    if partners:
+
+        partners = partners.order_by(column if order == 'asc' else ('-' + column))
+        return partners
+
+    else:
+        return None
 
 # MISC. ================================================================================================================
 
