@@ -38,7 +38,7 @@ second_category_choices = [
     ('Educational Institution (Government)', 'Educational Institution (Government)')
 ]
 
-pagination_count = 1
+pagination_count = 2
 
 def home_page(request):
     return render(request, "home.html")
