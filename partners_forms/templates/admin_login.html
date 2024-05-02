@@ -19,11 +19,6 @@
 
     }
 
-    .img {
-        width: 22%;
-        height: auto;
-    }
-
     .circular--square { 
         border-radius: 50%; 
         margin-bottom: -20px;
@@ -34,6 +29,7 @@
     #red-color {
         color: #7B0100;
         background-color: #7B0100;
+        box-sizing: border-box;
     }
 
     #dark-green-color {
@@ -44,6 +40,28 @@
     #parchment {
         color: #FCF5E5;
     }
+
+    .img-bg {
+        position: absolute;
+        /* background-image: url('/static/partners_forms/media/Overview.jpg'); */
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        object-fit: cover;
+        /* max-width: 100%; */
+        /* max-height: 100%; */
+        width: 100%;
+        height: 100vh;
+        /* position: absolute; */
+        z-index: -1;
+        opacity: 0.3;
+        background-attachment: fixed;
+        
+        /* Add the blur effect */
+        filter: blur(8px);
+        -webkit-filter: blur(8px);
+    }
+
 
 </style>
 
@@ -57,28 +75,39 @@
 
     <!-- <h1 class="display-1 text-center">Pahinungod Forms</h1> -->
     
-
-    <div class="d-flex flex-column align-items-center vh-100 justify-content-center">
+    <!-- BG IMAGE -->
+    <img src="/static/partners_forms/media/Overview.jpg" alt="Pahinungod Background Overview" class="img-bg">
+    
+    <div class="d-flex flex-column align-items-center vh-100 justify-content-center" style="height: 100%;" >
 
         <!-- CENTER PANEL -->
-        <div class="d-flex justify-content-center" style="height: 50%;">
-            <div class="h-100 w-50 p-4" id="dark-green-color" style="border-radius: 16px 0px 0px 16px;">
-                <h1 class="display-3 text-white">Pahinungod Forms</h1>
-                <h6 class="text-white" >Lorem ipsum dolor sit amet. Non ratione doloribus et quos nihil ut expedita iure! Et tempore suscipit ea rerum sint et officia cumque et rerum voluptatem hic corporis voluptas eos deserunt veniam et quod quasi. Hic deserunt quibusdam At minus Quis At sunt fugit ab sequi nihil quo similique veniam et neque doloribus eos eligendi maxime. Ea culpa repudiandae ea nesciunt odio aut animi maiores est impedit quia in dolores praesentium in voluptatem enim sed nesciunt fuga.</h6>
-            </div>
-            <div class="d-flex flex-column align-items-center bg-light pt-5" style="border-style: solid; border-radius: 0px 16px 16px 0px;">
-                <img src="{% static 'partners_forms/media/admin_icon.png' %}" alt="Admin Icon" class="img circular--square" style="background-color: #7B0100; margin-top: -100px ; margin-bottom: 50px;">
-        
-                <form id="login_form" action="{% provider_login_url 'google' %}">
-                    <div class="d-flex center-panel flex-column p-4" id="red-color">            
-                            <h3 id="parchment">Admin Login/Sign Up</h3>
+        <div class="d-flex flex-column align-items-center justify-content-center" style="height: auto; width: 50%;">
+            <div class="d-flex-col h-100 w-auto p-md-5" id="red-color" style="border-radius: 16px 16px 16px 16px;">
+
+                <img src="{% static 'partners_forms/media/admin_icon.png' %}" alt="Admin Icon" class="img min-vw-50 circular--square" style="background-color: #023219; 
+                display: block; 
+                margin-top: -100px; 
+                margin-left: auto; 
+                margin-right: auto;
+                width: 30%;
+                ">
+
+                <h1 class="display-5 text-white text-center py-3">Pahinungod Forms</h1>
+                <p class="text-white pb-3" style="text-align: justify;">Lorem ipsum dolor sit amet. Non ratione doloribus et quos nihil ut expedita iure! Et tempore suscipit ea rerum sint et officia cumque et rerum voluptatem hic corporis voluptas eos deserunt veniam et quod quasi. </p>
+
+                
+            
+                <form id="login_form" action="{% provider_login_url 'google' %}" style="z-index: 1;">
+                    <div class="btn d-flex flex-column py-2 m-sm-2" style="background-color: #f1a92b;">            
+                            <h5 id="parchment" style="color:#023219; margin: auto;">Admin Login/Sign Up</h5>
                     </div>
                 </form>
             </div>
+            
+
         </div>
-
+        
     </div>
-
 
 </body>
 
