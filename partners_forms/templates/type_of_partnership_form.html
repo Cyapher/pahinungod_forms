@@ -54,7 +54,7 @@
     <!-- FORM DIV -->
     <div class="mx-5 d-flex flex-column">
 
-        <h2> Add Type Here: </h2>
+        <h2> {{ action }} Type Here: </h2>
         {% if type %}
             <form action="{% url 'upd_type' type.id %}" method="POST">
                 {% csrf_token %}

@@ -35,7 +35,7 @@ def partner_form(request): # toPartnerForm Questionnairre
 
 def type_partner_form(request): # toTypePartnerForm Questionnairre
     types = Type.objects.all()
-    return render(request, "type_of_partnership_form.html", {'types': types,'form': Type_of_partnerForm()})
+    return render(request, "type_of_partnership_form.html", {'types': types,'form': Type_of_partnerForm(), 'action' : "Add"})
 
 # TYPE OF PARTNERSHIP ================================================================================================================
 def add_type(request):
@@ -46,7 +46,7 @@ def add_type(request):
             form.save()
             return HttpResponseRedirect(reverse('type_partner_form'))
         else:
-            return render(request, 'type_of_partnership_form.html', {'form': form})
+            return render(request, 'type_of_partnership_form.html', {'form': form, 'action' : "Add"})
 
 def del_type(request, type_id):
     if request.method == 'POST':
@@ -69,7 +69,7 @@ def upd_type(request, type_id):
             type_form.save()
             return HttpResponseRedirect(reverse('type_partner_form'))
     else:
-        return render(request, 'type_of_partnership_form.html', {'type': to_update, 'types': all_types , 'form': type_form})
+        return render(request, 'type_of_partnership_form.html', {'type': to_update, 'types': all_types , 'form': type_form, 'action' : "Edit"})
         # return render(request, 'type_of_partnership_form.html', {'type': to_update, 'form': type_form})  
 
 # PARTNER ================================================================================================================
