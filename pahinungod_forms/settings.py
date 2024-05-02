@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'volunteer_forms',
     'partners_forms',
     'dashboard',
-    'users',
     'bootstrap5',
     'widget_tweaks',
     'django.contrib.admin',
