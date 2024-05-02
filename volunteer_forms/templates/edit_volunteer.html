@@ -494,8 +494,9 @@
                           </div>
                       </tr>
                       <tr>
-                        <br><br><br>
-                        <input class="btn btn-lg btn-outline-success" type="submit" value="Confirm Details">
+                        <br><br>
+                        <input class="btn btn-lg btn-outline-success my-3 mx-3" type="submit" value="Confirm Details">
+                        <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-lg btn-outline-dark" role="button">Cancel</a>
                       </tr>
                     </tbody>
                   </div>
