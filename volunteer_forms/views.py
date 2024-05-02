@@ -77,27 +77,27 @@ def index(request):
                    'studentFields' : studentFields,
                    'dateFields' : dateFields})
 
-def createVolunteer(request):
-    if request.method == "POST":
-        form = VolunteerForm(request.POST)
-        programs = request.POST.getlist('programs')
-        if form.is_valid():
-            # print("validform")
-            form.save()
+# def createVolunteer(request):
+#     if request.method == "POST":
+#         form = VolunteerForm(request.POST)
+#         programs = request.POST.getlist('programs')
+#         if form.is_valid():
+#             # print("validform")
+#             form.save()
 
-            return HttpResponseRedirect(reverse("list"))
-        else:
-            print("invalidform")
-            logger.error("Form submission failed with errors: %s", form.errors)
-            return render(request, "form_pg1.html", {"v_form" : form,
-                                                    'volunteerFields' : volunteerFields,
-                                                    'alumnusFields' : alumnusFields,
-                                                    'pghFields' : pghFields,
-                                                    'workFields' : workFields,
-                                                    'licenseFields' : licenseFields,
-                                                    'insuranceFields' : insuranceFields,
-                                                    'studentFields' : studentFields,
-                                                    'dateFields' : dateFields})
+#             return HttpResponseRedirect(reverse("list"))
+#         else:
+#             print("invalidform")
+#             logger.error("Form submission failed with errors: %s", form.errors)
+#             return render(request, "form_pg1.html", {"v_form" : form,
+#                                                     'volunteerFields' : volunteerFields,
+#                                                     'alumnusFields' : alumnusFields,
+#                                                     'pghFields' : pghFields,
+#                                                     'workFields' : workFields,
+#                                                     'licenseFields' : licenseFields,
+#                                                     'insuranceFields' : insuranceFields,
+#                                                     'studentFields' : studentFields,
+#                                                     'dateFields' : dateFields})
 
 @login_required(login_url='home_vol')
 @user_passes_test(is_superuser, login_url='home_vol')

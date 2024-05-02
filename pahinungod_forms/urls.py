@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+# from volunteer_forms.views import homePage
 
 urlpatterns = [
+    # path('', homePage),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('volunteer/', include('volunteer_forms.urls')),
