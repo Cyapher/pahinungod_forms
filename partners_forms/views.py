@@ -4,8 +4,12 @@ from django.urls import reverse
 from partners_forms.forms import PartnerForm, Type_of_partnerForm, FilesForm
 from .models import Partner, Scope_of_work, Type, File
 from django.core.files.storage import FileSystemStorage
+from django.contrib.auth.decorators import user_passes_test
 from django.conf import settings
 import os
+
+def is_superuser(user):
+    return user.is_authenticated and (user.is_superuser or user.is_staff)
 
 # Create your views here.
 # WEB PAGES ================================================================================================================
@@ -15,6 +19,7 @@ def home_page(request):
 def admin_login(request):
     return render(request, "admin_login.html")
 
+@user_passes_test(is_superuser, login_url='admin_login')
 def view_partners(request):
     partners_list = {}
     partners = Partner.objects.all()
@@ -28,16 +33,19 @@ def view_partners(request):
     # return render(request, "view_partners.html", {'partners' : partners})
     return render(request, "view_partners.html", {'partners' : partners, 'partners_list' : partners_list})
 
+@user_passes_test(is_superuser, login_url='admin_login')
 def partner_form(request): # toPartnerForm Questionnairre
     scope_of_work_choices = Scope_of_work.scope_of_work_choices
     # print(f'scope_of_work_choices: {scope_of_work_choices}')
     return render(request, "partners_forms.html", {'form' : PartnerForm(), 'file_form': FilesForm(),'scope_of_work_choices': scope_of_work_choices})
 
+@user_passes_test(is_superuser, login_url='admin_login')
 def type_partner_form(request): # toTypePartnerForm Questionnairre
     types = Type.objects.all()
     return render(request, "type_of_partnership_form.html", {'types': types,'form': Type_of_partnerForm()})
 
 # TYPE OF PARTNERSHIP ================================================================================================================
+@user_passes_test(is_superuser, login_url='admin_login')
 def add_type(request):
     form = Type_of_partnerForm(request.POST)
     if request.method == 'POST':
@@ -48,13 +56,15 @@ def add_type(request):
         else:
             return render(request, 'type_of_partnership_form.html', {'form': form})
 
+@user_passes_test(is_superuser, login_url='admin_login')
 def del_type(request, type_id):
     if request.method == 'POST':
         to_delete = Type.objects.get(pk=type_id)
         to_delete.delete()
         # return HttpResponseRedirect(reverse('type_partner_form'))
         return redirect('type_partner_form')
-    
+
+@user_passes_test(is_superuser, login_url='admin_login')    
 def upd_type(request, type_id):
     # print(type_id)
     to_update = Type.objects.get(pk=type_id)
@@ -73,6 +83,7 @@ def upd_type(request, type_id):
         # return render(request, 'type_of_partnership_form.html', {'type': to_update, 'form': type_form})  
 
 # PARTNER ================================================================================================================
+@user_passes_test(is_superuser, login_url='admin_login')
 def add_partner(request):
     if request.method == 'POST':
         form = PartnerForm(request.POST)
@@ -116,6 +127,7 @@ def add_partner(request):
 
     return render(request, 'partners_forms.html', {'form': form, 'file_form': files_form})
 
+@user_passes_test(is_superuser, login_url='admin_login')
 def upd_partner(request, partner_id):
     # Instances
     to_update = Partner.objects.get(pk=partner_id) # Partner Instance
@@ -169,6 +181,7 @@ def upd_partner(request, partner_id):
         # Render the form again with error messages
         return render(request, 'update_partners.html', {'partner': to_update, 'form': form, 'file_form': files_form})
 
+@user_passes_test(is_superuser, login_url='admin_login')
 def del_partner(request, partner_id):
     if request.method == 'POST':
         to_delete = Partner.objects.get(pk=partner_id)
@@ -185,6 +198,7 @@ def del_partner(request, partner_id):
 
         return redirect('view_partners')
 
+@user_passes_test(is_superuser, login_url='admin_login')
 def filterPartners(request):
     query = request.GET.get('q')
     print(f'query: {query}')
@@ -208,6 +222,7 @@ def filterPartners(request):
     
     return render(request, "view_partners.html", {'partners': partners, 'partners_list' : partners_list})
 
+@user_passes_test(is_superuser, login_url='admin_login')
 def searchFilter(request, partners):
     query = request.GET.get('q')
 
