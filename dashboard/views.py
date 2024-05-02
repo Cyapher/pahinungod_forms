@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 def is_superuser(user):
     return user.is_authenticated and (user.is_superuser or user.is_staff)
 
-@login_required(login_url='home_vol')
+# @login_required(login_url='home_vol')
 @user_passes_test(is_superuser, login_url='home_vol')
 def dashboard(request):
 

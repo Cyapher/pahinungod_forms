@@ -122,7 +122,7 @@ def updateVolunteer(request, volunteer_id):
         if form.is_valid():
             form.save()
 
-            if (request.user.is_superuser):
+            if (is_superuser(request.user)):
                 return redirect('list')
             else:
                 return redirect('home_vol')
@@ -154,7 +154,7 @@ def updateVolunteerPrograms(request, volunteer_id):
         if form.is_valid():
             form.save()
 
-            if (request.user.is_superuser):
+            if (is_superuser(request.user)):
                 return redirect('list')
             else:
                 return redirect('home_vol')
