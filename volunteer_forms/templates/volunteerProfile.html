@@ -1,0 +1,310 @@
+
+<style>
+  #basic_info {
+    color: white;
+  }
+</style>
+
+<div class="accordion" id="accordionExample">
+  <!-- PERSONAL INFO -->
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+        Personal Info
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+
+        <!-- NAME -->
+        <div class="table-responsive">
+          <table class="table table-bordered border-dark">
+            <tbody>
+              <tr>
+                <th class="table-active w-20">First Name</th>
+                <td colspan="3">{{user.volunteer.first_name}}</td>
+              </tr>
+              <tr>
+                <th class="table-active">Middle Name</th>
+                <td colspan="3">{{user.volunteer.middle_name}}</td>
+              </tr>
+              <tr>
+                <th class="table-active">Last Name</th>
+                <td colspan="3">{{user.volunteer.last_name}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- BIRTHDAY -->
+        <div class="table-responsive">
+          <table class="table table-bordered border-dark">
+            <tr>
+              <th class="table-active">Birthday</th>
+              <td>{{user.volunteer.birthdate}}</td>
+              <th class="table-active">Age</th>
+              <td>{{user.volunteer.age}}</td>
+            </tr>
+            <tr>  
+              <th class="table-active">Sex</th>
+              <td colspan="3">{{user.volunteer.sex}}</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- DEMOGRAPHIC -->
+        <div class="table-responsive">
+          <table class="table table-bordered border-dark">
+            <tbody>
+              <tr>
+                <th class="table-active w-25">Address</th>
+                <td colspan="2">{{user.volunteer.address}}</td>
+              </tr>
+              <tr>
+                <th class="table-active" colspan="2">Telephone #</th>
+                <td>{{user.volunteer.telephone}}</td>
+              </tr>
+              <tr>
+                <th class="table-active" colspan="2">Civil Status</th>
+                <td>{{user.volunteer.civilStatus}}</td>
+              </tr>
+              <tr>
+                <th class="table-active" colspan="2">Religion</th>
+                <td>{{user.volunteer.religion}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- SKILLS AND HOBBIES -->
+        <div class="table-responsive">
+          <table class="table table-bordered border-dark">
+            <tr>
+              <th class="table-active">Skills and Hobbies</th>
+            </tr>
+            <tbody>
+              <tr>
+                <td colspan="3">{{user.volunteer.skillsHobbies}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDICAL  -->
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        Medical Related
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <!-- BLOOD TYPE -->
+        <div class="table-responsive">
+          <table class="table table-bordered border-dark">
+            <tbody>
+              <tr>
+                <th class="table-active w-20">Blood Type</th>
+                <td colspan="3">{{user.volunteer.bloodType}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- HEALTH CONDITIONS -->
+        <div class="table-responsive">
+          <table class="table table-bordered border-dark">
+            <tr>
+              <th class="table-active">Health Conditions</th>
+            </tr>
+            <tbody>
+              <tr>
+                <td colspan="3">{{user.volunteer.healthConditions}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- FOOD RESTRICTIONS -->
+        <div class="table-responsive">
+          <table class="table table-bordered border-dark">
+            <tr>
+              <th class="table-active">Food Restrictions</th>
+            </tr>
+            <tbody>
+              <tr>
+                <td colspan="3">{{user.volunteer.foodRestrictions}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OTHER INFO -->
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        Other Info
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      {% if user.volunteer.idNum %}
+      <!-- STUDENT INFO -->
+      <h5 class="mt-2 mx-2">Student Info:</h5>
+      <div class="table-responsive m-0">
+        <table class="table table-bordered border-dark">
+          <tr>
+            <th class="table-active">ID #</th>
+            <td>{{user.volunteer.idNum}}</td>
+          </tr>
+          <tr>  
+            <th class="table-active">Course</th>
+            <td colspan="3">{{user.volunteer.course}}</td>
+          </tr>
+          <tr>  
+            <th class="table-active">College</th>
+            <td colspan="3">{{user.volunteer.college}}</td>
+          </tr>
+          <tr>  
+            <th class="table-active">Year Level</th>
+            <td colspan="3">{{user.volunteer.yearLvl}}</td>
+          </tr>
+          
+        </table>
+      </div>
+      {% endif %}
+
+      <!-- ALUMNI INFO -->
+      {% if user.volunteer.constituentUnit %}
+      <h5 class="mt-2 mx-2">Alumni Info:</h5>
+      <div class="table-responsive m-0">
+        <table class="table table-bordered border-dark">
+          <tr>
+            <th class="table-active">Constituent Unit</th>
+            <td>{{user.volunteer.constituentUnit}}</td>
+          </tr>  
+        </table>
+      </div>
+      {% endif %}
+
+      <!-- OCCUPATION INFO -->
+      {% if user.volunteer.occupation %}
+      <h5 class="mt-2 mx-2">Occupation Info:</h5>
+      <div class="table-responsive m-0">
+        <table class="table table-bordered border-dark">
+          <tr>
+            <th class="table-active">Occupation</th>
+            {% if user.volunteer.occupation == "Other" %}
+              <td>{{user.volunteer.otherOccu}}</td>
+            {% else %}
+              <td>{{user.volunteer.occupation}}</td>
+            {% endif %}
+          </tr>  
+        </table>
+      </div>
+      {% endif %}
+
+      <!-- LICENSE INFO -->
+      {% if user.volunteer.prcLicense %}
+      <h5 class="mt-2 mx-2">License Info:</h5>
+      <div class="table-responsive m-0">
+        <table class="table table-bordered border-dark">
+          <tr>
+            <th class="table-active">PRC License #</th>
+            <td>{{user.volunteer.prcLicense}}</td>
+          </tr>  
+          <tr>
+            <th class="table-active">Department</th>
+            <td>{{user.volunteer.dept}}</td>
+          </tr>  
+          <tr>
+            <th class="table-active">Company</th>
+            <td>{{user.volunteer.company}}</td>
+          </tr>  
+          <tr>
+            <th class="table-active">Office Address</th>
+            <td>{{user.volunteer.officeAdd}}</td>
+          </tr>  
+          <tr>
+            <th class="table-active">License Telephone</th>
+            <td>{{user.volunteer.license_telephone}}</td>
+          </tr>  
+          <tr>
+            <th class="table-active">License Email</th>
+            <td>{{user.volunteer.license_email}}</td>
+          </tr>  
+          <tr>
+            <th class="table-active">Work Schedule</th>
+            <td>{{user.volunteer.workSched}}</td>
+          </tr>  
+        </table>
+      </div>
+      {% endif %}
+
+      <!-- UP-PGH INFO -->
+      {% if user.volunteer.constituentUnit %}
+      <h5 class="mt-2 mx-2">UP-PGH Info:</h5>
+      <div class="table-responsive m-0">
+        <table class="table table-bordered border-dark">
+          <tr>
+            <th class="table-active">Specifications</th>
+            <td>{{user.volunteer.specification}}</td>
+          </tr>  
+        </table>
+      </div>
+      {% endif %}
+
+      <!-- IF NONE -->
+      {% if not user.volunteer.idNum and not user.volunteer.constituentUnit and not user.volunteer.occupation and not user.volunteer.prcLicense and not user.volunteer.specification %}
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <th class="table-active">No Info Available!</th>
+          </tr>
+        </table>
+      </div>
+      
+      {% endif %}
+
+
+    </div>
+  </div>
+
+  <!-- INSURANCE DETAILS -->
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+        Insurance Details
+      </button>
+    </h2>
+    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+
+        <div class="table-responsive">
+          <table class="table table-bordered border-dark">
+            <tr>
+              <th class="table-active">Benefeciaries</th>
+              <td>{{user.volunteer.beneficiaries}}</td>
+            </tr>
+            <tr>  
+              <th class="table-active">Relation</th>
+              <td colspan="3">{{user.volunteer.relation}}</td>
+            </tr>
+            <tr>  
+              <th class="table-active">Contact #</th>
+              <td colspan="3">{{user.volunteer.contactNum}}</td>
+            </tr>
+            <tr>  
+              <th class="table-active">Contact Email</th>
+              <td colspan="3">{{user.volunteer.contactEmail}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

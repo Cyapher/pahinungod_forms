@@ -60,8 +60,7 @@ def is_superuser(user):
     return user.is_authenticated and (user.is_superuser or user.is_staff)
 
 def homePage(request):
-
-    programs = Program.objects.all()
+    
     return render(request, "volunteerHome.html")
 
 def index(request):
@@ -369,3 +368,6 @@ def sort_data(request, volunteers):
 
         return sorted_data
 
+def client_view(request, volunteer_id):
+
+    return render(request, "volunteerProfile.html")
