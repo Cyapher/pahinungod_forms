@@ -16,9 +16,7 @@
         {% endslot %}
         {% slot actions %}
         <div align="center">
-            {% element button type="submit" %}
-                {% trans 'Sign Out' %}
-            {% endelement %}
+            <a href="{% url 'log_out' %}" role="button" class="btn btn-dark">Sign Out</a>
         </div>
         {% endslot %}
     {% endelement %}

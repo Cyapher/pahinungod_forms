@@ -162,7 +162,6 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 LOGIN_REDIRECT_URL = '/dashboard/pahinungod_home'
-LOGOUT_REDIRECT_URL = '/partners/admin_login'
 
 AUTH_USER_MODEL = 'volunteer_forms.Volunteer'
 SOCIALACCOUNT_LOGIN_ON_GET=True

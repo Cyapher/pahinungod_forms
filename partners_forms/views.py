@@ -5,11 +5,15 @@ from partners_forms.forms import PartnerForm, Type_of_partnerForm, FilesForm
 from .models import Partner, Scope_of_work, Type, File
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth import logout
 from django.conf import settings
 import os
 
 def is_superuser(user):
     return user.is_authenticated and (user.is_superuser or user.is_staff)
+
+def is_auth(user):
+    return not user.is_authenticated
 
 # Create your views here.
 # WEB PAGES ================================================================================================================
@@ -17,9 +21,17 @@ def is_superuser(user):
 def home_page(request):
     return render(request, "home.html")
 
-@user_passes_test(is_superuser, login_url='home_vol')
+@user_passes_test(is_auth, login_url='dashboard')
 def admin_login(request):
     return render(request, "admin_login.html")
+
+def logOutPage(request):
+    if request.user.is_superuser or request.user.is_staff:
+        logout(request)
+        return redirect('admin_login')
+    else:
+        logout(request)
+        return redirect('home_vol')
 
 @user_passes_test(is_superuser, login_url='home_vol')
 def view_partners(request):

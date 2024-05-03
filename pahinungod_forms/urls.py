@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-# from volunteer_forms.views import homePage
+from volunteer_forms.views import homePage
 
 urlpatterns = [
     # path('', homePage),
@@ -24,5 +24,6 @@ urlpatterns = [
     path('volunteer/', include('volunteer_forms.urls')),
     path('partners/', include('partners_forms.urls')),
     path('dashboard/', include('dashboard.urls')),
-    path('accounts/', include('allauth.urls'))
+    path('accounts/social/login/cancelled/', homePage, name="cancel_login"),
+    path('accounts/', include('allauth.urls')),
 ]
