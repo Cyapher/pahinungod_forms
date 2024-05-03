@@ -307,4 +307,31 @@
       </div>
     </div>
   </div>
+
+  <!-- PROGRAMS -->
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+        Applied Programs
+      </button>
+    </h2>
+    <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <ul>
+          {% for program in user.volunteer.programs.all %}
+            <a href="#" data-bs-toggle="modal" data-bs-target="#programsModal" onclick="scroll_to_section('{{program.id}}')"> {{program.name}} </a>
+          {% endfor %}
+        </ul>
+
+      </div>
+    </div>
+
+  </div>
+
 </div>
+
+<script>
+  function scroll_to_section(id){
+    console.log(id)
+  }
+</script>

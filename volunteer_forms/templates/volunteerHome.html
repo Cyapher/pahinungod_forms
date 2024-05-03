@@ -113,6 +113,11 @@
       </div>
     </div>
 
+    <div>
+
+    </div>
+
+    <!-- PROFILE MODAL -->
     <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -130,12 +135,25 @@
               <p id="basic_info" class="justify-self-center m-0 text-center"> {{user.volunteer.email}} </p>
             </div>
           </div>
+
+
           <div class="modal-body">
             {% include 'volunteerProfile.html' %}
           </div>
+          
         </div>
       </div>
     </div>
+
+    <!-- PROGRAMS MODAL -->
+    <div class="modal fade" id="programsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          {% include 'volunteerPrograms.html' %}
+        </div>
+      </div>
+    </div>
+    
   {% endif %}
   
 {% endblock %}
