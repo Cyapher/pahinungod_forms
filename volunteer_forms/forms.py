@@ -75,9 +75,6 @@ class VolunteerForm(ModelForm):
                 field.widget.attrs['class'] = 'form-select'
                 field.widget.attrs['onchange'] = 'dropDate()'
 
-            if field_name == 'constituentUnit':
-                field.widget.attrs['id'] = 'multi_col'
-
             if field_name == 'occupation':
                 field.widget.attrs['class'] = 'form-select'
                 field.widget.attrs['onchange'] = 'dropWork()'

@@ -57,7 +57,7 @@ dateFields = ['startDate',
               'customStartDate']
 
 def is_superuser(user):
-    return user.is_authenticated and user.is_superuser
+    return user.is_authenticated and (user.is_superuser or user.is_staff)
 
 def homePage(request):
     
@@ -256,6 +256,9 @@ def updateProgram(request, program_id):
                 program.delete()
                 form.save()
 
+            else:
+                form.save()
+
             return redirect('programs')  # Redirect to the programs list view
     else:
         form = ProgramForm(instance=program)
@@ -270,6 +273,9 @@ def delProgram(request, program_id):
     
     if previous_image_path:
         os.remove(previous_image_path)
+        program.delete()
+    
+    else:
         program.delete()
 
     return redirect('programs')
