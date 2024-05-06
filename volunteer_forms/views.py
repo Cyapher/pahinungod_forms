@@ -231,20 +231,17 @@ def createProgram(request):
 @user_passes_test(is_superuser, login_url='home_vol')
 def updateProgram(request, program_id):
     program = Program.objects.get(pk=program_id)
+    prev_path = program.program_img.path if program.program_img else None
 
     if request.method == 'POST':
-        form = ProgramForm(request.POST, request.FILES)
+        form = ProgramForm(request.POST, request.FILES, instance=program)
+        program_img_input = request.FILES.get("program_img")
 
         if form.is_valid():
             # If a new image is uploaded, update the program_img field
-            program_img = request.FILES.get("program_img")
-            if program_img:
-                # Get the relative path of the previous image
-                previous_image_path = program.program_img.path.replace(program.program_img.name, "volunteer_forms\\static\\" + program.program_img.name) if program.program_img else None
+            if program_img_input:
+                previous_image_path = prev_path if program.program_img else None
                 print(previous_image_path)
-
-                # Save the form to update other fields
-                # program = form.save(commit=False)
 
                 # Delete the previous image file if it exists
                 if previous_image_path:
@@ -252,7 +249,7 @@ def updateProgram(request, program_id):
                     os.remove(previous_image_path)
 
                 # Save the new image path to the program instance
-                form.program_img = program_img
+                form.program_img = program_img_input
                 program.delete()
                 form.save()
 
