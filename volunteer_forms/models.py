@@ -15,7 +15,7 @@ class AuthUser(AbstractUser):
     date_joined = models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined', null=True, blank=True)
 
     def __str__(self):
-        return f"{self.first_name}"
+        return f"{self.username}"
 
 class Program(models.Model):
     code = models.CharField(max_length=10)
@@ -123,7 +123,9 @@ class Volunteer(AuthUser):
         return f"{self.first_name} {self.last_name}"
     
     def save(self, *args, **kwargs):
-        
+
+        self.username = self.email
+
         if self.birthdate:
             today = date.today()
             age = today.year - self.birthdate.year - ((today.month, today.day) < (self.birthdate.month, self.birthdate.day))
