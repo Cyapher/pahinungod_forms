@@ -10,14 +10,13 @@
 
     <div class="col-8"> 
         <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example" tabindex="0">
-            <h4 id="list-item-1">Item 1</h4>
-            <p>...</p>
-            <h4 id="list-item-2">Item 2</h4>
-            <p>...</p>
-            <h4 id="list-item-3">Item 3</h4>
-            <p>...</p>
-            <h4 id="list-item-4">Item 4</h4>
-            <p>...</p>
+            {% for program in programs %}
+                <div class="my-2">
+                    <img src="{{ program.program_img }}" class="img-fluid image_mat w-50">
+                    <h4 id="program{{ program.id }}">{{ program.name }} ({{ program.code }})</h4>
+                    <p>{{ program.description }}</p>
+                </div>
+            {% endfor %}
         </div>    
     </div>
 
