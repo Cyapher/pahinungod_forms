@@ -40,6 +40,11 @@
           {% endif %}
         {% endif %}
     </ul>
+        {% if user.is_superuser %}
+          <form action="{% url 'dashboard' %}">
+            <input type="submit" class="btn btn-dark" value="Admin Dashboard">
+          </form>
+        {% endif %}
         {% if user.is_authenticated %}
         <div align="center" class="nav-item">
           <div class="mb-2">

@@ -309,9 +309,11 @@
                                 <input type="submit" class="btn btn-outline-secondary btn-sm btn_width_act" value="Edit">
                             </form>
                         <!-- Delete -->
+                            {% if request.user.is_superuser %}
                             <form action="{% url 'del_volunteer' volunteer.id %}">
                                 <input type="submit" class="btn btn-outline-danger btn-sm btn_width_act" value="Delete" onclick="return confirm('Are you sure?');" style="transform: translateY(10px);">
                             </form>
+                            {% endif %}
                         </div>
                     </h2>
                 </td>

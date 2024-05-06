@@ -81,7 +81,6 @@
             <h1 style="margin-top: -2%;">Volunteer Information</h1>
             <tbody>
               <tr>
-                {% render_field v_form.is_active style="display:none" %}
                 <td>
                   <label class="form-label">First Name</label>
                   {{v_form.first_name}}
@@ -462,6 +461,9 @@
                             {% endif %}
                             {% endif %}
                             {% endfor %}
+                            {% render_field v_form.is_active style="display:none" %}
+                            {% render_field v_form.is_superuser style="display:none" %}
+                            {% render_field v_form.is_staff style="display:none" %}
                       </tr>
                 </table>
               </div>
