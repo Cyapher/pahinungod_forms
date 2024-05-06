@@ -46,9 +46,14 @@
           </form>
         {% endif %}
         {% if user.is_authenticated %}
-          <div class="nav-item">
-            <a class="navbar-brand disabled text-light mx-4" aria-current="page" href="">Welcome, {{user.volunteer.first_name}}!</a>
+        <div align="center" class="nav-item">
+          <div class="mb-2">
+            <a class="navbar-brand disabled text-light mx-4 fs-6" aria-current="page" href="">
+              Welcome, {{user.volunteer.first_name}}!
+          </a>
           </div>
+          <button id="view_profile_btn" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#profileModal">View Profile</button>
+        </div>
         {% endif %}
         {% if user.is_authenticated %}
           <button id="log_out_btn" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Log Out</button>

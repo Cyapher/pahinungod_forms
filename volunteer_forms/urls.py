@@ -23,6 +23,7 @@ urlpatterns = [
     path("filterDate", views.searchDateRange, name="filter_date"),
     path("sort", views.sort_data, name="sort"),
     path("filter", views.filterVolunteers, name="filter_vol"),
+    path("profile/<int:volunteer_id>", views.client_view, name="client_view")
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
