@@ -92,7 +92,7 @@
 
 </style>
 <form class="d-flex justify-content-center" action="{% url 'filter_vol' %}" method="get">
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -162,7 +162,7 @@
 
       <nav class="navbar navbar-expand">
         <div class="container-fluid justify-content-between">
-          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#filterModal">
             Sort/Filter
         </button>
           <form action="{% url 'list' %}">
@@ -178,6 +178,8 @@
   <!-- default -->
   <div class="table-responsive vw-75">
     <table id="volunteer_list" class="table table-bordered caption-top" align="center">
+  <div class="table-responsive mx-2">
+    <table id="volunteer_list" class="table table-xs table-bordered caption-top" align="center">
         {% if request.GET %}
         <caption>
             <em>
