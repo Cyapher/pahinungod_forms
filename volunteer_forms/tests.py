@@ -67,6 +67,9 @@ class VolunteerProgramCRUDTests(TestCase):
                 studentCheck=Faker().boolean()          # Random boolean value
             )
 
+            # Test that volunteer was created successfully
+            self.assertIsNotNone(volunteer)
+
             # Add program to volunteer
             volunteer.programs.set([self.program])
             self.assertEqual(volunteer.programs.count(), 1)
