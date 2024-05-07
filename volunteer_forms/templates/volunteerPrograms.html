@@ -1,22 +1,41 @@
-<div class="row">
+<div class="row" style="width: auto;">
 
-    <div class="col-4">
-        <div id="list-example" class="list-group">
+    <style>
+
+        .scrollspy-example {
+            position: relative;
+            height: 300px;
+            overflow: auto;
+        }
+
+        .active {
+            /* color: #023219 !important; */
+            background-color: #023219 !important;
+            border-color: #023219 !important;
+        }
+
+    </style>
+
+    <div class="col-3" style="background-color: #7B0100;">
+        <div id="list-example" class="list-group mt-2">
             {% for program in programs %}
-                <a class="list-group-item list-group-item-action" href="#list-item-1">{{program}}</a>
+                <a class="list-group-item list-group-item-action" href="#program{{ program.id }}">{{program}}</a>
             {% endfor %}
         </div>
     </div>
 
-    <div class="col-8"> 
-        <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+    <div class="col-9"> 
+        <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example m-2" tabindex="0">
             {% for program in programs %}
-                <div class="my-2">
-                    <img src="{{ program.program_img }}" class="img-fluid image_mat w-50">
-                    <h4 id="program{{ program.id }}">{{ program.name }} ({{ program.code }})</h4>
-                    <p>{{ program.description }}</p>
+                <div class="justify-content-center" class="m-4" id="program{{ program.id }}" data-bs-root-margin="10% 0px 10%">
+                    <h4 class="mb-3"><strong>
+                        {{ program.name }} ({{ program.code }})
+                    </strong></h4>  
+                    <img src="{{ program.program_img }}" class="img-fluid image_mat w-50 mx-auto d-block border border-dark border-5 rounded rounded-3 mb-3">
+                    <p class="px-3">{{ program.description }}</p>
                 </div>
             {% endfor %}
+
         </div>    
     </div>
 

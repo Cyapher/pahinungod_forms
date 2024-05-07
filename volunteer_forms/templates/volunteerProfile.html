@@ -319,7 +319,9 @@
       <div class="accordion-body">
         <ul>
           {% for program in user.volunteer.programs.all %}
-            <a href="#" data-bs-toggle="modal" data-bs-target="#programsModal" onclick="scroll_to_section('{{program.id}}')"> {{program.name}} </a>
+          <li>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#programsModal" onclick="scroll_to_section('program{{ program.id }}')"> {{program.name}} </a> 
+          </li>  
           {% endfor %}
         </ul>
 
@@ -331,7 +333,20 @@
 </div>
 
 <script>
+  
   function scroll_to_section(id){
-    console.log(id)
+
+    document.getElementById('programsModal').addEventListener('shown.bs.modal', function(e){
+      var section = document.getElementById(id);
+        console.log(id)
+        console.log(section)
+        console.log('SUCCESS')
+        section.scrollIntoView({behavior: 'smooth'})
+    })
+
   }
+
+  
+
+
 </script>
