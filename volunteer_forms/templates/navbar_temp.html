@@ -1,5 +1,6 @@
 {% load socialaccount %}
 
+<<<<<<< Updated upstream
 <nav id="navigation" class="navbar navbar-expand-lg navbar-dark">
   <div class="container-fluid">
       <img src="https://up.edu.ph/wp-content/uploads/2020/01/UP-Seal.png" alt="" style="max-width: 70px;">
@@ -74,3 +75,140 @@
       {% endif %}
   </div>
 </nav>
+=======
+<div class="d-block d-lg-none">
+  <nav id="navigation" class="navbar navbar-lg navbar-expand-lg bg-body-tertiary sticky">
+    <div class="container-fluid">
+      <div>
+        <img src="https://up.edu.ph/wp-content/uploads/2020/01/UP-Seal.png" alt="" style="max-width: 55px;">
+        <span class="navbar-brand text-light mx-2 fs-6">{% if admin %} Volunteers Page {% else %} Panginuhod Volunteers {% endif %}</span>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" style="color: white"><i class="fa-solid fa-bars fa-xl" style="margin-top: 14px;" align="center"></i></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav me-auto my-2 mb-lg-0" align="center">
+          {% if admin is False %}
+          <li class="nav-item">
+            <a class="nav-link active text-light" aria-current="page" href="#">FAQ</a>
+          </li>
+          {% endif %}
+            {% if user.is_authenticated %}
+              {% if user.volunteer.middle_name %}
+              <li class="nav-item">
+                <a class="nav-link text-light" aria-current="page" href="{% url 'edit' user.volunteer.id %}">Edit Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-light" aria-current="page" href="{% url 'edit_programs' user.volunteer.id %}">{% if user.volunteer.programs.all %} Edit Programs {% else %} Apply for Programs! {% endif %}</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link text-light" aria-current="page" href="{% url 'edit' user.volunteer.id %}">Apply as Volunteer!</a>
+              </li>
+              {% endif %}
+            {% endif %}
+            {% if user.is_superuser %}
+            <li class="nav-item">
+              <a class="nav-link text-light" aria-current="page" href="{% url 'dashboard' %}">Admin Dashboard</a>
+            </li>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link text-light" aria-current="page" data-bs-toggle="modal" data-bs-target="#profileModal" style="cursor: pointer;">View Profile</a>
+            </li>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link text-light" aria-current="page" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">Log Out</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link text-light" aria-current="page" href="{% provider_login_url 'google' %}">Admin Dashboard</a>
+            </li>
+            {% endif %}
+        </ul>
+      </div>
+    </div>
+</nav>
+</div>
+
+<div class="d-none d-lg-block">
+  <nav id="navigation" class="navbar navbar-lg navbar-expand-lg sticky">
+      <div class="container-fluid">
+        <div>
+          <img src="https://up.edu.ph/wp-content/uploads/2020/01/UP-Seal.png" alt="" style="max-width: 70px;">
+          <a class="navbar-brand text-light mx-2" href="#">{% if admin %} Volunteers Page {% else %} Panginuhod Volunteers {% endif %}</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon" style="color: white"><i class="fa-solid fa-bars fa-xl" style="margin-top: 14px;"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              {% if show_vform %}
+              <li class="nav-item">
+                  <a class="nav-link active text-light" aria-current="page" href="{% url 'home_vol' %}"><u>Home Page</u></a>
+              </li>
+              {% endif %}
+              {% if show_programs %}
+              <li class="nav-item">
+                  <a class="nav-link active text-light" aria-current="page" href="{% url 'programs' %}"><u>Programs</u></a>
+              </li>
+              {% endif %}
+              {% if show_pform %}
+              <li class="nav-item">
+                <a class="nav-link active text-light" aria-current="page" href="{% url 'add_program' %}"><u>Add Programs</u></a>
+              </li>
+              {% endif %}
+              {% if admin is False %}
+              <li class="nav-item display">
+                <a class="navbar-brand text-light mx-4" aria-current="page" href="#">FAQ</a>
+              </li>
+              {% endif %}
+              {% if user.is_authenticated %}
+                {% if user.volunteer.middle_name %}
+                <li class="nav-item">
+                  <a class="navbar-brand text-light mx-4" aria-current="page" href="{% url 'edit' user.volunteer.id %}">Edit Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a class="navbar-brand text-light mx-4" aria-current="page" href="{% url 'edit_programs' user.volunteer.id %}">{% if user.volunteer.programs.all %} Edit Programs {% else %} Apply for Programs! {% endif %}</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                  <a class="navbar-brand text-light mx-4" aria-current="page" href="{% url 'edit' user.volunteer.id %}">Apply as Volunteer!</a>
+                </li>
+                {% endif %}
+              {% endif %}
+          </ul>
+            {% if user.is_superuser %}
+            <div>
+              <form action="{% url 'dashboard' %}">
+                <input type="submit" class="btn btn-dark" value="Admin Dashboard">
+              </form>
+            </div>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <div align="center">
+              <div class="mb-2">
+                <a class="navbar-brand disabled text-light mx-4 fs-6" aria-current="page" href="">
+                  Welcome, {{user.volunteer.first_name}}!
+              </a>
+              </div>
+              <button id="view_profile_btn" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#profileModal">View Profile</button>
+            </div>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <div>
+              <button id="log_out_btn" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Log Out</button>
+            </div>
+            {% else %}
+            <div>
+              <form action="{% provider_login_url 'google' %}">
+                <input type="submit" class="btn btn-dark" value="Log In/Sign Up">
+              </form>
+            </div>
+            {% endif %}
+        </div>
+      </div>
+  </nav>
+</div>
+>>>>>>> Stashed changes

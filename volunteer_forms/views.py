@@ -11,6 +11,7 @@ from volunteer_forms.models import Volunteer, Program
 from .forms import VolunteerForm, ProgramForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 
+
 logger = logging.getLogger(__name__)
 pagination_count = 5
 
@@ -57,6 +58,7 @@ dateFields = ['startDate',
               'customStartDate']
 
 def is_superuser(user):
+    
     return user.is_authenticated and (user.is_superuser or user.is_staff)
 
 def homePage(request):
