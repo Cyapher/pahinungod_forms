@@ -33,7 +33,7 @@
   }
 
   .btn_width_act {
-    width: 80px;
+    width: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -393,11 +393,15 @@
                     {% endif %}
                 </td>
                 <td align="center">
-                    <!-- Edit -->
+                    <!-- Edit Profile -->
                     <h2>
                         <div class="my-5">
                             <form action="{% url 'edit' volunteer.id %}" style="margin-bottom: 5px;">
-                                <input type="submit" class="btn btn-outline-secondary btn-sm btn_width_act" value="Edit">
+                                <input type="submit" class="btn btn-outline-secondary btn-sm btn_width_act" value="Edit Profile">
+                            </form>
+                        <!-- Edit Programs -->
+                            <form action="{% url 'edit_programs' volunteer.id %}" style="margin-bottom: 5px;">
+                                <input type="submit" class="btn btn-outline-secondary btn-sm btn_width_act" value="Edit Programs" style="transform: translateY(5px);">
                             </form>
                         <!-- Delete -->
                             {% if request.user.is_superuser %}
