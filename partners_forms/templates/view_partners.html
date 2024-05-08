@@ -6,7 +6,7 @@
 <style>
     table {
         table-layout:auto;
-        max-width: 90%;
+        max-width: 95%;
     }
 
 </style>
@@ -17,8 +17,7 @@
 
         <!-- SEARCH -->
         <form class="d-flex mx-5" action="{% url 'filterPartners' %}">
-            {% csrf_token %}
-            <input class="form-control me-2" type="search" placeholder="search" aria-label="Search" name="q" id="id_search_field">
+            <input class="form-control me-2" type="search" placeholder="search" aria-label="Search" name="q" id="id_search_field" value="{{ request.GET.start }}">
             <button class="btn" type="submit" id="id_search_button">Search</button>
         </form>
     </div>
@@ -29,30 +28,257 @@
 <br>
 
 <!-- CENTRAL PANEL -->
-<div id="central_panel" class="d-flex flex-row">
+<div id="central_panel" class="d-flex justify-content-center">
     
-    <!-- FILTERS -->
-    <div class="dropdown px-3">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
-            Filter By:
-        </button>
-        <form action="" class="dropdown-menu p-4">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                <label class="form-check-label" for="flexRadioDefault2">
-                    Name
-                </label>
+    <form action="{% url 'filterPartners' %}">
+    <div class="d-flex-col">
+        <!-- SORT -->
+        <div class="d-flex-col mb-2">
+            <!-- APPLY FORM -->
+ 
+             <h5> Sort by: </h5>
+             <!-- ACCORDION ROOT -->
+             <div class="accordion-flush" id="accordionParent">
+                 <!-- HEADER: Date -->
+                 <div class="accordion-item">
+                     <h2 class="accordion-header">
+                         <button class="accordion-button collapsed" type="button" 
+                         data-bs-toggle="collapse" data-bs-target="#collapseFive" 
+                         aria-expanded="false" aria-controls="collapseFive">
+                             Sorting Options
+                         </button>
+                     </h2>
+                 </div>
+                 <div id="collapseFive" class="accordion-collapse collapse">
+                     <div class="accordion-body">
+                         <div class="mb-2">
+                             <label for="column">Column</label>
+                             <select class="form-select" name="column" id="column">
+                                <option {% if request.GET.column == 'partner_name' %}selected{% endif %} value="partner_name">Partner Name</option>
+                                <option {% if request.GET.column == 'Agreement_Start_Date' %}selected{% endif %} value="Agreement_Start_Date">Start Date</option>
+                             </select>
+                         </div>
+                         <div class="mb-2">
+                             <label for="end">Order</label>
+                             <select class="form-select" name="order" id="order">
+                                <option {% if request.GET.order == 'asc' %}selected{% endif %} value="asc">A-Z/Old-New</option>
+                                <option {% if request.GET.order == 'des' %}selected{% endif %} value="des">Z-A/New-Old</option>
+                             </select>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+ 
+             <!-- APPLY BUTTON -->
+             <div class="d-grid mt-2">
+                 <button type="submit" class="p-2">Sort</button>
+             </div>
+             
+ 
+         <!-- CANCEL FORM -->
+ 
+         <div class="d-flex justify-content-end">
+             <a href="{% url 'view_partners' %}">Clear Sorting</a>
+         </div>
+     </div>
+        
+        <!-- FILTERS -->
+        <div class="d-flex-col">
+               <!-- APPLY FORM -->
+  
+                <h5> Filter by: </h5>
+                <!-- ACCORDION ROOT -->
+                <div class="accordion-flush" id="accordionParent">
+                    <!-- HEADER: Date -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" 
+                            data-bs-toggle="collapse" data-bs-target="#collapseOne" 
+                            aria-expanded="false" aria-controls="collapseOne">
+                                Date
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseOne" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <div class="mb-2">
+                                <label for="start">Start Date</label>
+                                <input id="start" name="start" class="form-control" type="date" placeholder="mm/dd/yyyy" value="{{ request.GET.start }}">
+                            </div>
+                            <div class="mb-2">
+                                <label for="end">End Date</label>
+                                <input id="end" name="end" class="form-control" type="date" placeholder="mm/dd/yyyy" value="{{ request.GET.end }}">
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- HEADER: Title of Partnership -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Title of Partnership
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseTwo" class="accordion-collapse collapse">
+                        <!-- Django Forms For Loop -->
+                        <div class="accordion-body">
+                            {% for extension in partnership_extension_choices %}
+    
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="{{extension.1}}" id="{{extension.1}}" name="partnership_extensions" {% if extension.1 in partnership_filters %}checked{% endif %}> 
+                                <p> {{extension.1}} </p>
+                            </div>
+    
+                            {% endfor %}
+                            <p>{{ partner_filters }}</p>
+                        </div>
+                    </div>
+    
+                    <!-- HEADER: Stakeholder Category -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Stakeholder Category
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseThree" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+    
+                            <div class="form-check">
+                                <input class="form-check-input" name="category_radio" type="radio" id="primary_radio" value="1" {% if category_radio == '1' %}checked{% endif %}>
+                                <label for="primary_radio">Filter By Primary Category</label>
+                            </div>
+                            <br>
+    
+                            <div id="primary_categories">
+                                {% for category in stakeholder_category_choices %}
+        
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="{{category.1}}" id="{{category.1}}" name="primary_categories" {% if category.1 in primary_filters %}checked{% endif %}> 
+                                    <p> {{category.1}} </p>
+                                </div>
+        
+                                {% endfor %}
+                            </div>
+    
+    
+                            <hr>
+    
+                            <div class="form-check">
+                                <input class="form-check-input" name="category_radio" type="radio" id="secondary_radio" value="2" {% if category_radio == '2' %}checked{% endif %}>
+                                <label for="secondary_radio">Filter By Secondary Category</label>
+                            </div>
+                            <br>
+    
+                            <div id="secondary_categories">
+                                {% for category in second_category_choices %}
+        
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="{{category.1}}" id="{{category.1}}" name="secondary_categories" {% if category.1 in secondary_filters %}checked{% endif %}> 
+                                    <p> {{category.1}} </p>
+                                </div>
+        
+                                {% endfor %}
+                            </div>
+    
+                        </div>
+                    </div>
+    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Partnership Type
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseFour" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+    
+                            <div id="typefilter_div">
+                                {% for type in types %}
+        
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="{{type.type_code}}" id="{{type.type_code}}" name="type_filters" {% if type.type_code in type_filters %}checked{% endif %}> 
+                                    <p> {{type.type_code}} </p>
+                                </div>
+        
+                                {% endfor %}
+                            </div>
+    
+                        </div>
+                    </div>
+    
+                </div>
+    
+                <!-- APPLY BUTTON -->
+                <div class="d-grid mt-2">
+                    <button type="submit" class="p-2">Filter</button>
+                </div>
+                
+    
+                
+                <!-- CANCEL FORM -->
+                
+                <div class="d-flex justify-content-end">
+                <a href="{% url 'view_partners' %}">Clear Filters</a>
+                </div>    
             </div>
-
-            
         </form>
-
     </div>
+
+
+
+ 
 
     <!-- PARTNERS TABLE LIST -->
     <div class="table-responsive d-flex justify-content-center">
 
-        <table rules="all" class="table table-bordered table-striped d-flex-col justify-content-center center overflow-scroll border" id="id_partners_table">
+        <table rules="all" class="table table-bordered table-striped justify-content-center overflow-scroll border caption-top" id="id_partners_table">
+            {% if request.GET %}
+                <caption>
+                    <i>Filters: </i>
+                    {% for key, value in request.GET.items %}
+
+                        {% if key == 'category_radio' %}
+                        {% elif key == 'start' and value == '' %}
+                        {% elif key == 'end' and value == '' %}
+                        
+                        {% else %}
+                        {{ key }}:
+                        {% endif %}
+
+                        {% if value == 'partner_name' %} 
+                            Partner Name
+                        {% elif value == 'Agreement_Start_Date' %}
+                            Start Date
+                        {% elif value == 'asc' %}
+                            Ascending
+                        {% elif value == 'des' %}
+                            Descending
+                        {% elif key == 'partnership_extensions' %}
+                            {% for extension in partnership_filters %}
+                                {{extension}}, 
+                            {% endfor %}
+                        {% elif key == 'primary_categories' %}
+                            {% for category in primary_filters %}
+                                {{category}}, 
+                            {% endfor %}
+                        {% elif key == 'secondary_categories' %}
+                            {% for category in secondary_filters %}
+                                {{category}}, 
+                            {% endfor %}
+                        {% elif key == 'type_filters' %}
+                            {% for type in type_filters %}
+                                {{type}}, 
+                            {% endfor %}
+                        {% else %}
+                            {{ value }}
+                        {% endif %}
+                    {% endfor %}
+                </caption>
+            {% endif %}
             {% if partners %}
             <thead>
                 <th class="align-baseline">Partner</th>
@@ -136,7 +362,7 @@
         
                 {% empty %}
                 <tr>
-                    <td colspan="6" align="center">
+                    <td colspan="6" align="center" class="vw-100">
                         <h2 id="id_isEmpty">No Partners Available</h2>
                         <p>Nu bayun...</p>
                     </td>
@@ -150,37 +376,99 @@
         </table>
     </div>
 </div>
+<div class="container text-center mt-3">
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if partners.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}&page=1" aria-label="First">
+                        <span aria-hidden="true">&laquo; First</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}&page={{ partners.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&lsaquo; Previous</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            <li class="page-item disabled">
+                <span class="page-link">
+                    Page {{ partners.number }} of {{ partners.paginator.num_pages }}.
+                </span>
+            </li>
+
+            {% if partners.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}&page={{ partners.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">Next &rsaquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}&page={{ partners.paginator.num_pages }}" aria-label="Last">
+                        <span aria-hidden="true">Last &raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    <p class="mt-3">Showing {{ partners.start_index }} - {{ partners.end_index }} out of {{ partners.paginator.count }} rows</p>
+</div>
 
 
 
 
-<!-- <script>
-    document.getElementById('partners').className += ' active bg-secondary'
+<script>
 
-    const search_button = document.getElementById('id_search_button');
-    const search_field = document.getElementById('id_search_field');
-    
-    if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-        console.info( "This page is reloaded" );
+    const primaryRadio = document.getElementById('primary_radio');
+    const secondaryRadio = document.getElementById('secondary_radio');
+    const primary_checkboxes = document.querySelectorAll("#primary_categories input[type='checkbox']");
+    const secondary_checkboxes = document.querySelectorAll("#secondary_categories input[type='checkbox']");
+
+    // Function to disable checkboxes
+    function disableCheckboxes(checkboxes) {
+        checkboxes.forEach((checkbox) => {
+            checkbox.disabled = true;
+            checkbox.checked = false;
+        });
     }
 
-    search_button.addEventListener('click', function(event){
-        const partners_table = document.getElementById('id_partners_table');
-        var partners_table_count = partners_table.childElementCount;
-        var isEmpty = false;
+    // Function to enable checkboxes
+    function enableCheckboxes(checkboxes) {
+        checkboxes.forEach((checkbox) => {
+            checkbox.disabled = false;
+        });
+    }
 
-        console.log(partners_table.childElementCount);
-        
-        if(partners_table.childElementCount === 1){
-            console.log('blank')
-            
-            isEmpty = true;
-            
-            document.getElementById("id_isEmpty").innerHTML = "yourTextHere";
+    // Event listener for radio button changes
+    primaryRadio.addEventListener('change', function () {
+        if (this.checked) {
+            enableCheckboxes(primary_checkboxes);
+            disableCheckboxes(secondary_checkboxes);
         }
+    });
+
+    secondaryRadio.addEventListener('change', function () {
+        if (this.checked) {
+            enableCheckboxes(secondary_checkboxes);
+            disableCheckboxes(primary_checkboxes);
+        }
+    });
+
+    var category_radio = "{{ category_radio }}"
+
+    if (category_radio==1 || category_radio==null) {
         
+    } else {
+        disableCheckboxes(primary_checkboxes);
+    }
     
-    })
-</script> -->
+    if (category_radio==2 || category_radio==null) {
+        
+    } else {
+        disableCheckboxes(secondary_checkboxes);
+    }
+
+</script>
 
 {% endblock %}

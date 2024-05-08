@@ -7,6 +7,8 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import logout
 from django.conf import settings
+from django.db.models import Q
+from django.core.paginator import Paginator
 import os
 
 def is_superuser(user):
@@ -17,6 +19,35 @@ def is_auth(user):
 
 # Create your views here.
 # WEB PAGES ================================================================================================================
+
+# PARTNERSHIP EXTENSION
+partnership_extension_choices = [
+    ('Health Training: Basic Life Support', 'Health Training: Basic Life Support'),
+    ('Health Training: Breast Advocacy and PFA', 'Health Training: Breast Advocacy and PFA'),
+    ('Health Training: FAST', 'Health Training: FAST'),
+    ('Health Education: Oral Health', 'Health Education: Oral Health'),
+    ('Health Education: MHPS', 'Health Education: MHPS'),
+    ('Disaster Preparedness Training', 'Disaster Preparedness Training'),
+    ('Disaster Preparedness Lecture', 'Disaster Preparedness Lecture'),
+]
+
+# STAKEHOLDER CATEGORY
+stakeholder_category_choices = [
+    ('Private', 'Private'),
+    ('Government', 'Government'),
+]
+
+second_category_choices = [
+    ('NGO', 'NGO',),
+    ('Company', 'Company'),
+    ('Educational Institution (Private)', 'Educational Institution (Private)'),
+    ('LGU', 'LGU'),
+    ('National Government Agency', 'National Government Agency'),
+    ('Educational Institution (Government)', 'Educational Institution (Government)')
+]
+
+pagination_count = 2
+
 @user_passes_test(is_superuser, login_url='home_vol')
 def home_page(request):
     return render(request, "home.html")
@@ -37,21 +68,33 @@ def logOutPage(request):
 def view_partners(request):
     partners_list = {}
     partners = Partner.objects.all()
-    
+
     for partner in partners:
         files = File.objects.filter(partner=partner)
         partners_list[partner] = files
 
     print(f'partners list: {partners_list}')
 
+    p = Paginator(partners, pagination_count)
+    page = request.GET.get("page")
+    partners = p.get_page(page)
+
+    types = Type.objects.all()
+
     # return render(request, "view_partners.html", {'partners' : partners})
-    return render(request, "view_partners.html", {'partners' : partners, 'partners_list' : partners_list})
+    return render(request, "view_partners.html", {'partners' : partners, 
+                                                  'types' : types,
+                                                  'partners_list' : partners_list, 
+                                                  'partnership_extension_choices': partnership_extension_choices,
+                                                  'stakeholder_category_choices' : stakeholder_category_choices,
+                                                  'second_category_choices' : second_category_choices})
 
 @user_passes_test(is_superuser, login_url='home_vol')
 def partner_form(request): # toPartnerForm Questionnairre
     scope_of_work_choices = Scope_of_work.scope_of_work_choices
     # print(f'scope_of_work_choices: {scope_of_work_choices}')
-    return render(request, "partners_forms.html", {'form' : PartnerForm(), 'file_form': FilesForm(),'scope_of_work_choices': scope_of_work_choices})
+    return render(request, "partners_forms.html", {'form' : PartnerForm()
+    , 'file_form': FilesForm(),'scope_of_work_choices': scope_of_work_choices})
 
 @user_passes_test(is_superuser, login_url='home_vol')
 def type_partner_form(request): # toTypePartnerForm Questionnairre
@@ -214,9 +257,6 @@ def del_partner(request, partner_id):
 
 @user_passes_test(is_superuser, login_url='home_vol')
 def filterPartners(request):
-    query = request.GET.get('q')
-    print(f'query: {query}')
-
     # get all partners
     partners = Partner.objects.all()
     partners_list = {}
@@ -239,21 +279,158 @@ def filterPartners(request):
 @user_passes_test(is_superuser, login_url='home_vol')
 def searchFilter(request, partners):
     query = request.GET.get('q')
+    print(f'query: {query}')
 
-    if query:
-        partners = partners.filter(
-            Q(partner_name__contains=query) |
-            Q(partnership_extension__contains=query) | 
-            Q(stakeholder_category__contains=query) | 
-            Q(second_category__contains=query) | 
-            Q(other_choice__contains=query) | 
-            Q(type_of_partnership__contains=query) | 
-            Q(Agreement_Start_Date__contains=query) 
-            ).distinct()
+    # Filter Partner
+    # +++++ Partnership Extension +++++
+    partner_extensions = request.GET.getlist('partnership_extensions')
+    for extension in partner_extensions:
+        print(f'partnership extensions: {extension}')
+        # print(partner_extensions)
+
+    # +++++ Date (Start & End) +++++
+    start = request.GET.get('start')
+    end = request.GET.get('end')
+
+    # +++++ Category (Primary & Secondary) +++++
+    category_radio = request.GET.get('category_radio')
+    primary_list = request.GET.getlist('primary_categories')
+    secondary_list = request.GET.getlist('secondary_categories')
+
+    # +++++ Partnership Type +++++
+    type_list = request.GET.getlist('type_filters')
+
+    # +++++ Partnership Type +++++
+    column = request.GET.get('column')
+    order = request.GET.get('order')
+
+    # Check Action (Search, Filter, Sort)
+    if(query): # Search Partners
+        # partners = partners.filter(partner_name__contains=query)
+        partners = searchFilter(request, partners, query)
+    if(partner_extensions):
+        partners = partner_extensions_query(request, partners, partner_extensions)
+    if(start or end):
+        partners = dateFilter(request, partners, start, end)
+    if(category_radio):
+        partners = categoryFilter(request, category_radio, primary_list, secondary_list, partners)
+    if(type_list):
+        partners = typeFilter(request, partners, type_list)
+    if(column and order):
+        partners = sortPartners(request, partners, column, order)
+
+    p = Paginator(partners, pagination_count)
+    page = request.GET.get("page")
+    partners = p.get_page(page)
+
+    types = Type.objects.all()
+    return render(request, "view_partners.html", {'partners': partners, 
+                                                  'types' : types,
+                                                  'category_radio' : category_radio,
+                                                  'partnership_filters' : partner_extensions,
+                                                  'primary_filters' : primary_list,
+                                                  'secondary_filters' : secondary_list,
+                                                  'type_filters' : type_list,
+                                                  'partners_list' : partners_list, 
+                                                  'partnership_extension_choices': partnership_extension_choices,
+                                                  'stakeholder_category_choices' : stakeholder_category_choices,
+                                                  'second_category_choices' : second_category_choices})
+    # return HttpResponseRedirect(reverse('view_partners'))
+
+def searchFilter(request, partners, query):
+
+    partners = partners.filter(
+        Q(partner_name__icontains=query) |
+        Q(partnership_extension__icontains=query) | 
+        Q(stakeholder_category__icontains=query) | 
+        Q(second_category__icontains=query) | 
+        Q(other_choice__icontains=query) | 
+        Q(type_of_partnership__type_code__icontains=query) | 
+        Q(type_of_partnership__type_of_partnership__icontains=query)
+        ).distinct()
+
+    if partners:
+        print('partner exists')
+        print(f'partners: {partners}')
+        return partners
     elif query == '':
         partners = partners.all()
     else:
         print('no partner with this query')
+        return None
+    
+    return partners
+
+def partner_extensions_query(request, partners, query):
+
+    q_objects = Q()
+
+    for value in query:
+        q_objects |= Q(partnership_extension=value)
+
+    partners = partners.filter(q_objects)
+    
+    if partners:
+        return partners
+    else:
+        return None
+
+def typeFilter(request, partners, query):
+
+    q_objects = Q()
+
+    for value in query:
+        q_objects |= Q(type_of_partnership__type_code=value)
+
+    partners = partners.filter(q_objects)
+
+    print("===========")
+    print(q_objects)
+
+    if partners:
+        return partners
+    else:
+        return None
+
+def dateFilter(request, partners, start, end):
+    if start and end:
+        partners = partners.filter(Q(Agreement_Start_Date__gte=start) & Q(Agreement_End_Date__lte=end))
+    elif start:
+        partners = partners.filter(Q(Agreement_Start_Date__gte=start))
+    elif end:
+        partners = partners.filter(Q(Agreement_End_Date__lte=end))
+
+    if partners:
+        return partners
+    else:
+        return None
+    
+def categoryFilter(request, category_radio, primary_list, secondary_list, partners):
+
+    q_objects = Q()
+
+    if(category_radio=='1'):
+        for value in primary_list:
+            q_objects |= Q(stakeholder_category=value)
+    elif(category_radio=='2'):
+        for value in secondary_list:
+            q_objects |= Q(second_category=value)
+
+    partners = partners.filter(q_objects)
+
+    if partners:
+        return partners
+    else:
+        return None
+
+def sortPartners(request, partners, column, order):
+
+    if partners:
+
+        partners = partners.order_by(column if order == 'asc' else ('-' + column))
+        return partners
+
+    else:
         return None
 
 # MISC. ================================================================================================================
