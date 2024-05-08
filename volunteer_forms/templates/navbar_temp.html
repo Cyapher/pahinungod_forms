@@ -27,7 +27,13 @@
               </li>
               {% else %}
               <li class="nav-item">
-                <a class="nav-link text-light" aria-current="page" href="{% url 'edit' user.volunteer.id %}">Apply as Volunteer!</a>
+                <a class="nav-link text-light" aria-current="page" href="{% url 'edit' user.volunteer.id %}">
+                  <strong>
+                    <u>
+                      Apply as Volunteer!
+                    </u>
+                  </strong>
+                </a>
               </li>
               {% endif %}
             {% endif %}
@@ -47,7 +53,7 @@
             </li>
             {% else %}
             <li class="nav-item">
-              <a class="nav-link text-light" aria-current="page" href="{% provider_login_url 'google' %}">Admin Dashboard</a>
+              <a class="nav-link text-light" aria-current="page" href="{% provider_login_url 'google' %}">Log In/Sign Up</a>
             </li>
             {% endif %}
         </ul>
