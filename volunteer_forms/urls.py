@@ -7,8 +7,9 @@ urlpatterns = [
     path("", views.homePage, name="home_vol"),
     path("form", views.index, name="vol_index"),
     path("list", views.printVolunteers, name="list"),
-    path("add", views.createVolunteer, name="add"),
+    # path("add", views.createVoluntee1r, name="add"),
     path("edit/<int:volunteer_id>", views.updateVolunteer, name="edit"),
+    path("editPrograms/<int:volunteer_id>", views.updateVolunteerPrograms, name="edit_programs"),
     path("delete/<int:volunteer_id>", views.deleteVolunteer, name="del_volunteer"),
     path("<int:volunteer_id>/info", views.view_volunteerInfo, name="viewInfo"),
     path("<int:volunteer_id>/license", views.view_volunteerLicense, name="viewLicense"),
@@ -21,7 +22,8 @@ urlpatterns = [
     path("addProgram", views.createProgram, name="add_program"),
     path("filterDate", views.searchDateRange, name="filter_date"),
     path("sort", views.sort_data, name="sort"),
-    path("filter", views.filterVolunteers, name="filter_vol")
+    path("filter", views.filterVolunteers, name="filter_vol"),
+    path("profile/<int:volunteer_id>", views.client_view, name="client_view")
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

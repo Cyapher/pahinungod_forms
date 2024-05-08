@@ -2,12 +2,17 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import date
 from django import forms
+import django
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
 class AuthUser(AbstractUser):
+
+    username = models.CharField(error_messages={'unique': 'A user with that username already exists.'}, help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.', max_length=150, validators=[django.contrib.auth.validators.UnicodeUsernameValidator()], verbose_name='username', null=True, blank=True)
+    password = models.CharField(max_length=128, verbose_name='password', null=True, blank=True)
+    date_joined = models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined', null=True, blank=True)
 
     def __str__(self):
         return f"{self.username}"
@@ -118,6 +123,9 @@ class Volunteer(AuthUser):
         return f"{self.first_name} {self.last_name}"
     
     def save(self, *args, **kwargs):
+
+        self.username = self.email
+
         if self.birthdate:
             today = date.today()
             age = today.year - self.birthdate.year - ((today.month, today.day) < (self.birthdate.month, self.birthdate.day))

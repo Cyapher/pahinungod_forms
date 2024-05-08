@@ -9,6 +9,7 @@
     {% bootstrap_css %}
     {% load static %}
     {% bootstrap_javascript %}
+    {% load socialaccount %}
 </head>
 
 <style>
@@ -88,8 +89,23 @@
                     </li>
                 </ul>
             </div>
+            <button id="log_out_btn" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Log Out</button>
         </div>
     </nav>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Sign Out</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              {% include 'account/logout.html' %}
+            </div>
+          </div>
+        </div>
+      </div>
 
     <!-- BLOCK -->
     {% block body %}

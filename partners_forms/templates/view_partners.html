@@ -354,7 +354,7 @@
                             </form>
                             <form class="px-2" action="{% url 'del_partner' partner.id %}" method="POST">
                                 {% csrf_token %}
-                                <input type="submit" value="Delete">
+                                <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
                             </form>
                         </div>                    
                     </td>

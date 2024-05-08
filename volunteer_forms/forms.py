@@ -14,6 +14,12 @@ class VolunteerForm(ModelForm):
         model = Volunteer
         fields = '__all__'
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['required'] = False
+        self.fields['password'].widget.attrs['required'] = False
+        self.fields['date_joined'].widget.attrs['required'] = False
+
 
     widgets = {
         'healthConditions' : forms.Textarea(attrs={'rows' : 2}),
@@ -68,9 +74,6 @@ class VolunteerForm(ModelForm):
             if field_name == 'startDate':
                 field.widget.attrs['class'] = 'form-select'
                 field.widget.attrs['onchange'] = 'dropDate()'
-
-            if field_name == 'constituentUnit':
-                field.widget.attrs['id'] = 'multi_col'
 
             if field_name == 'occupation':
                 field.widget.attrs['class'] = 'form-select'

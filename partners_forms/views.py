@@ -4,10 +4,18 @@ from django.urls import reverse
 from partners_forms.forms import PartnerForm, Type_of_partnerForm, FilesForm
 from .models import Partner, Scope_of_work, Type, File
 from django.core.files.storage import FileSystemStorage
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth import logout
 from django.conf import settings
 from django.db.models import Q
 from django.core.paginator import Paginator
 import os
+
+def is_superuser(user):
+    return user.is_authenticated and (user.is_superuser or user.is_staff)
+
+def is_auth(user):
+    return not user.is_authenticated
 
 # Create your views here.
 # WEB PAGES ================================================================================================================
@@ -40,12 +48,23 @@ second_category_choices = [
 
 pagination_count = 2
 
+@user_passes_test(is_superuser, login_url='home_vol')
 def home_page(request):
     return render(request, "home.html")
 
+@user_passes_test(is_auth, login_url='dashboard')
 def admin_login(request):
     return render(request, "admin_login.html")
 
+def logOutPage(request):
+    if request.user.is_superuser or request.user.is_staff:
+        logout(request)
+        return redirect('admin_login')
+    else:
+        logout(request)
+        return redirect('home_vol')
+
+@user_passes_test(is_superuser, login_url='home_vol')
 def view_partners(request):
     partners_list = {}
     partners = Partner.objects.all()
@@ -70,17 +89,20 @@ def view_partners(request):
                                                   'stakeholder_category_choices' : stakeholder_category_choices,
                                                   'second_category_choices' : second_category_choices})
 
+@user_passes_test(is_superuser, login_url='home_vol')
 def partner_form(request): # toPartnerForm Questionnairre
     scope_of_work_choices = Scope_of_work.scope_of_work_choices
     # print(f'scope_of_work_choices: {scope_of_work_choices}')
     return render(request, "partners_forms.html", {'form' : PartnerForm()
     , 'file_form': FilesForm(),'scope_of_work_choices': scope_of_work_choices})
 
+@user_passes_test(is_superuser, login_url='home_vol')
 def type_partner_form(request): # toTypePartnerForm Questionnairre
     types = Type.objects.all()
-    return render(request, "type_of_partnership_form.html", {'types': types,'form': Type_of_partnerForm()})
+    return render(request, "type_of_partnership_form.html", {'types': types,'form': Type_of_partnerForm(), 'action' : "Add"})
 
 # TYPE OF PARTNERSHIP ================================================================================================================
+@user_passes_test(is_superuser, login_url='home_vol')
 def add_type(request):
     form = Type_of_partnerForm(request.POST)
     if request.method == 'POST':
@@ -89,15 +111,17 @@ def add_type(request):
             form.save()
             return HttpResponseRedirect(reverse('type_partner_form'))
         else:
-            return render(request, 'type_of_partnership_form.html', {'form': form})
+            return render(request, 'type_of_partnership_form.html', {'form': form, 'action' : "Add"})
 
+@user_passes_test(is_superuser, login_url='home_vol')
 def del_type(request, type_id):
     if request.method == 'POST':
         to_delete = Type.objects.get(pk=type_id)
         to_delete.delete()
         # return HttpResponseRedirect(reverse('type_partner_form'))
         return redirect('type_partner_form')
-    
+
+@user_passes_test(is_superuser, login_url='home_vol')   
 def upd_type(request, type_id):
     # print(type_id)
     to_update = Type.objects.get(pk=type_id)
@@ -112,10 +136,11 @@ def upd_type(request, type_id):
             type_form.save()
             return HttpResponseRedirect(reverse('type_partner_form'))
     else:
-        return render(request, 'type_of_partnership_form.html', {'type': to_update, 'types': all_types , 'form': type_form})
+        return render(request, 'type_of_partnership_form.html', {'type': to_update, 'types': all_types , 'form': type_form, 'action' : "Edit"})
         # return render(request, 'type_of_partnership_form.html', {'type': to_update, 'form': type_form})  
 
 # PARTNER ================================================================================================================
+@user_passes_test(is_superuser, login_url='home_vol')
 def add_partner(request):
     if request.method == 'POST':
         form = PartnerForm(request.POST)
@@ -159,6 +184,7 @@ def add_partner(request):
 
     return render(request, 'partners_forms.html', {'form': form, 'file_form': files_form})
 
+@user_passes_test(is_superuser, login_url='home_vol')
 def upd_partner(request, partner_id):
     # Instances
     to_update = Partner.objects.get(pk=partner_id) # Partner Instance
@@ -212,6 +238,7 @@ def upd_partner(request, partner_id):
         # Render the form again with error messages
         return render(request, 'update_partners.html', {'partner': to_update, 'form': form, 'file_form': files_form})
 
+@user_passes_test(is_superuser, login_url='home_vol')
 def del_partner(request, partner_id):
     if request.method == 'POST':
         to_delete = Partner.objects.get(pk=partner_id)
@@ -228,6 +255,7 @@ def del_partner(request, partner_id):
 
         return redirect('view_partners')
 
+@user_passes_test(is_superuser, login_url='home_vol')
 def filterPartners(request):
     # get all partners
     partners = Partner.objects.all()
@@ -238,7 +266,18 @@ def filterPartners(request):
         files = File.objects.filter(partner=partner)
         partners_list[partner] = files
 
-    # Search Partner
+    # Check Action (Search, Filter, Sort)
+    if(query):
+        partners = partners.filter(partner_name__contains=query)
+        pass
+
+    # Search Partners
+    # partners = partners.filter(partner_name__contains=query)
+    
+    return render(request, "view_partners.html", {'partners': partners, 'partners_list' : partners_list})
+
+@user_passes_test(is_superuser, login_url='home_vol')
+def searchFilter(request, partners):
     query = request.GET.get('q')
     print(f'query: {query}')
 
