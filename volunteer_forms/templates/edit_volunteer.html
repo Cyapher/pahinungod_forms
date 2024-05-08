@@ -105,7 +105,7 @@
 {% load widget_tweaks %}
 
 <!-- DESKTOP VIEW -->
-<div class="d-lg-block d-md-none">
+<div class="d-lg-block">
   <div id="full_form">
     <form method="post">
       {% csrf_token %}
@@ -585,8 +585,8 @@
 </div>
 
 <!-- MOBILE VIEW -->
-<div class="d-lg-none d-md-block">
-  <div id="full_form" style="color: blue;">
+<div class="d-lg-none">
+  <div id="full_form">
     <form method="post">
       {% csrf_token %}
       <div id="signup_form" class="popup-container justify-content-center">
@@ -716,12 +716,17 @@
 
             </div>
   
+            <!-- OTHER QUESTIONS -->
+
+            <!-- ALUMNUS? -->
             <table class="table table-sm table-bordered border-dark" align="center">
               <thead>
                 <tr>
                   <td for="alumni_check">
-                    <input type="checkbox" id="alumni_check_sm" onchange="toggleAlumni()">
-                    <label for="alumni_check_sm">Are you an alumnus of UP?</label>
+                    <div class="text-start">
+                      <input type="checkbox" id="alumni_check_sm" onchange="toggleAlumni()">
+                      <label for="alumni_check_sm">Are you an alumnus of UP?</label>
+                    </div>
                   </td>
                 </tr>
               </thead>
@@ -749,12 +754,15 @@
               </tbody>
             </table>
   
+            <!-- CONNECTED TO PGH? -->
             <table class="table table-sm table-bordered border-dark" align="center">
               <thead>
                 <tr>
                   <td>
-                    <input type="checkbox" id="pgh_check_sm" onchange="togglePGH()">
-                    <label for="pgh_check_sm">Are presently connected with UP-PGH?</label>
+                    <div class="text-start">
+                      <input type="checkbox" id="pgh_check_sm" onchange="togglePGH()">
+                      <label for="pgh_check_sm">Are presently connected with UP-PGH?</label>
+                    </div>
                   </td>
                 </tr>
               </thead>
@@ -781,10 +789,11 @@
               </tbody>
             </table>
   
+            <!-- WORKING? -->
             <table class="table table-sm table-bordered border-dark" align="center">
               <thead>
                 <tr>
-                  <td>
+                  <td class="text-start">
                     <input type="checkbox" id="work_check_sm" onchange="toggleWork()">
                     <label for="work_check_sm">Are you presently working?</label>
                   </td>
@@ -826,10 +835,11 @@
               </tbody>
             </table>
   
+            <!-- LICENSED? -->
             <table class="table table-sm table-bordered border-dark" align="center">
               <thead>
                 <tr>
-                  <td>
+                  <td class="text-start">
                     <input type="checkbox" id="license_check_sm" onchange="toggleLicense()">
                     <label for="license_check_sm">Are you licensed?</label>
                   </td>
@@ -919,10 +929,11 @@
               </tbody>
             </table>
   
+            <!-- STUDENT UP? -->
             <table class="table table-sm table-bordered border-dark" align="center">
               <thead>
                 <tr>
-                  <td>
+                  <td class="text-start">
                     <input type="checkbox" id="up_check_sm" onchange="toggleUP()">
                     <label for="up_check_sm">Are you currently a student of UP?</label>
                   </td>
@@ -982,6 +993,7 @@
               </tbody>
             </table>
             <br>
+            
             <div class="container-fluid mx-2">
               <div class="row">
                 <div class="col">
