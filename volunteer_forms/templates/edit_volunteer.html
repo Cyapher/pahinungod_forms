@@ -18,6 +18,7 @@
     justify-content: space-between;
   }
 
+  /* DESKTOP */
   .popup {
       width: calc(50% - 15px);
       height: calc(100% - 30px);
@@ -33,6 +34,15 @@
       overflow: hidden;
   }
   
+  .popup-content {
+    height: calc(100% - 30px);
+    padding: 20px;
+    text-align: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* MOBILE */
   @media screen and (max-width: 500px) {
     .popup {
       width: 90%;
@@ -62,16 +72,7 @@
 
 
   }
-
-
-  .popup-content {
-    height: calc(100% - 30px);
-    padding: 20px;
-    text-align: center;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
+  
   textarea {
     max-height: 125px;
     resize: none;
