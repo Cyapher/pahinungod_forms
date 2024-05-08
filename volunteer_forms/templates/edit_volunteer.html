@@ -51,6 +51,7 @@
 
     input[type=text] {
       width: auto;
+      max-width: inherit;
       height: 60%;
     }
 
@@ -58,6 +59,8 @@
       font-size: small;
       text-align: left;
     }
+
+
   }
 
 
@@ -596,19 +599,19 @@
             <!-- NAME -->
             <div class="d-flex-col">
               <!-- FIRST NAME -->
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center my-2">
                 <label class="form-label flex-fill">First Name</label> 
                 {{v_form.first_name}}
               </div>
 
               <!-- MIDDLE NAME -->
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center my-2">
                 <label class="form-label flex-fill">Middle Name</label> 
                 {{v_form.middle_name}}
               </div>
 
               <!-- LAST NAME -->
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center my-2">
                 <label class="form-label flex-fill">Last Name</label> 
                 {{v_form.last_name}}
               </div>
@@ -624,88 +627,96 @@
                 <label class="form-label flex-fill">Mobile #</label> 
                 {{v_form.mobile}}
               </div>
+              
+              <!-- TELEPHONE NUM -->
+              <div class="d-flex align-items-center my-2">
+                <label for="id_telephone" class="form-label mr-2 w-50">Telephone #</label>
+                {{v_form.telephone}}
+              </div>
 
               <!-- EMAIL -->
-              <div class="">
-                <label class="form-label flex-fill">Email</label> 
-                {{v_form.email}}
+              <div class="my-2 d-flex flex-column">
+                <label class="form-label flex-fill me-auto">Email</label> 
+                <div>
+                  {{v_form.email}}
+                </div>
               </div>
 
               <!-- ADDRESS -->
-              <div class="">
-                <label class="form-label flex-fill">Address</label> 
-                {{v_form.address}}
+              <div class="my-2 d-flex flex-column">
+                <label class="form-label flex-fill me-auto">Address</label> 
+                <div>
+                  {{v_form.address}}
+                </div>
               </div>
 
-            </div>
+              <!-- BIRTH DATE -->
+              <div class="d-flex align-items-center my-2">
+                <label for="id_birth_date" class="form-label w-50">Birth Date</label>
+                {% render_field v_form.birthdate type="date" class="form-control" placeholder="mm/dd/yyyy" %}
+              </div>
 
-            <table class="table border-light">
+              <!-- CIVIL STATUS -->
+              <div class="d-flex align-items-center my-2">
+                <label for="id_civilStatus" class="form-label flex-fill w-50">Civil Status</label>
+                {{v_form.civilStatus}}
+              </div>
+
+              <!-- RELIGION -->
+              <div class="d-flex align-items-center my-2">
+                <label for="id_religion" class="form-label flex-fill w-50">Religion</label>
+                {{v_form.religion}}
+              </div>
+
+              <hr class="dashed">
+
+              <!-- HOBBIES -->
+              <div class="my-2 d-flex flex-column">
+                <label for="id_skillsHobbies" class="form-label flex-fill me-auto">Skills & Hobbies</label>
+                <div>
+                  {{v_form.skillsHobbies}}
+                </div>
+              </div>
               
-              <!-- DESKTOP VIEW -->
-              <tbody>
-
-                <tr>
-                  <td>
-                    <label class="form-label">Mobile #</label>
-                    {{v_form.mobile}}
-                  </td>
-                  <td colspan="2">
-                    <label class="form-label">Email</label>
-                    {{v_form.email}}
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="3">
-                    <label for="id_address" class="form-label">Address</label>
-                    {{v_form.address}}
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="1">
-                    <label for="id_telephone" class="form-label">Telephone #</label>
-                    {{v_form.telephone}}
-                  </td>
-                  <td colspan="1">
-                    <label for="id_birth_date" class="form-label">Birth Date</label>
-                    {% render_field v_form.birthdate type="date" class="form-control" placeholder="mm/dd/yyyy" %}
-                  </td>
-                  <td colspan="1">
-                    <label for="id_civilStatus" class="form-label">Civil Status</label>
-                    <br>
-                    {{v_form.civilStatus}}
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="1">
-                    <label for="id_sex" class="form-label">Sex</label>
-                    <br>
+              <!-- SEX AND BLOOD TYPE -->
+              <div class="d-flex align-items-center my-2">
+                
+                <!-- SEX -->
+                <div class="m-2 w-50 flex-column">
+                  <label class="form-label flex-fill me-auto">Sex</label> 
+                  <div>
                     {{v_form.sex}}
-                  </td>
-                  <td>
-                    <label for="id_bloodType" class="form-label">Blood Type</label>
-                    {{v_form.bloodType}}
-                  </td>
-                  <td colspan="1">
-                    <label for="id_religion" class="form-label">Religion</label>
-                    {{v_form.religion}}
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="1">
-                    <label for="id_healthConditions" class="form-label">Health Conditions</label>
-                    {{v_form.healthConditions}}
-                  </td>
-                  <td colspan="1">
-                    <label for="id_skillsHobbies" class="form-label">Skills & Hobbies</label>
-                    {{v_form.skillsHobbies}}
-                  </td>
-                  <td colspan="1">
-                    <label for="id_foodRestrictions" class="form-label">Food Restrictions</label>
-                    {{v_form.foodRestrictions}}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  </div>
+                </div>
+
+                <!-- BLOOD TYPE -->
+                <div class="m-2 w-50 flex-column">
+                  <label class="form-label flex-fill me-auto">Blood Type</label> 
+                  {{v_form.bloodType}}
+                </div>
+
+              </div>
+
+              <!-- HEALTH CONDITIONS -->
+              <div class="my-2 d-flex flex-column">
+                <label class="form-label flex-fill me-auto">Health Conditions</label> 
+                <div>
+                  {{v_form.healthConditions}}
+                </div>
+              </div>
+
+              <!-- FOOD RESTRICTIONS -->
+              <div class="my-2 d-flex flex-column">
+                <label for="id_foodRestrictions" class="form-label flex-fill me-auto">Food Restrictions</label> 
+                <div>
+                  {{v_form.foodRestrictions}}
+                </div>
+              </div>
+
+              <hr class="dashed">
+
+
+            </div>
   
             <table class="w-75 table table-sm table-bordered border-dark" align="center">
               <thead>

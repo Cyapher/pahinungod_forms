@@ -81,6 +81,15 @@ class VolunteerForm(ModelForm):
 
             if field_name == 'programs':
                 field.widget.attrs['size'] = '7'
+
+            if field_name == 'address':
+                field.widget.attrs['style'] = 'width: 100%'
+
+            if field_name == 'telephone':
+                field.widget.attrs['style'] = 'width: 100%'
+
+            if field_name == 'bloodType':
+                field.widget.attrs['style'] = 'width: 100%'
             
             if field_name in self.placeholders:
                 field.widget.attrs['placeholder'] = self.placeholders[field_name]
@@ -104,7 +113,7 @@ class ProgramForm(ModelForm):
 
             if isinstance(field, forms.CharField):
                 field.widget.attrs.update({
-                    'class': 'form-control'
+                    'class': 'form-control',
                 })
 
             if field_name in self.program_placeholders:
