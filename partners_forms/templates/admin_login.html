@@ -20,10 +20,15 @@
     }
 
     .circular--square { 
+        border-style: solid;
         border-radius: 50%; 
+        border-width: thick;
+        border-color: #021d0f;
+        border-image-width: 20%;
         margin-bottom: -20px;
         z-index: 1;
         padding: 10px;
+        min-width: 20%;
     }
 
     #red-color {
@@ -78,21 +83,21 @@
     <!-- BG IMAGE -->
     <img src="/static/partners_forms/media/Overview.jpg" alt="Pahinungod Background Overview" class="img-bg">
     
-    <div class="d-flex flex-column align-items-center vh-100 justify-content-center" style="height: 100%;" >
+    <div class="d-flex flex-column align-items-center vh-100 justify-content-center" style="height: 100%">
 
-        <img src="{% static 'partners_forms/media/admin_icon.png' %}" alt="Admin Icon" class="min-vw-50 circular--square" style="background-color: #023219; 
+        <img src="{% static 'partners_forms/media/admin_icon.png' %}" alt="Admin Icon" class="min-vw-70 circular--square" style="background-color: #023219; 
         display: block;
         max-width: 50%; 
-        min-width: 10%;
+        min-width: 13%;
         margin-top: -100px; 
         margin-left: auto; 
         margin-right: auto;
-        width: 5%;
+        width: 15%;
         ">
 
         <!-- CENTER PANEL -->
         <div class="d-flex flex-column align-items-center justify-content-center" style="height: auto; width: 50%;">
-            <div class="d-flex-col h-100 w-auto p-3" id="red-color" style="border-radius: 16px 16px 16px 16px;">
+            <div class="d-flex-col h-100 w-auto p-3" id="red-color" style="border-style: solid; border-radius: 16px 16px 16px 16px; border-width: thick; border-color: #490202;">
 
 
                 <h1 class="display-5 text-white text-center py-3 mx-sm-4">Pahinungod Forms</h1>
