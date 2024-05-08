@@ -53,6 +53,22 @@ class VolunteerForm(ModelForm):
         'yearLvl' : 'Enter your year level here'
     }
 
+    licenseStudentFields = ['prcLicense',
+                    'company',
+                    'dept', 
+                    'officeAdd',
+                    'license_telephone',
+                    'license_email',
+                    'workSched',
+                    'beneficiaries',
+                    'relation',
+                    'contactNum',
+                    'contactEmail',
+                    'idNum',
+                    'course',
+                    'college',
+                    'yearLvl']
+
     def __init__(self, *args, **kwargs):
         super(VolunteerForm, self).__init__(*args, **kwargs)
 
@@ -91,10 +107,22 @@ class VolunteerForm(ModelForm):
 
             if field_name == 'bloodType':
                 field.widget.attrs['style'] = 'width: 100%'
+
+            if field_name == 'constituentUnit':
+                field.widget.attrs['style'] = 'width: 100%'
+
+            if field_name == 'otherOccu':
+                field.widget.attrs['style'] = 'width: 100%'
+
+            if field_name == 'specification':
+                field.widget.attrs['style'] = 'width: 100%'
             
             if field_name in self.placeholders:
                 field.widget.attrs['placeholder'] = self.placeholders[field_name]
             
+            if field_name in self.licenseStudentFields:
+                field.widget.attrs['style'] = 'width: 100%'
+
 class ProgramForm(ModelForm):
 
     class Meta:

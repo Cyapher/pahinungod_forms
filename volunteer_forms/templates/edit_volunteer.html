@@ -106,7 +106,6 @@
 
 <!-- DESKTOP VIEW -->
 <div class="d-lg-block d-md-none">
-  <h1>DESKTOP VIEW</h1>
   <div id="full_form">
     <form method="post">
       {% csrf_token %}
@@ -587,7 +586,6 @@
 
 <!-- MOBILE VIEW -->
 <div class="d-lg-none d-md-block">
-  <h1>MOBILE VIEW</h1>
   <div id="full_form" style="color: blue;">
     <form method="post">
       {% csrf_token %}
@@ -718,18 +716,18 @@
 
             </div>
   
-            <table class="w-75 table table-sm table-bordered border-dark" align="center">
+            <table class="table table-sm table-bordered border-dark" align="center">
               <thead>
                 <tr>
                   <td for="alumni_check">
-                    <input type="checkbox" id="alumni_check" onchange="toggleAlumni()">
-                    <label for="alumni_check">Are you an alumnus of UP?</label>
+                    <input type="checkbox" id="alumni_check_sm" onchange="toggleAlumni()">
+                    <label for="alumni_check_sm">Are you an alumnus of UP?</label>
                   </td>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td id="alumni_div" style="display: none;">
+                  <td id="alumni_div_sm" style="display: none;">
                       {% for field in v_form %}
   
                       {% if field.name in alumnusFields %}
@@ -751,18 +749,18 @@
               </tbody>
             </table>
   
-            <table class="w-75 table table-sm table-bordered border-dark" align="center">
+            <table class="table table-sm table-bordered border-dark" align="center">
               <thead>
                 <tr>
                   <td>
-                    <input type="checkbox" id="pgh_check" onchange="togglePGH()">
-                    <label for="pgh_check">Are presently connected with UP-PGH?</label>
+                    <input type="checkbox" id="pgh_check_sm" onchange="togglePGH()">
+                    <label for="pgh_check_sm">Are presently connected with UP-PGH?</label>
                   </td>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td id="pgh_div" style="display: none;">
+                  <td id="pgh_div_sm" style="display: none;">
                       {% for field in v_form %}
   
                       {% if field.name in pghFields %}
@@ -783,18 +781,18 @@
               </tbody>
             </table>
   
-            <table class="w-75 table table-sm table-bordered border-dark" align="center">
+            <table class="table table-sm table-bordered border-dark" align="center">
               <thead>
                 <tr>
                   <td>
-                    <input type="checkbox" id="work_check" onchange="toggleWork()">
-                    <label for="work_check">Are you presently working?</label>
+                    <input type="checkbox" id="work_check_sm" onchange="toggleWork()">
+                    <label for="work_check_sm">Are you presently working?</label>
                   </td>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td id="work_div" style="display: none;">
+                  <td id="work_div_sm" style="display: none;">
                       {% for field in v_form %}
   
                       {% if field.name in workFields %}
@@ -828,18 +826,18 @@
               </tbody>
             </table>
   
-            <table class="w-75 table table-sm table-bordered border-dark" align="center">
+            <table class="table table-sm table-bordered border-dark" align="center">
               <thead>
                 <tr>
                   <td>
-                    <input type="checkbox" id="license_check" onchange="toggleLicense()">
-                    <label for="license_check">Are you licensed?</label>
+                    <input type="checkbox" id="license_check_sm" onchange="toggleLicense()">
+                    <label for="license_check_sm">Are you licensed?</label>
                   </td>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td id="license_div" style="display: none;">
+                  <td id="license_div_sm" style="display: none;">
                       {% for field in v_form %}
   
                       {% if field.name in licenseFields %}
@@ -921,18 +919,18 @@
               </tbody>
             </table>
   
-            <table class="w-75 table table-sm table-bordered border-dark" align="center">
+            <table class="table table-sm table-bordered border-dark" align="center">
               <thead>
                 <tr>
                   <td>
-                    <input type="checkbox" id="up_check" onchange="toggleUP()">
-                    <label for="up_check">Are you currently a student of UP?</label>
+                    <input type="checkbox" id="up_check_sm" onchange="toggleUP()">
+                    <label for="up_check_sm">Are you currently a student of UP?</label>
                   </td>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td id="up_div" style="display: none;">
+                  <td id="up_div_sm" style="display: none;">
                     <div>
                       {% for field in v_form %}
   
@@ -1133,15 +1131,30 @@
     var licenseCheck = document.getElementById("license_check");
     var upCheck = document.getElementById("up_check");
 
+    var alumniDiv_sm = document.getElementById("alumni_div_sm");
+    var pghDiv_sm = document.getElementById("pgh_div_sm");
+    var dateOther = document.getElementById("id_customStartDate");
+    var workDiv_sm = document.getElementById("work_div_sm");
+    var licenseDiv_sm = document.getElementById("license_div_sm");
+    var upDiv_sm = document.getElementById("up_div_sm");
+
+    var alumniCheck_sm = document.getElementById("alumni_check_sm");
+    var pghCheck_sm = document.getElementById("pgh_check_sm");    
+    var workCheck_sm = document.getElementById("work_check_sm");
+    var licenseCheck_sm = document.getElementById("license_check_sm");
+    var upCheck_sm = document.getElementById("up_check_sm");
+
 
     function toggleAlumni() {
         
         
 
-        if (alumniCheck.checked) {
+        if (alumniCheck.checked || alumniCheck_sm.checked) {
             alumniDiv.style.display = "block";
+            alumniDiv_sm.style.display = "block";
         } else {
             alumniDiv.style.display = "none";
+            alumniDiv_sm.style.display = "none";
         }
     }
 
@@ -1149,10 +1162,12 @@
         
         
 
-        if (pghCheck.checked) {
+        if (pghCheck.checked || pghCheck_sm.checked) {
             pghDiv.style.display = "block";
+            pghDiv_sm.style.display = "block";
         } else {
             pghDiv.style.display = "none";
+            pghDiv_sm.style.display = "none";
         }
     }
 
@@ -1183,10 +1198,12 @@
         
         
 
-        if (workCheck.checked) {
+        if (workCheck.checked || workCheck_sm.checked) {
             workDiv.style.display = "block";
+            workDiv_sm.style.display = "block";
         } else {
             workDiv.style.display = "none";
+            workDiv_sm.style.display = "none";
         }
     }
 
@@ -1194,20 +1211,24 @@
         
         
 
-        if (licenseCheck.checked) {
+        if (licenseCheck.checked || licenseCheck_sm.checked) {
             licenseDiv.style.display = "block";
+            licenseDiv_sm.style.display = "block";
         } else {
             licenseDiv.style.display = "none";
+            licenseDiv_sm.style.display = "none";
         }
     }
 
     function toggleUP() {
         
         
-        if (upCheck.checked) {
+        if (upCheck.checked || upCheck_sm.checked) {
             upDiv.style.display = "block";
+            upDiv_sm.style.display = "block";
         } else {
             upDiv.style.display = "none";
+            upDiv_sm.style.display = "none";
         }
     }
     
@@ -1217,11 +1238,28 @@
     var license_loadCheck = {check : "{{volunteer.licenseCheck}}", obj : licenseDiv, checkObj : licenseCheck};
     var student_loadCheck = {check : "{{volunteer.studentCheck}}", obj : upDiv, checkObj : upCheck};
 
+    var alumnus_loadCheck_sm = {check : "{{volunteer.alumnusCheck}}", obj : alumniDiv_sm, checkObj : alumniCheck_sm};
+    var pgh_loadCheck_sm = {check : "{{volunteer.pghCheck}}", obj : pghDiv_sm, checkObj : pghCheck_sm};
+    var work_loadCheck_sm = {check : "{{volunteer.workCheck}}", obj : workDiv_sm, checkObj : workCheck_sm};
+    var license_loadCheck_sm = {check : "{{volunteer.licenseCheck}}", obj : licenseDiv_sm, checkObj : licenseCheck_sm};
+    var student_loadCheck_sm = {check : "{{volunteer.studentCheck}}", obj : upDiv_sm, checkObj : upCheck_sm};
+
     var loadArray = [alumnus_loadCheck, pgh_loadCheck, work_loadCheck, license_loadCheck, student_loadCheck];
+    var loadArray_sm = [alumnus_loadCheck_sm, pgh_loadCheck_sm, work_loadCheck_sm, license_loadCheck_sm, student_loadCheck_sm];
 
     function startWindows() {
 
         loadArray.forEach(element => {
+            console.log(element.check);
+            if (element.check == "True") {
+                element.obj.style.display = "block";
+                element.checkObj.checked = true;
+            } else {
+                element.obj.style.display = "none";
+            }
+        });
+
+        loadArray_sm.forEach(element => {
             console.log(element.check);
             if (element.check == "True") {
                 element.obj.style.display = "block";
