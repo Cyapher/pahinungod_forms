@@ -91,6 +91,75 @@
   }
 
 </style>
+
+<form class="d-flex justify-content-center" action="{% url 'filter_vol' %}" method="get">
+    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table>
+                        <label>Start Date Filter</label>
+                        <div class="input-group mb-2">
+                        <span class="input-group-text">Start Date</span>
+                            {% if request.GET.start %}
+                            <input id="date_filter_start" name="start" class="form-control me-6" type="date" placeholder="mm/dd/yyyy" value="{{ request.GET.start }}">
+                            {% else %}
+                            <input id="date_filter_start" name="start" class="form-control me-6 mr-2" type="date" placeholder="mm/dd/yyyy">
+                            {% endif %}
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text"> End Date</span>
+                            {% if request.GET.end %}
+                            <input id="date_filter_end" name="end" class="form-control me-6" type="date" placeholder="mm/dd/yyyy" value="{{ request.GET.end }}">
+                            {% else %}
+                            <input id="date_filter_end" name="end" class="form-control me-6" type="date" placeholder="mm/dd/yyyy">
+                            {% endif %}
+                        </div>
+
+                        <label>Sorting</label>
+                        <div class="container border px-3 py-2 mb-2">
+                            <label>Column</label>
+                            <div id="input_sort_fil" class="input-group mb-3">
+                                <select class="form-select me-6" name="column">
+                                    <option {% if request.GET.column == 'first_name' %}selected{% endif %} value="first_name">Name</option>
+                                    <option {% if request.GET.column == 'customStartDate' %}selected{% endif %} value="customStartDate">Start Date</option>
+                                    <option {% if request.GET.column == 'occupation' %}selected{% endif %} value="occupation">Occupation</option>
+                                </select>
+                            </div>
+    
+                            <label>Order</label>
+                            <div id="input_sort_fil" class="input-group mb-2">
+                                <select class="form-select me-6" name="order">
+                                    <option {% if request.GET.order == 'asc' %}selected{% endif %} value="asc">A-Z/Old-New</option>
+                                    <option {% if request.GET.order == 'des' %}selected{% endif %} value="des">Z-A/New-Old</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <label>Search</label>
+                        <div class="input-group">
+                            <span class="input-group-text">Search Query</span>
+                            {% if request.GET.q %}
+                            <input name="q" class="form-control me-6" type="search" placeholder="Search" aria-label="Search" value="{{ request.GET.q }}">
+                            {% else %}
+                            <input name="q" class="form-control me-6" type="search" placeholder="Search" aria-label="Search">
+                            {% endif %}
+                        </div>
+                </table>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success">Apply Filters</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</form>
+
 <form class="d-flex justify-content-center" action="{% url 'filter_vol' %}" method="get">
     <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -176,7 +245,7 @@
   <br>
   {% if volunteers %}
   <!-- default -->
-  <div class="table-responsive vw-75">
+  <div class="table-responsive vw-75 px-5">
     <table id="volunteer_list" class="table table-bordered caption-top" align="center">
   <div class="table-responsive mx-2">
     <table id="volunteer_list" class="table table-xs table-bordered caption-top" align="center">
@@ -226,9 +295,9 @@
         <thead class="table-light border-dark">
             <th>Name</th>
             <th>Specific Information</th>
-            <th>Programs</th>
-            <th>Start Date</th>
-            <th>Occupation</th>
+            <th class="d-none d-lg-table-cell">Programs</th>
+            <th class="d-none d-lg-table-cell">Start Date</th>
+            <th class="d-none d-lg-table-cell">Occupation</th>
             <th>Actions</th>
 
         </thead>
@@ -262,7 +331,11 @@
                                                 {% csrf_token %}
                                                 <input id="btn_Stu{{ forloop.counter }}" type="button" class="btn btn-outline-success btn-sm btn_width" value="Student Info" data-bs-toggle="collapse" data-bs-target="#collapse_stu{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}" onclick="loadContent('{{ volunteer.id }}', '{{forloop.counter}}', this.id)">
                                             </form>
-                                    </div>
+                                        </div>
+                                        <form action="" title="Program Information" class="d-block d-lg-none my-3">
+                                            {% csrf_token %}
+                                            <input id="btn_pro{{ forloop.counter }}" type="button" class="btn btn-outline-success btn-sm btn_width" value="Program Info" data-bs-toggle="collapse" data-bs-target="#collapse_pro{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                                        </form>
                                 </div>
                             </h2>
                             <div id="collapse_vol{{ forloop.counter }}" class="accordion-collapse collapse scrollable-content" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
@@ -281,10 +354,22 @@
                                 <div class="accordion-body" id="accordionContent_stu{{ forloop.counter }}">                                    
                                 </div>
                             </div>
+                            <div id="collapse_pro{{ forloop.counter }}" class="accordion-collapse collapse scrollable-content d-lg-none" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                                <div class="accordion-body" id="accordionContent_pro{{ forloop.counter }}">
+                                    <span class="fs-2">Programs</span>                                 
+                                    {% for program in volunteer.programs.all %}
+                                        <strong>
+                                            <li>
+                                                ({{ program.code }}) {{ program.name }}
+                                            </li>
+                                        </strong>
+                                    {% endfor %}   
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </td>
-                <td>
+                <td class="d-none d-lg-table-cell">
                     {% for program in volunteer.programs.all %}
                                 <strong>
                                     <li>
@@ -293,10 +378,10 @@
                                 </strong>
                     {% endfor %}   
                 </td>
-                <td>
+                <td class="d-none d-lg-table-cell">
                     {{ volunteer.customStartDate }}
                 </td>
-                <td>
+                <td class="d-none d-lg-table-cell">
                     {% if volunteer.occupation == "Other" %}
                     
                     {{ volunteer.otherOccu }}
