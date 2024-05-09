@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.db.models import Q
 from django.core.paginator import Paginator
+from faker import Faker
 
 from pahinungod_forms import settings
 from volunteer_forms.models import Volunteer, Program
@@ -62,6 +63,7 @@ def is_superuser(user):
     return user.is_authenticated and (user.is_superuser or user.is_staff)
 
 def homePage(request):
+    print(request.META.get('HTTP_USER_AGENT'))
     programs = Program.objects.all()
     return render(request, "volunteerHome.html", {'programs': programs})
 
@@ -370,3 +372,20 @@ def sort_data(request, volunteers):
 def client_view(request, volunteer_id):
 
     return render(request, "volunteerProfile.html")
+
+def generate_sample_objects(request, num_samples=10):
+    # Initialize Faker
+    fake = Faker()
+
+    # Generate sample objects and save them to the database
+    for _ in range(num_samples):
+        # Generate fake data
+        fake_name = fake.name()
+        fake_email = fake.email()
+        fake_text = fake.text()
+
+        # Create and save object to the database
+        new_object = Volunteer()
+        new_object.save()
+    
+    print("Volunteers generated!")

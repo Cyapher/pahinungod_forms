@@ -1113,17 +1113,61 @@
     }
 
     function togglePGH() {
-        
-        
-
-        if (pghCheck.checked || pghCheck_sm.checked) {
-            pghDiv.style.display = "block";
-            pghDiv_sm.style.display = "block";
-        } else {
-            pghDiv.style.display = "none";
-            pghDiv_sm.style.display = "none";
-        }
+    if (pghCheck.checked) {
+        pghDiv.style.display = "block";
+    } else {
+        pghDiv.style.display = "none";
     }
+
+    if (pghCheck_sm.checked) {
+        pghDiv_sm.style.display = "block";
+    } else {
+        pghDiv_sm.style.display = "none";
+    }
+}
+
+function toggleWork() {
+    if (workCheck.checked) {
+        workDiv.style.display = "block";
+    } else {
+        workDiv.style.display = "none";
+    }
+
+    if (workCheck_sm.checked) {
+        workDiv_sm.style.display = "block";
+    } else {
+        workDiv_sm.style.display = "none";
+    }
+}
+
+function toggleLicense() {
+    if (licenseCheck.checked) {
+        licenseDiv.style.display = "block";
+    } else {
+        licenseDiv.style.display = "none";
+    }
+
+    if (licenseCheck_sm.checked) {
+        licenseDiv_sm.style.display = "block";
+    } else {
+        licenseDiv_sm.style.display = "none";
+    }
+}
+
+function toggleUP() {
+    if (upCheck.checked) {
+        upDiv.style.display = "block";
+    } else {
+        upDiv.style.display = "none";
+    }
+
+    if (upCheck_sm.checked) {
+        upDiv_sm.style.display = "block";
+    } else {
+        upDiv_sm.style.display = "none";
+    }
+}
+
 
     function dropWork() {
         var workDropValue = document.getElementById("id_occupation").value;
@@ -1131,11 +1175,11 @@
 
         if (workDropValue === "Other") {
             workOther.removeAttribute("disabled");
-        }
-        else {
+          }
+          else {
             workOther.setAttribute("disabled", "disabled");
+          }
         }
-    }
 
     function dropDate() {
         var dateDropValue = document.getElementById("id_startDate").value;
@@ -1145,44 +1189,6 @@
         }
         else {
             dateOther.setAttribute("disabled", "disabled");
-        }
-    }
-
-    function toggleWork() {
-        
-        
-
-        if (workCheck.checked || workCheck_sm.checked) {
-            workDiv.style.display = "block";
-            workDiv_sm.style.display = "block";
-        } else {
-            workDiv.style.display = "none";
-            workDiv_sm.style.display = "none";
-        }
-    }
-
-    function toggleLicense() {
-        
-        
-
-        if (licenseCheck.checked || licenseCheck_sm.checked) {
-            licenseDiv.style.display = "block";
-            licenseDiv_sm.style.display = "block";
-        } else {
-            licenseDiv.style.display = "none";
-            licenseDiv_sm.style.display = "none";
-        }
-    }
-
-    function toggleUP() {
-        
-        
-        if (upCheck.checked || upCheck_sm.checked) {
-            upDiv.style.display = "block";
-            upDiv_sm.style.display = "block";
-        } else {
-            upDiv.style.display = "none";
-            upDiv_sm.style.display = "none";
         }
     }
     
@@ -1202,6 +1208,8 @@
     var loadArray_sm = [alumnus_loadCheck_sm, pgh_loadCheck_sm, work_loadCheck_sm, license_loadCheck_sm, student_loadCheck_sm];
 
     function startWindows() {
+
+      dropWork();
 
         loadArray.forEach(element => {
             // console.log(element.check);
@@ -1240,12 +1248,14 @@
       alumniCheck.addEventListener('change', function() {
         if (!this.checked) {
           document.getElementById('id_constituentUnit').value = '';
+          toggleAlumni();
         }
       })
 
       pghCheck.addEventListener('change', function() {
         if (!this.checked) {
           document.getElementById('id_specification').value = '';
+          togglePGH();
         }
       })
 
@@ -1254,7 +1264,9 @@
         if (!this.checked) {
           document.getElementById('id_occupation').value = '';
           document.getElementById('id_otherOccu').value = '';
+          toggleWork();
         }
+        dropWork();
       })
 
       licenseCheck.addEventListener('change', function() {
@@ -1266,6 +1278,7 @@
           document.getElementById('id_license_telephone').value = '';
           document.getElementById('id_license_email').value = '';
           document.getElementById('id_workSched').value = '';
+          toggleLicense();
         }
       })
 
@@ -1275,6 +1288,7 @@
           document.getElementById('id_course').value = '';
           document.getElementById('id_college').value = '';
           document.getElementById('id_yearLvl').value = '';
+          toggleUP();
         }
       })
     })
@@ -1337,6 +1351,8 @@
     dropWork();
     dropDate();
     window.onload = startWindows;
+
+    document.querySelector("#work_div_sm input").disabled = disabled;
 
 </script>
 
