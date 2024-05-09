@@ -379,13 +379,52 @@ def generate_sample_objects(request, num_samples=10):
 
     # Generate sample objects and save them to the database
     for _ in range(num_samples):
-        # Generate fake data
-        fake_name = fake.name()
-        fake_email = fake.email()
-        fake_text = fake.text()
 
         # Create and save object to the database
-        new_object = Volunteer()
-        new_object.save()
+        volunteer = Volunteer.objects.create_user(
+                first_name=Faker().first_name(),
+                last_name=Faker().first_name(),
+                username=Faker().user_name(),           # Random username
+                email=Faker().email(),                  # Random email
+                password=Faker().password(),            # Random password
+                middle_name=Faker().first_name(),       # Random middle name
+                address=Faker().address(),              # Random address
+                mobile=Faker().phone_number()[:10],          # Random phone number
+                telephone=Faker().phone_number()[:10],       # Random phone number
+                birthdate=Faker().date_of_birth(),      # Random birthdate
+                civilStatus=Faker().random_element(elements=('Single', 'Married')),  # Random civil status
+                sex=Faker().random_element(elements=('Male', 'Female', 'Other/Will not disclose')),  # Random sex
+                bloodType=Faker().random_element(elements=('A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-')),  # Random blood type
+                religion=Faker().word(),                # Random religion
+                healthConditions=Faker().sentence(),    # Random health conditions
+                skillsHobbies=Faker().sentence(),       # Random skills/hobbies
+                foodRestrictions=Faker().sentence(),    # Random food restrictions
+                constituentUnit=Faker().word(),         # Random constituent unit
+                specification=Faker().word(),           # Random specification
+                occupation=Faker().random_element(elements=('Physician', 'Nurse', 'Pharmacist', 'Dentist', 'ENT', 'Teacher', 'Other')),  # Random occupation
+                otherOccu=Faker().word(),               # Random other occupation
+                beneficiaries=Faker().name(),           # Random beneficiaries
+                relation=Faker().word(),                # Random relation
+                contactNum=Faker().phone_number()[:10],      # Random contact number
+                contactEmail=Faker().email(),           # Random contact email
+                prcLicense=Faker().random_number(digits=7),  # Random PRC license number
+                dept=Faker().word(),                    # Random department
+                company=Faker().company(),              # Random company
+                officeAdd=Faker().address(),            # Random office address
+                license_telephone=Faker().phone_number()[:10],  # Random license telephone
+                license_email=Faker().email(),          # Random license email
+                workSched=Faker().sentence(),           # Random work schedule
+                idNum=Faker().random_number(digits=5),  # Random ID number
+                course=Faker().sentence(),              # Random course
+                college=Faker().sentence(),             # Random college
+                yearLvl=Faker().random_element(elements=('1', '2', '3', '4', '5')),  # Random year level
+                startDate=Faker().random_element(elements=('immediately', 'next_week', 'next_month')),  # Random start date
+                alumnusCheck=Faker().boolean(),         # Random boolean value
+                pghCheck=Faker().boolean(),             # Random boolean value
+                workCheck=Faker().boolean(),            # Random boolean value
+                licenseCheck=Faker().boolean(),         # Random boolean value
+                studentCheck=Faker().boolean()          # Random boolean value
+            )
+        volunteer.save()
     
     print("Volunteers generated!")
