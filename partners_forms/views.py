@@ -46,7 +46,7 @@ second_category_choices = [
     ('Educational Institution (Government)', 'Educational Institution (Government)')
 ]
 
-pagination_count = 2
+pagination_count = 5
 
 @user_passes_test(is_superuser, login_url='home_vol')
 def home_page(request):
@@ -255,31 +255,40 @@ def del_partner(request, partner_id):
 
         return redirect('view_partners')
 
+# @user_passes_test(is_superuser, login_url='home_vol')
+# def filterPartners(request):
+#     # get all partners
+#     partners = Partner.objects.all()
+#     partners_list = {}
+
+#     # Get all files of specified partners
+#     for partner in partners:
+#         files = File.objects.filter(partner=partner)
+#         partners_list[partner] = files
+
+#     # Check Action (Search, Filter, Sort)
+#     if(query):
+#         partners = partners.filter(partner_name__contains=query)
+#         pass
+
+#     # Search Partners
+#     # partners = partners.filter(partner_name__contains=query)
+    
+#     return render(request, "view_partners.html", {'partners': partners, 'partners_list' : partners_list})
+
 @user_passes_test(is_superuser, login_url='home_vol')
 def filterPartners(request):
-    # get all partners
+    query = request.GET.get('q')
     partners = Partner.objects.all()
+    print(f'query: {query}')
+
     partners_list = {}
 
-    # Get all files of specified partners
     for partner in partners:
         files = File.objects.filter(partner=partner)
         partners_list[partner] = files
 
-    # Check Action (Search, Filter, Sort)
-    if(query):
-        partners = partners.filter(partner_name__contains=query)
-        pass
-
-    # Search Partners
-    # partners = partners.filter(partner_name__contains=query)
-    
-    return render(request, "view_partners.html", {'partners': partners, 'partners_list' : partners_list})
-
-@user_passes_test(is_superuser, login_url='home_vol')
-def searchFilter(request, partners):
-    query = request.GET.get('q')
-    print(f'query: {query}')
+    print(f'partners list: {partners_list}')
 
     # Filter Partner
     # +++++ Partnership Extension +++++
@@ -321,6 +330,8 @@ def searchFilter(request, partners):
 
     p = Paginator(partners, pagination_count)
     page = request.GET.get("page")
+    print(f'page: {page}')
+
     partners = p.get_page(page)
 
     types = Type.objects.all()
@@ -353,11 +364,8 @@ def searchFilter(request, partners, query):
         print('partner exists')
         print(f'partners: {partners}')
         return partners
-    elif query == '':
-        partners = partners.all()
     else:
         print('no partner with this query')
-        return None
     
     return partners
 
