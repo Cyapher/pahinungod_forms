@@ -313,7 +313,7 @@ def filterVolunteers(request):
 @user_passes_test(is_superuser, login_url='home_vol')
 def searchFilter(request, volunteers):
     query = request.GET.get('q')
-
+    
     if query:
         volunteers = volunteers.filter(
             Q(first_name__icontains=query) |

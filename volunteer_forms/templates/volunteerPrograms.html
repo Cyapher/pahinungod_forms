@@ -19,7 +19,7 @@
     <div class="col-3" style="background-color: #7B0100;">
         <div id="list-example" class="list-group mt-2">
             {% for program in programs %}
-                <a class="list-group-item list-group-item-action" href="#program{{ program.id }}">{{program}}</a>
+                <a class="list-group-item list-group-item-action" href="#program{{ program.id }}">{{program.code}}</a>
             {% endfor %}
         </div>
     </div>

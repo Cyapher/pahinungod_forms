@@ -1232,6 +1232,18 @@ function toggleUP() {
         });
     }
 
+    workOther_sm = document.querySelector("#work_div_sm input");
+
+    document.querySelector("#work_div_sm select").addEventListener("change", function (event) {
+      if (document.querySelector("#work_div_sm select").value === "Other") {
+        workOther_sm.removeAttribute("disabled");
+          }
+          else {
+            workOther_sm.setAttribute("disabled", "disabled");
+            workOther_sm.value = "";
+      }
+    })
+
     document.getElementById("full_form_sm").addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
           event.preventDefault();
@@ -1351,9 +1363,6 @@ function toggleUP() {
     dropWork();
     dropDate();
     window.onload = startWindows;
-
-    document.querySelector("#work_div_sm input").disabled = disabled;
-
 </script>
 
 {% endblock %}
