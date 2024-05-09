@@ -2,11 +2,21 @@
 
 {% block body %}
 
+<style>
+
+    @media (max-width: 768px) {
+        .hide_forms {
+            display: none !important; 
+        }
+    }
+
+</style>
+
 <h1 style="margin: auto; text-align: center;" class="mb-5"> Type of Partners Form </h1>
 
 <div class="d-flex justify-content-center ">
     <!-- TABLE DIV -->
-    <div class="d-flex border w-50">
+    <div class="d-flex border ">
         <table rules="all" class="table table-responsive table-striped d-flex-col justify-content-center">
     
             <thead>
@@ -52,11 +62,11 @@
     </div>
 
     <!-- FORM DIV -->
-    <div class="mx-5 d-flex flex-column">
+    <div class="mx-5 d-flex flex-column hide_forms">
 
-        <h2> {{ action }} Type Here: </h2>
+        <h2 class="hide_forms"> {{ action }} Type Here: </h2>
         {% if type %}
-            <form action="{% url 'upd_type' type.id %}" method="POST">
+            <form action="{% url 'upd_type' type.id %}" method="POST" class="hide_forms">
                 {% csrf_token %}
                 {{ form.type_code }}
                 {{ form.type_of_partnership }}
@@ -67,7 +77,7 @@
             </form>
 
         {% else %}
-            <form action="{% url 'add_type' %}" method="POST">
+            <form action="{% url 'add_type' %}" method="POST" class="hide_forms">
                 {% csrf_token %}
                 {{ form.type_code }}
                 {{ form.type_of_partnership }}
