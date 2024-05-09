@@ -547,37 +547,6 @@
             </table>
           </div>
         </div>
-  
-        {% if user.is_superuser or user.is_staff %}
-          <div class="popup" id="popup2" style="margin-left: -1px;">
-        {% else %}
-        <div class="popup" id="popup2" style="margin-left: -1px; display: none;">
-        {% endif %}
-          <div class="popup-content container-fluid">
-            <h5 class="h5">Select Programs (Click to select/unselect)</h5>
-            <div class="row">
-            {% if programs %}
-              {% for program in programs %}
-              <div class="col-md-4 mb-4">
-                <div class="card h-100 d-flex flex-column">
-                  <div class="card-body" onclick="toggleCheckbox('program{{ program.id }}')" {% if program in volunteer.programs.all %} style="background-color: #cbe5cb" {% endif %}>
-                    <img src="..{{ program.program_img.url }}" class="img-fluid image_mat">
-                    <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}" {% if program in volunteer.programs.all %}checked{% endif %} hidden>
-                    <h5 class="card-title">{{ program.code }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ program.name }}</h6>
-                    {{ program.description }}
-                  </div>
-                </div>
-              </div>
-              {% if forloop.counter|divisibleby:3 and not forloop.last %}
-            </div>
-            <div class="row">
-              {% endif %}
-              {% endfor %}
-              {% else %}
-              <h2 class="display-2" align="center">No programs.</h2>
-              <!-- <h6 class="display-6" align="center">lmao</h6> -->
-            {% endif %}
             </div>
           </div>
         </div>
@@ -1083,37 +1052,6 @@
             </table>
           </div>
         </div>
-  
-        {% if user.is_superuser or user.is_staff %}
-          <div class="popup" id="popup2" style="margin-left: -1px;">
-        {% else %}
-        <div class="popup" id="popup2" style="margin-left: -1px; display: none;">
-        {% endif %}
-          <div class="popup-content container-fluid">
-            <h5 class="h5">Select Programs (Click to select/unselect)</h5>
-            <div class="row">
-            {% if programs %}
-              {% for program in programs %}
-              <div class="col-md-4 mb-4">
-                <div class="card h-100 d-flex flex-column">
-                  <div class="card-body" onclick="toggleCheckbox('program{{ program.id }}')" {% if program in volunteer.programs.all %} style="background-color: #cbe5cb" {% endif %}>
-                    <img src="..{{ program.program_img.url }}" class="img-fluid image_mat">
-                    <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}" {% if program in volunteer.programs.all %}checked{% endif %} hidden>
-                    <h5 class="card-title">{{ program.code }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ program.name }}</h6>
-                    {{ program.description }}
-                  </div>
-                </div>
-              </div>
-              {% if forloop.counter|divisibleby:3 and not forloop.last %}
-            </div>
-            <div class="row">
-              {% endif %}
-              {% endfor %}
-              {% else %}
-              <h2 class="display-2" align="center">No programs.</h2>
-              <!-- <h6 class="display-6" align="center">lmao</h6> -->
-            {% endif %}
             </div>
           </div>
         </div>
