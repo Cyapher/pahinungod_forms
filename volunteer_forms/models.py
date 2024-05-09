@@ -208,4 +208,7 @@ class Volunteer(AuthUser):
         else:
             self.studentCheck = False
 
+        if self.alumnusCheck == False:
+            self.constituentUnit
+
         super(Volunteer, self).save(*args, **kwargs)

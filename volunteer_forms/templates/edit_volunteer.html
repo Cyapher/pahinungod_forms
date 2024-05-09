@@ -106,8 +106,8 @@
 {% load widget_tweaks %}
 
 <!-- DESKTOP VIEW -->
-<div class="d-lg-block">
-  <div id="full_form">
+<div class="d-lg-block d-md-none">
+  <div id="full_form_lg">
     <form method="post">
       {% csrf_token %}
       <div id="signup_form" class="popup-container justify-content-center">
@@ -586,8 +586,8 @@
 </div>
 
 <!-- MOBILE VIEW -->
-<div class="d-lg-none">
-  <div id="full_form">
+<div class="d-lg-none d-md-block">
+  <div id="full_form_sm" style="color: blue;">
     <form method="post">
       {% csrf_token %}
       <div id="signup_form" class="popup-container justify-content-center">
@@ -1160,15 +1160,18 @@
 
     function toggleAlumni() {
         
-        
-
-        if (alumniCheck.checked || alumniCheck_sm.checked) {
-            alumniDiv.style.display = "block";
-            alumniDiv_sm.style.display = "block";
+        if (alumniCheck.checked) {
+          alumniDiv.style.display = "block";
         } else {
-            alumniDiv.style.display = "none";
-            alumniDiv_sm.style.display = "none";
+          alumniDiv.style.display = "none";
         }
+
+        if (alumniCheck_sm.checked) {
+          alumniDiv_sm.style.display = "block";
+        } else {
+          alumniDiv_sm.style.display = "none";
+        }
+        
     }
 
     function togglePGH() {
@@ -1263,7 +1266,7 @@
     function startWindows() {
 
         loadArray.forEach(element => {
-            console.log(element.check);
+            // console.log(element.check);
             if (element.check == "True") {
                 element.obj.style.display = "block";
                 element.checkObj.checked = true;
@@ -1273,7 +1276,7 @@
         });
 
         loadArray_sm.forEach(element => {
-            console.log(element.check);
+            // console.log(element.check);
             if (element.check == "True") {
                 element.obj.style.display = "block";
                 element.checkObj.checked = true;
@@ -1283,7 +1286,13 @@
         });
     }
 
-    document.getElementById("full_form").addEventListener("keydown", function (event) {
+    document.getElementById("full_form_sm").addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+        }
+      });
+
+      document.getElementById("full_form_lg").addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
           event.preventDefault();
         }
@@ -1330,8 +1339,6 @@
           document.getElementById('id_yearLvl').value = '';
         }
       })
-
-
     })
 
       function toggleCheckbox(checkboxId) {
@@ -1349,6 +1356,44 @@
             }
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const alumni_checkbox = document.getElementById('alumni_check_sm');
+      const pgh_checkbox = document.getElementById('pgh_check_sm');
+      const work_checkbox = document.getElementById('work_check_sm');
+      const license_checkbox = document.getElementById('license_check_sm');
+      const up_checkbox = document.getElementById('up_check_sm');
+
+      const alumni_fields = document.querySelectorAll('#alumni_div_sm input, #alumni_div_sm select');
+      const pgh_fields = document.querySelectorAll('#pgh_div_sm input, #pgh_div_sm select');
+      const work_fields = document.querySelectorAll('#work_div_sm input, #work_div_sm select');
+      const license_fields = document.querySelectorAll('#license_div_sm input, #license_div_sm select');
+      const up_fields = document.querySelectorAll('#up_div_sm input, #up_div_sm select');
+
+      const checkboxes = [alumni_checkbox, pgh_checkbox, work_checkbox, license_checkbox, up_checkbox];
+      const fields = [alumni_fields, pgh_fields, work_fields, license_fields, up_fields];
+
+      // Function to clear the fields
+      function clearFields(fields) {
+          fields.forEach(function(field) {
+              if (field.tagName.toLowerCase() === 'select') {
+                  field.selectedIndex = 0; // Reset select fields
+              } else {
+                  field.value = ''; // Clear input fields
+              }
+          });
+      }
+
+      // Event listener for checkbox change
+      checkboxes.forEach(function(checkbox, index) {
+          checkbox.addEventListener('change', function() {
+              if (!checkbox.checked) {
+                  clearFields(fields[index]); // Clear fields corresponding to the checkbox
+              }
+          });
+      });
+  });
+
     
 
     dropWork();
