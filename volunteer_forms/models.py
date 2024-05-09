@@ -124,8 +124,6 @@ class Volunteer(AuthUser):
     
     def save(self, *args, **kwargs):
 
-        self.username = self.email
-
         if self.birthdate:
             today = date.today()
             age = today.year - self.birthdate.year - ((today.month, today.day) < (self.birthdate.month, self.birthdate.day))
@@ -209,5 +207,8 @@ class Volunteer(AuthUser):
             self.studentCheck = True
         else:
             self.studentCheck = False
+
+        if self.alumnusCheck == False:
+            self.constituentUnit
 
         super(Volunteer, self).save(*args, **kwargs)
