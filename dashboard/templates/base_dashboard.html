@@ -26,7 +26,7 @@
 <body>
     <!-- HEADER -->
     <div class="mb-6" style="background-color: #7B0100;">
-        <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration: none; color: white">
+        <a href="{% url 'dashboard' %}" class="d-flex align-items-center" style="text-decoration: none; color: white">
             <img src="{% static 'partners_forms/media/admin_icon.png' %}" alt="Admin Icon" class="img my-2 mx-2" style="background-color: #7B0100; max-width: 80px;">
             <h1 class="display-5 mx-1 my-1">Admin Dashboard</h1>
         </a>
@@ -64,9 +64,6 @@
                                 <a class="dropdown-item" id="type_of_partner_form" href="{% url 'type_partner_form' %}">Add Type Partners</a>
                             </li>
                         </ul>
-
-
-                        
                     </li>
 
 
@@ -94,7 +91,7 @@
     </nav>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Sign Out</h5>

@@ -8,7 +8,7 @@
     background-color: #014421;
   }
 
-.popup-container {
+  .popup-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -18,21 +18,22 @@
     justify-content: space-between;
   }
 
+  /* DESKTOP */
   .popup {
-    width: calc(50% - 15px);
-    height: calc(100% - 30px);
-    /* background-color: rgba(0, 0, 0, 0.5); */
-    background-color: #ffffff;
-    /* color: white; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 15px;
-    border: 4px solid #000000;
-    margin: 15px;
-    overflow: hidden;
+      width: calc(50% - 15px);
+      height: calc(100% - 30px);
+      /* background-color: rgba(0, 0, 0, 0.5); */
+      background-color: #ffffff;
+      /* color: white; */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 15px;
+      border: 4px solid #000000;
+      margin: 15px;
+      overflow: hidden;
   }
-
+  
   .popup-content {
     height: calc(100% - 30px);
     padding: 20px;
@@ -41,6 +42,37 @@
     overflow-x: hidden;
   }
 
+  /* MOBILE */
+  @media screen and (max-width: 500px) {
+    .popup {
+      width: 90%;
+      height: auto;
+      /* background-color: rgba(0, 0, 0, 0.5); */
+      background-color: #ffffff;
+      /* color: white; */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 15px;
+      border: 4px solid #000000;
+      margin: 15px;
+      overflow: hidden;
+    }
+
+    input[type=text] {
+      width: auto;
+      max-width: inherit;
+      height: 60%;
+    }
+
+    label {
+      font-size: small;
+      text-align: left;
+    }
+
+
+  }
+  
   textarea {
     max-height: 125px;
     resize: none;
@@ -70,483 +102,965 @@
 </style>
 
 
+
 {% load widget_tweaks %}
-<div id="full_form">
-  <form method="post">
-    {% csrf_token %}
-    <div id="signup_form" class="popup-container justify-content-center">
-      <div class="popup" id="popup1">
-        <div class="popup-content container-fluid">
-          <table class="table border-light">
-            <h1 style="margin-top: -2%;">Volunteer Information</h1>
-            <tbody>
-              <tr>
-                <td>
-                  <label class="form-label">First Name</label>
-                  {{v_form.first_name}}
-                </td>
-                <td>
-                  <label class="form-label">Middle Name</label>
-                  {{v_form.middle_name}}
-                </td>
-                <td>
-                  <label class="form-label">Last Name</label>
-                  {{v_form.last_name}}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="form-label">Mobile #</label>
-                  {{v_form.mobile}}
-                </td>
-                <td colspan="2">
-                  <label class="form-label">Email</label>
-                  {{v_form.email}}
-                </td>
-              </tr>
-              <tr>
-                <td colspan="3">
-                  <label for="id_address" class="form-label">Address</label>
-                  {{v_form.address}}
-                </td>
-              </tr>
-              <tr>
-                <td colspan="1">
-                  <label for="id_telephone" class="form-label">Telephone #</label>
-                  {{v_form.telephone}}
-                </td>
-                <td colspan="1">
-                  <label for="id_birth_date" class="form-label">Birth Date</label>
-                  {% render_field v_form.birthdate type="date" class="form-control" placeholder="mm/dd/yyyy" %}
-                </td>
-                <td colspan="1">
-                  <label for="id_civilStatus" class="form-label">Civil Status</label>
-                  <br>
-                  {{v_form.civilStatus}}
-                </td>
-              </tr>
-              <tr>
-                <td colspan="1">
-                  <label for="id_sex" class="form-label">Sex</label>
-                  <br>
-                  {{v_form.sex}}
-                </td>
-                <td>
-                  <label for="id_bloodType" class="form-label">Blood Type</label>
-                  {{v_form.bloodType}}
-                </td>
-                <td colspan="1">
-                  <label for="id_religion" class="form-label">Religion</label>
-                  {{v_form.religion}}
-                </td>
-              </tr>
-              <tr>
-                <td colspan="1">
-                  <label for="id_healthConditions" class="form-label">Health Conditions</label>
-                  {{v_form.healthConditions}}
-                </td>
-                <td colspan="1">
-                  <label for="id_skillsHobbies" class="form-label">Skills & Hobbies</label>
-                  {{v_form.skillsHobbies}}
-                </td>
-                <td colspan="1">
-                  <label for="id_foodRestrictions" class="form-label">Food Restrictions</label>
-                  {{v_form.foodRestrictions}}
-                </td>
-              </tr>
-            </tbody>
-          </table>
 
-          <table class="w-75 table table-sm table-bordered border-dark" align="center">
-            <thead>
-              <tr>
-                <td for="alumni_check">
-                  <input type="checkbox" id="alumni_check" onchange="toggleAlumni()">
-                  <label for="alumni_check">Are you an alumnus of UP?</label>
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td id="alumni_div" style="display: none;">
-                    {% for field in v_form %}
-
-                    {% if field.name in alumnusFields %}
-
-                    <div class="fieldWrapper">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">
-                        Constituent Unit
-                      </label>
-                      {{ field }}
-
+<!-- DESKTOP VIEW -->
+<div class="d-lg-block d-md-none">
+  <div id="full_form_lg">
+    <form method="post">
+      {% csrf_token %}
+      <div id="signup_form" class="popup-container justify-content-center">
+        <div class="popup" id="popup1">
+          <div class="popup-content container-fluid">
+            <table class="table border-light">
+              <h1 style="margin-top: -2%;">Volunteer Information</h1>
+              <tbody>
+                <tr>
+                  <td>
+                    <label class="form-label">First Name</label>
+                    {{v_form.first_name}}
+                  </td>
+                  <td>
+                    <label class="form-label">Middle Name</label>
+                    {{v_form.middle_name}}
+                  </td>
+                  <td>
+                    <label class="form-label">Last Name</label>
+                    {{v_form.last_name}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label class="form-label">Mobile #</label>
+                    {{v_form.mobile}}
+                  </td>
+                  <td colspan="2">
+                    <label class="form-label">Email</label>
+                    {{v_form.email}}
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    <label for="id_address" class="form-label">Address</label>
+                    {{v_form.address}}
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="1">
+                    <label for="id_telephone" class="form-label">Telephone #</label>
+                    {{v_form.telephone}}
+                  </td>
+                  <td colspan="1">
+                    <label for="id_birth_date" class="form-label">Birth Date</label>
+                    {% render_field v_form.birthdate type="date" class="form-control" placeholder="mm/dd/yyyy" %}
+                  </td>
+                  <td colspan="1">
+                    <label for="id_civilStatus" class="form-label">Civil Status</label>
+                    <br>
+                    {{v_form.civilStatus}}
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="1">
+                    <label for="id_sex" class="form-label">Sex</label>
+                    <br>
+                    {{v_form.sex}}
+                  </td>
+                  <td>
+                    <label for="id_bloodType" class="form-label">Blood Type</label>
+                    {{v_form.bloodType}}
+                  </td>
+                  <td colspan="1">
+                    <label for="id_religion" class="form-label">Religion</label>
+                    {{v_form.religion}}
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="1">
+                    <label for="id_healthConditions" class="form-label">Health Conditions</label>
+                    {{v_form.healthConditions}}
+                  </td>
+                  <td colspan="1">
+                    <label for="id_skillsHobbies" class="form-label">Skills & Hobbies</label>
+                    {{v_form.skillsHobbies}}
+                  </td>
+                  <td colspan="1">
+                    <label for="id_foodRestrictions" class="form-label">Food Restrictions</label>
+                    {{v_form.foodRestrictions}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <table class="w-75 table table-sm table-bordered border-dark" align="center">
+              <thead>
+                <tr>
+                  <td for="alumni_check">
+                    <input type="checkbox" id="alumni_check" onchange="toggleAlumni()">
+                    <label for="alumni_check">Are you an alumnus of UP?</label>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="alumni_div" style="display: none;">
+                      {% for field in v_form %}
+  
+                      {% if field.name in alumnusFields %}
+  
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">
+                          Constituent Unit
+                        </label>
+                        {{ field }}
+  
+                      </div>
+  
+                      {% endif %}
+  
+                      {% endfor %}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <table class="w-75 table table-sm table-bordered border-dark" align="center">
+              <thead>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="pgh_check" onchange="togglePGH()">
+                    <label for="pgh_check">Are presently connected with UP-PGH?</label>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="pgh_div" style="display: none;">
+                      {% for field in v_form %}
+  
+                      {% if field.name in pghFields %}
+  
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}"
+                          class="form-label extra_form">Specification</label>
+                        {{ field }}
+  
+                      </div>
+  
+                      {% endif %}
+  
+                      {% endfor %}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <table class="w-75 table table-sm table-bordered border-dark" align="center">
+              <thead>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="work_check" onchange="toggleWork()">
+                    <label for="work_check">Are you presently working?</label>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="work_div" style="display: none;">
+                      {% for field in v_form %}
+  
+                      {% if field.name in workFields %}
+  
+                      {% if field.name == "occupation" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}"
+                          class="form-label extra_form">Occupation</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "otherOccu" %}
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Other
+                          Occupation</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+  
+                      {% endif %}
+  
+                      {% endfor %}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <table class="w-75 table table-sm table-bordered border-dark" align="center">
+              <thead>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="license_check" onchange="toggleLicense()">
+                    <label for="license_check">Are you licensed?</label>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="license_div" style="display: none;">
+                      {% for field in v_form %}
+  
+                      {% if field.name in licenseFields %}
+  
+                      {% if field.name == "prcLicense" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">PRC License
+                          #</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "dept" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}"
+                          class="form-label extra_form">Department</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "company" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Company</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "officeAdd" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office
+                          Address</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "license_telephone" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office
+                          Telephone #</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "license_email" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office
+                          Email</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "workSched" %}
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Work
+                          Schedule</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% endif %}
+  
+                      {% endfor %}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <table class="w-75 table table-sm table-bordered border-dark" align="center">
+              <thead>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="up_check" onchange="toggleUP()">
+                    <label for="up_check">Are you currently a student of UP?</label>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="up_div" style="display: none;">
+                    <div>
+                      {% for field in v_form %}
+  
+                      {% if field.name in studentFields %}
+  
+                      {% if field.name == "idNum" %}
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">ID #</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "course" %}
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Course</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "college" %}
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">College</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "yearLvl" %}
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Year
+                          Level</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% endif %}
+  
+                      {% endfor %}
                     </div>
-
-                    {% endif %}
-
-                    {% endfor %}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <table class="w-75 table table-sm table-bordered border-dark" align="center">
-            <thead>
-              <tr>
-                <td>
-                  <input type="checkbox" id="pgh_check" onchange="togglePGH()">
-                  <label for="pgh_check">Are presently connected with UP-PGH?</label>
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td id="pgh_div" style="display: none;">
-                    {% for field in v_form %}
-
-                    {% if field.name in pghFields %}
-
-                    <div class="fieldWrapper">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}"
-                        class="form-label extra_form">Specification</label>
-                      {{ field }}
-
-                    </div>
-
-                    {% endif %}
-
-                    {% endfor %}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <table class="w-75 table table-sm table-bordered border-dark" align="center">
-            <thead>
-              <tr>
-                <td>
-                  <input type="checkbox" id="work_check" onchange="toggleWork()">
-                  <label for="work_check">Are you presently working?</label>
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td id="work_div" style="display: none;">
-                    {% for field in v_form %}
-
-                    {% if field.name in workFields %}
-
-                    {% if field.name == "occupation" %}
-                    <div class="fieldWrapper mb-4">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}"
-                        class="form-label extra_form">Occupation</label>
-                      {{ field }}
-
-                    </div>
-                    {% endif %}
-
-                    {% if field.name == "otherOccu" %}
-                    <div class="fieldWrapper">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Other
-                        Occupation</label>
-                      {{ field }}
-
-                    </div>
-                    {% endif %}
-
-
-                    {% endif %}
-
-                    {% endfor %}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <table class="w-75 table table-sm table-bordered border-dark" align="center">
-            <thead>
-              <tr>
-                <td>
-                  <input type="checkbox" id="license_check" onchange="toggleLicense()">
-                  <label for="license_check">Are you licensed?</label>
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td id="license_div" style="display: none;">
-                    {% for field in v_form %}
-
-                    {% if field.name in licenseFields %}
-
-                    {% if field.name == "prcLicense" %}
-                    <div class="fieldWrapper mb-4">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">PRC License
-                        #</label>
-                      {{ field }}
-
-                    </div>
-                    {% endif %}
-
-                    {% if field.name == "dept" %}
-                    <div class="fieldWrapper mb-4">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}"
-                        class="form-label extra_form">Department</label>
-                      {{ field }}
-
-                    </div>
-                    {% endif %}
-
-                    {% if field.name == "company" %}
-                    <div class="fieldWrapper mb-4">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Company</label>
-                      {{ field }}
-
-                    </div>
-                    {% endif %}
-
-                    {% if field.name == "officeAdd" %}
-                    <div class="fieldWrapper mb-4">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office
-                        Address</label>
-                      {{ field }}
-
-                    </div>
-                    {% endif %}
-
-                    {% if field.name == "license_telephone" %}
-                    <div class="fieldWrapper mb-4">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office
-                        Telephone #</label>
-                      {{ field }}
-
-                    </div>
-                    {% endif %}
-
-                    {% if field.name == "license_email" %}
-                    <div class="fieldWrapper mb-4">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office
-                        Email</label>
-                      {{ field }}
-
-                    </div>
-                    {% endif %}
-
-                    {% if field.name == "workSched" %}
-                    <div class="fieldWrapper">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Work
-                        Schedule</label>
-                      {{ field }}
-
-                    </div>
-                    {% endif %}
-
-                    {% endif %}
-
-                    {% endfor %}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <table class="w-75 table table-sm table-bordered border-dark" align="center">
-            <thead>
-              <tr>
-                <td>
-                  <input type="checkbox" id="up_check" onchange="toggleUP()">
-                  <label for="up_check">Are you currently a student of UP?</label>
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td id="up_div" style="display: none;">
-                  <div>
-                    {% for field in v_form %}
-
-                    {% if field.name in studentFields %}
-
-                    {% if field.name == "idNum" %}
-                    <div class="fieldWrapper">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">ID #</label>
-                      {{ field }}
-
-                    </div>
-                    {% endif %}
-
-                    {% if field.name == "course" %}
-                    <div class="fieldWrapper">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Course</label>
-                      {{ field }}
-
-                    </div>
-                    {% endif %}
-
-                    {% if field.name == "college" %}
-                    <div class="fieldWrapper">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">College</label>
-                      {{ field }}
-
-                    </div>
-                    {% endif %}
-
-                    {% if field.name == "yearLvl" %}
-                    <div class="fieldWrapper">
-
-                      <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Year
-                        Level</label>
-                      {{ field }}
-
-                    </div>
-                    {% endif %}
-
-                    {% endif %}
-
-                    {% endfor %}
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <br>
-          <div class="container-fluid mx-2">
-            <div class="row">
-              <div class="col">
-                <table class="table">
-                      <h5>Insurance Information</h5>
-                      <tr>
-                            {% for field in v_form %}
-                            {% if field.name in insuranceFields %}
-                            {% if field.name == "beneficiaries" %}
-                            <div class="fieldWrapper">
-                              <label id="multi_col" for="{{ field.id_for_label }}"
-                                class="form-label">Beneficiaries</label>
-                              {{ field }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <div class="container-fluid mx-2">
+              <div class="row">
+                <div class="col">
+                  <table class="table">
+                        <h5>Insurance Information</h5>
+                        <tr>
+                              {% for field in v_form %}
+                              {% if field.name in insuranceFields %}
+                              {% if field.name == "beneficiaries" %}
+                              <div class="fieldWrapper">
+                                <label id="multi_col" for="{{ field.id_for_label }}"
+                                  class="form-label">Beneficiaries</label>
+                                {{ field }}
+                              </div>
+                              {% endif %}
+                              {% if field.name == "relation" %}
+                              <div class="fieldWrapper">
+                                <label id="multi_col" for="{{ field.id_for_label }}"
+                                  class="form-label extra_form">Relation</label>
+                                {{ field }}
+                              </div>
+                              {% endif %}
+                              {% if field.name == "contactNum" %}
+                              <div class="fieldWrapper">
+                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact
+                                  #</label>
+                                {{ field }}
+                              </div>
+                              {% endif %}
+                              {% if field.name == "contactEmail" %}
+                              <div class="fieldWrapper">
+                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact
+                                  Email</label>
+                                {{ field }}
+                              </div>
+                              {% endif %}
+                              {% endif %}
+                              {% endfor %}
+                              {% render_field v_form.is_active style="display:none" %}
+                              {% render_field v_form.is_superuser style="display:none" %}
+                              {% render_field v_form.is_staff style="display:none" %}
+                        </tr>
+                  </table>
+                </div>
+                <div class="col">
+                  <table class="table">
+                    <div id="dateDiv">
+                      <tbody>
+                        <tr>
+                          <h5>When can you start?</h5>
+                        </tr>
+                        <tr>
+                            <div>
+                              {% for field in v_form %}
+                              {% if field.name in dateFields %}
+                              {% if field.name == "startDate" %}
+                              <div class="fieldWrapper">
+                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Start Date</label>
+                                {{ field }}
+                              </div>
+                              {% endif %}
+                              {% if field.name == "customStartDate" %}
+                              <div class="fieldWrapper">
+                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Other
+                                  Start Date</label>
+                                {% render_field field type="date" class="form-control" placeholder="mm/dd/yyyy" %}
+                              </div>
+                              {% endif %}
+                              {% endif %}
+                              {% endfor %}
                             </div>
-                            {% endif %}
-                            {% if field.name == "relation" %}
-                            <div class="fieldWrapper">
-                              <label id="multi_col" for="{{ field.id_for_label }}"
-                                class="form-label extra_form">Relation</label>
-                              {{ field }}
-                            </div>
-                            {% endif %}
-                            {% if field.name == "contactNum" %}
-                            <div class="fieldWrapper">
-                              <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact
-                                #</label>
-                              {{ field }}
-                            </div>
-                            {% endif %}
-                            {% if field.name == "contactEmail" %}
-                            <div class="fieldWrapper">
-                              <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact
-                                Email</label>
-                              {{ field }}
-                            </div>
-                            {% endif %}
-                            {% endif %}
-                            {% endfor %}
-                            {% render_field v_form.is_active style="display:none" %}
-                            {% render_field v_form.is_superuser style="display:none" %}
-                            {% render_field v_form.is_staff style="display:none" %}
-                      </tr>
-                </table>
-              </div>
-              <div class="col">
-                <table class="table">
-                  <div id="dateDiv">
-                    <tbody>
-                      <tr>
-                        <h5>When can you start?</h5>
-                      </tr>
-                      <tr>
-                          <div>
-                            {% for field in v_form %}
-                            {% if field.name in dateFields %}
-                            {% if field.name == "startDate" %}
-                            <div class="fieldWrapper">
-                              <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Start Date</label>
-                              {{ field }}
-                            </div>
-                            {% endif %}
-                            {% if field.name == "customStartDate" %}
-                            <div class="fieldWrapper">
-                              <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Other
-                                Start Date</label>
-                              {% render_field field type="date" class="form-control" placeholder="mm/dd/yyyy" %}
-                            </div>
-                            {% endif %}
-                            {% endif %}
-                            {% endfor %}
-                          </div>
-                      </tr>
-                      <tr>
-                        <br><br><br>
-                        <input class="btn btn-lg btn-outline-success" type="submit" value="Confirm Details">
-                      </tr>
-                    </tbody>
-                  </div>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          </td>
-          </tr>
-          </table>
-        </div>
-      </div>
-
-      {% if user.is_superuser or user.is_staff %}
-        <div class="popup" id="popup2" style="margin-left: -1px;">
-      {% else %}
-      <div class="popup" id="popup2" style="margin-left: -1px; display: none;">
-      {% endif %}
-        <div class="popup-content container-fluid">
-          <h5 class="h5">Select Programs (Click to select/unselect)</h5>
-          <div class="row">
-          {% if programs %}
-            {% for program in programs %}
-            <div class="col-md-4 mb-4">
-              <div class="card h-100 d-flex flex-column">
-                <div class="card-body" onclick="toggleCheckbox('program{{ program.id }}')" {% if program in volunteer.programs.all %} style="background-color: #cbe5cb" {% endif %}>
-                  <img src="..{{ program.program_img.url }}" class="img-fluid image_mat">
-                  <input type="checkbox" id="program{{ program.id }}" name="programs" value="{{ program.id }}" {% if program in volunteer.programs.all %}checked{% endif %} hidden>
-                  <h5 class="card-title">{{ program.code }}</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">{{ program.name }}</h6>
-                  {{ program.description }}
+                        </tr>
+                        <tr>
+                          <br><br><br>
+                          <input class="btn btn-lg btn-outline-success" type="submit" value="Confirm Details">
+                        </tr>
+                      </tbody>
+                    </div>
+                  </table>
                 </div>
               </div>
             </div>
-            {% if forloop.counter|divisibleby:3 and not forloop.last %}
-          </div>
-          <div class="row">
-            {% endif %}
-            {% endfor %}
-            {% else %}
-            <h2 class="display-2" align="center">No programs.</h2>
-            <!-- <h6 class="display-6" align="center">lmao</h6> -->
-          {% endif %}
+  
+            </td>
+            </tr>
+            </table>
           </div>
         </div>
-      </div>
-  </form>
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
 </div>
+
+<!-- MOBILE VIEW -->
+<div class="d-lg-none d-md-block">
+  <div id="full_form_sm" style="color: blue;">
+    <form method="post">
+      {% csrf_token %}
+      <div id="signup_form" class="popup-container justify-content-center">
+        <div class="popup" id="popup1">
+          <div class="popup-content container-fluid">
+            <h3 style="margin-top: -2%;">Volunteer Information</h3>
+
+            <!-- NAME -->
+            <div class="d-flex-col">
+              <!-- FIRST NAME -->
+              <div class="d-flex align-items-center my-2">
+                <label class="form-label flex-fill">First Name</label> 
+                {{v_form.first_name}}
+              </div>
+
+              <!-- MIDDLE NAME -->
+              <div class="d-flex align-items-center my-2">
+                <label class="form-label flex-fill">Middle Name</label> 
+                {{v_form.middle_name}}
+              </div>
+
+              <!-- LAST NAME -->
+              <div class="d-flex align-items-center my-2">
+                <label class="form-label flex-fill">Last Name</label> 
+                {{v_form.last_name}}
+              </div>
+
+            </div>
+
+            <hr class="dashed">
+
+            <!-- PERSONAL INFO -->
+            <div class="d-flex-col">
+              <!-- MOBILE NUM -->
+              <div class="d-flex align-items-center">
+                <label class="form-label flex-fill">Mobile #</label> 
+                {{v_form.mobile}}
+              </div>
+              
+              <!-- TELEPHONE NUM -->
+              <div class="d-flex align-items-center my-2">
+                <label for="id_telephone" class="form-label mr-2 w-50">Telephone #</label>
+                {{v_form.telephone}}
+              </div>
+
+              <!-- EMAIL -->
+              <div class="my-2 d-flex flex-column">
+                <label class="form-label flex-fill me-auto">Email</label> 
+                <div>
+                  {{v_form.email}}
+                </div>
+              </div>
+
+              <!-- ADDRESS -->
+              <div class="my-2 d-flex flex-column">
+                <label class="form-label flex-fill me-auto">Address</label> 
+                <div>
+                  {{v_form.address}}
+                </div>
+              </div>
+
+              <!-- BIRTH DATE -->
+              <div class="d-flex align-items-center my-2">
+                <label for="id_birth_date" class="form-label w-50">Birth Date</label>
+                {% render_field v_form.birthdate type="date" class="form-control" placeholder="mm/dd/yyyy" %}
+              </div>
+
+              <!-- CIVIL STATUS -->
+              <div class="d-flex align-items-center my-2">
+                <label for="id_civilStatus" class="form-label flex-fill w-50">Civil Status</label>
+                {{v_form.civilStatus}}
+              </div>
+
+              <!-- RELIGION -->
+              <div class="d-flex align-items-center my-2">
+                <label for="id_religion" class="form-label flex-fill w-50">Religion</label>
+                {{v_form.religion}}
+              </div>
+
+              <hr class="dashed">
+
+              <!-- HOBBIES -->
+              <div class="my-2 d-flex flex-column">
+                <label for="id_skillsHobbies" class="form-label flex-fill me-auto">Skills & Hobbies</label>
+                <div>
+                  {{v_form.skillsHobbies}}
+                </div>
+              </div>
+              
+              <!-- SEX AND BLOOD TYPE -->
+              <div class="d-flex align-items-center my-2">
+                
+                <!-- SEX -->
+                <div class="m-2 w-50 flex-column">
+                  <label class="form-label flex-fill me-auto">Sex</label> 
+                  <div>
+                    {{v_form.sex}}
+                  </div>
+                </div>
+
+                <!-- BLOOD TYPE -->
+                <div class="m-2 w-50 flex-column">
+                  <label class="form-label flex-fill me-auto">Blood Type</label> 
+                  {{v_form.bloodType}}
+                </div>
+
+              </div>
+
+              <!-- HEALTH CONDITIONS -->
+              <div class="my-2 d-flex flex-column">
+                <label class="form-label flex-fill me-auto">Health Conditions</label> 
+                <div>
+                  {{v_form.healthConditions}}
+                </div>
+              </div>
+
+              <!-- FOOD RESTRICTIONS -->
+              <div class="my-2 d-flex flex-column">
+                <label for="id_foodRestrictions" class="form-label flex-fill me-auto">Food Restrictions</label> 
+                <div>
+                  {{v_form.foodRestrictions}}
+                </div>
+              </div>
+
+              <hr class="dashed">
+
+
+            </div>
+  
+            <!-- OTHER QUESTIONS -->
+
+            <!-- ALUMNUS? -->
+            <table class="table table-sm table-bordered border-dark" align="center">
+              <thead>
+                <tr>
+                  <td for="alumni_check">
+                    <div class="text-start">
+                      <input type="checkbox" id="alumni_check_sm" onchange="toggleAlumni()">
+                      <label for="alumni_check_sm">Are you an alumnus of UP?</label>
+                    </div>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="alumni_div_sm" style="display: none;">
+                      {% for field in v_form %}
+  
+                      {% if field.name in alumnusFields %}
+  
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">
+                          Constituent Unit
+                        </label>
+                        {{ field }}
+  
+                      </div>
+  
+                      {% endif %}
+  
+                      {% endfor %}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <!-- CONNECTED TO PGH? -->
+            <table class="table table-sm table-bordered border-dark" align="center">
+              <thead>
+                <tr>
+                  <td>
+                    <div class="text-start">
+                      <input type="checkbox" id="pgh_check_sm" onchange="togglePGH()">
+                      <label for="pgh_check_sm">Are presently connected with UP-PGH?</label>
+                    </div>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="pgh_div_sm" style="display: none;">
+                      {% for field in v_form %}
+  
+                      {% if field.name in pghFields %}
+  
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}"
+                          class="form-label extra_form">Specification</label>
+                        {{ field }}
+  
+                      </div>
+  
+                      {% endif %}
+  
+                      {% endfor %}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <!-- WORKING? -->
+            <table class="table table-sm table-bordered border-dark" align="center">
+              <thead>
+                <tr>
+                  <td class="text-start">
+                    <input type="checkbox" id="work_check_sm" onchange="toggleWork()">
+                    <label for="work_check_sm">Are you presently working?</label>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="work_div_sm" style="display: none;">
+                      {% for field in v_form %}
+  
+                      {% if field.name in workFields %}
+  
+                      {% if field.name == "occupation" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}"
+                          class="form-label extra_form">Occupation</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "otherOccu" %}
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Other
+                          Occupation</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+  
+                      {% endif %}
+  
+                      {% endfor %}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <!-- LICENSED? -->
+            <table class="table table-sm table-bordered border-dark" align="center">
+              <thead>
+                <tr>
+                  <td class="text-start">
+                    <input type="checkbox" id="license_check_sm" onchange="toggleLicense()">
+                    <label for="license_check_sm">Are you licensed?</label>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="license_div_sm" style="display: none;">
+                      {% for field in v_form %}
+  
+                      {% if field.name in licenseFields %}
+  
+                      {% if field.name == "prcLicense" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">PRC License
+                          #</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "dept" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}"
+                          class="form-label extra_form">Department</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "company" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Company</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "officeAdd" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office
+                          Address</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "license_telephone" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office
+                          Telephone #</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "license_email" %}
+                      <div class="fieldWrapper mb-4">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Office
+                          Email</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "workSched" %}
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Work
+                          Schedule</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% endif %}
+  
+                      {% endfor %}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <!-- STUDENT UP? -->
+            <table class="table table-sm table-bordered border-dark" align="center">
+              <thead>
+                <tr>
+                  <td class="text-start">
+                    <input type="checkbox" id="up_check_sm" onchange="toggleUP()">
+                    <label for="up_check_sm">Are you currently a student of UP?</label>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="up_div_sm" style="display: none;">
+                    <div>
+                      {% for field in v_form %}
+  
+                      {% if field.name in studentFields %}
+  
+                      {% if field.name == "idNum" %}
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">ID #</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "course" %}
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Course</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "college" %}
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">College</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% if field.name == "yearLvl" %}
+                      <div class="fieldWrapper">
+  
+                        <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Year
+                          Level</label>
+                        {{ field }}
+  
+                      </div>
+                      {% endif %}
+  
+                      {% endif %}
+  
+                      {% endfor %}
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            
+            <div class="container-fluid mx-2">
+              <div class="row">
+                <div class="col">
+                  <table class="table">
+                        <h5>Insurance Information</h5>
+                        <tr>
+                              {% for field in v_form %}
+                              {% if field.name in insuranceFields %}
+                              {% if field.name == "beneficiaries" %}
+                              <div class="fieldWrapper">
+                                <label id="multi_col" for="{{ field.id_for_label }}"
+                                  class="form-label">Beneficiaries</label>
+                                {{ field }}
+                              </div>
+                              {% endif %}
+                              {% if field.name == "relation" %}
+                              <div class="fieldWrapper">
+                                <label id="multi_col" for="{{ field.id_for_label }}"
+                                  class="form-label extra_form">Relation</label>
+                                {{ field }}
+                              </div>
+                              {% endif %}
+                              {% if field.name == "contactNum" %}
+                              <div class="fieldWrapper">
+                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact
+                                  #</label>
+                                {{ field }}
+                              </div>
+                              {% endif %}
+                              {% if field.name == "contactEmail" %}
+                              <div class="fieldWrapper">
+                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Contact
+                                  Email</label>
+                                {{ field }}
+                              </div>
+                              {% endif %}
+                              {% endif %}
+                              {% endfor %}
+                              {% render_field v_form.is_active style="display:none" %}
+                              {% render_field v_form.is_superuser style="display:none" %}
+                              {% render_field v_form.is_staff style="display:none" %}
+                        </tr>
+                  </table>
+                </div>
+                <div class="col">
+                  <table class="table">
+                    <div id="dateDiv">
+                      <tbody>
+                        <tr>
+                          <h5>When can you start?</h5>
+                        </tr>
+                        <tr>
+                            <div>
+                              {% for field in v_form %}
+                              {% if field.name in dateFields %}
+                              {% if field.name == "startDate" %}
+                              <div class="fieldWrapper">
+                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label">Start Date</label>
+                                {{ field }}
+                              </div>
+                              {% endif %}
+                              {% if field.name == "customStartDate" %}
+                              <div class="fieldWrapper">
+                                <label id="multi_col" for="{{ field.id_for_label }}" class="form-label extra_form">Other
+                                  Start Date</label>
+                                {% render_field field type="date" class="form-control" placeholder="mm/dd/yyyy" %}
+                              </div>
+                              {% endif %}
+                              {% endif %}
+                              {% endfor %}
+                            </div>
+                        </tr>
+                        <tr>
+                          <br><br><br>
+                          <input class="btn btn-lg btn-outline-success" type="submit" value="Confirm Details">
+                        </tr>
+                      </tbody>
+                    </div>
+                  </table>
+                </div>
+              </div>
+            </div>
+  
+            </td>
+            </tr>
+            </table>
+          </div>
+        </div>
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+
+
+
 
 <script>
 
@@ -568,28 +1082,92 @@
     var licenseCheck = document.getElementById("license_check");
     var upCheck = document.getElementById("up_check");
 
+    var alumniDiv_sm = document.getElementById("alumni_div_sm");
+    var pghDiv_sm = document.getElementById("pgh_div_sm");
+    var dateOther = document.getElementById("id_customStartDate");
+    var workDiv_sm = document.getElementById("work_div_sm");
+    var licenseDiv_sm = document.getElementById("license_div_sm");
+    var upDiv_sm = document.getElementById("up_div_sm");
+
+    var alumniCheck_sm = document.getElementById("alumni_check_sm");
+    var pghCheck_sm = document.getElementById("pgh_check_sm");    
+    var workCheck_sm = document.getElementById("work_check_sm");
+    var licenseCheck_sm = document.getElementById("license_check_sm");
+    var upCheck_sm = document.getElementById("up_check_sm");
+
 
     function toggleAlumni() {
         
-        
-
         if (alumniCheck.checked) {
-            alumniDiv.style.display = "block";
+          alumniDiv.style.display = "block";
         } else {
-            alumniDiv.style.display = "none";
+          alumniDiv.style.display = "none";
         }
+
+        if (alumniCheck_sm.checked) {
+          alumniDiv_sm.style.display = "block";
+        } else {
+          alumniDiv_sm.style.display = "none";
+        }
+        
     }
 
     function togglePGH() {
-        
-        
-
-        if (pghCheck.checked) {
-            pghDiv.style.display = "block";
-        } else {
-            pghDiv.style.display = "none";
-        }
+    if (pghCheck.checked) {
+        pghDiv.style.display = "block";
+    } else {
+        pghDiv.style.display = "none";
     }
+
+    if (pghCheck_sm.checked) {
+        pghDiv_sm.style.display = "block";
+    } else {
+        pghDiv_sm.style.display = "none";
+    }
+}
+
+function toggleWork() {
+    if (workCheck.checked) {
+        workDiv.style.display = "block";
+    } else {
+        workDiv.style.display = "none";
+    }
+
+    if (workCheck_sm.checked) {
+        workDiv_sm.style.display = "block";
+    } else {
+        workDiv_sm.style.display = "none";
+    }
+}
+
+function toggleLicense() {
+    if (licenseCheck.checked) {
+        licenseDiv.style.display = "block";
+    } else {
+        licenseDiv.style.display = "none";
+    }
+
+    if (licenseCheck_sm.checked) {
+        licenseDiv_sm.style.display = "block";
+    } else {
+        licenseDiv_sm.style.display = "none";
+    }
+}
+
+function toggleUP() {
+    if (upCheck.checked) {
+        upDiv.style.display = "block";
+    } else {
+        upDiv.style.display = "none";
+    }
+
+    if (upCheck_sm.checked) {
+        upDiv_sm.style.display = "block";
+    } else {
+        upDiv_sm.style.display = "none";
+    }
+}
+
 
     function dropWork() {
         var workDropValue = document.getElementById("id_occupation").value;
@@ -597,11 +1175,11 @@
 
         if (workDropValue === "Other") {
             workOther.removeAttribute("disabled");
-        }
-        else {
+          }
+          else {
             workOther.setAttribute("disabled", "disabled");
+          }
         }
-    }
 
     function dropDate() {
         var dateDropValue = document.getElementById("id_startDate").value;
@@ -613,38 +1191,6 @@
             dateOther.setAttribute("disabled", "disabled");
         }
     }
-
-    function toggleWork() {
-        
-        
-
-        if (workCheck.checked) {
-            workDiv.style.display = "block";
-        } else {
-            workDiv.style.display = "none";
-        }
-    }
-
-    function toggleLicense() {
-        
-        
-
-        if (licenseCheck.checked) {
-            licenseDiv.style.display = "block";
-        } else {
-            licenseDiv.style.display = "none";
-        }
-    }
-
-    function toggleUP() {
-        
-        
-        if (upCheck.checked) {
-            upDiv.style.display = "block";
-        } else {
-            upDiv.style.display = "none";
-        }
-    }
     
     var alumnus_loadCheck = {check : "{{volunteer.alumnusCheck}}", obj : alumniDiv, checkObj : alumniCheck};
     var pgh_loadCheck = {check : "{{volunteer.pghCheck}}", obj : pghDiv, checkObj : pghCheck};
@@ -652,12 +1198,31 @@
     var license_loadCheck = {check : "{{volunteer.licenseCheck}}", obj : licenseDiv, checkObj : licenseCheck};
     var student_loadCheck = {check : "{{volunteer.studentCheck}}", obj : upDiv, checkObj : upCheck};
 
+    var alumnus_loadCheck_sm = {check : "{{volunteer.alumnusCheck}}", obj : alumniDiv_sm, checkObj : alumniCheck_sm};
+    var pgh_loadCheck_sm = {check : "{{volunteer.pghCheck}}", obj : pghDiv_sm, checkObj : pghCheck_sm};
+    var work_loadCheck_sm = {check : "{{volunteer.workCheck}}", obj : workDiv_sm, checkObj : workCheck_sm};
+    var license_loadCheck_sm = {check : "{{volunteer.licenseCheck}}", obj : licenseDiv_sm, checkObj : licenseCheck_sm};
+    var student_loadCheck_sm = {check : "{{volunteer.studentCheck}}", obj : upDiv_sm, checkObj : upCheck_sm};
+
     var loadArray = [alumnus_loadCheck, pgh_loadCheck, work_loadCheck, license_loadCheck, student_loadCheck];
+    var loadArray_sm = [alumnus_loadCheck_sm, pgh_loadCheck_sm, work_loadCheck_sm, license_loadCheck_sm, student_loadCheck_sm];
 
     function startWindows() {
 
+      dropWork();
+
         loadArray.forEach(element => {
-            console.log(element.check);
+            // console.log(element.check);
+            if (element.check == "True") {
+                element.obj.style.display = "block";
+                element.checkObj.checked = true;
+            } else {
+                element.obj.style.display = "none";
+            }
+        });
+
+        loadArray_sm.forEach(element => {
+            // console.log(element.check);
             if (element.check == "True") {
                 element.obj.style.display = "block";
                 element.checkObj.checked = true;
@@ -667,7 +1232,25 @@
         });
     }
 
-    document.getElementById("full_form").addEventListener("keydown", function (event) {
+    workOther_sm = document.querySelector("#work_div_sm input");
+
+    document.querySelector("#work_div_sm select").addEventListener("change", function (event) {
+      if (document.querySelector("#work_div_sm select").value === "Other") {
+        workOther_sm.removeAttribute("disabled");
+          }
+          else {
+            workOther_sm.setAttribute("disabled", "disabled");
+            workOther_sm.value = "";
+      }
+    })
+
+    document.getElementById("full_form_sm").addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+        }
+      });
+
+      document.getElementById("full_form_lg").addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
           event.preventDefault();
         }
@@ -677,12 +1260,14 @@
       alumniCheck.addEventListener('change', function() {
         if (!this.checked) {
           document.getElementById('id_constituentUnit').value = '';
+          toggleAlumni();
         }
       })
 
       pghCheck.addEventListener('change', function() {
         if (!this.checked) {
           document.getElementById('id_specification').value = '';
+          togglePGH();
         }
       })
 
@@ -691,7 +1276,9 @@
         if (!this.checked) {
           document.getElementById('id_occupation').value = '';
           document.getElementById('id_otherOccu').value = '';
+          toggleWork();
         }
+        dropWork();
       })
 
       licenseCheck.addEventListener('change', function() {
@@ -703,6 +1290,7 @@
           document.getElementById('id_license_telephone').value = '';
           document.getElementById('id_license_email').value = '';
           document.getElementById('id_workSched').value = '';
+          toggleLicense();
         }
       })
 
@@ -712,10 +1300,9 @@
           document.getElementById('id_course').value = '';
           document.getElementById('id_college').value = '';
           document.getElementById('id_yearLvl').value = '';
+          toggleUP();
         }
       })
-
-
     })
 
       function toggleCheckbox(checkboxId) {
@@ -733,12 +1320,49 @@
             }
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const alumni_checkbox = document.getElementById('alumni_check_sm');
+      const pgh_checkbox = document.getElementById('pgh_check_sm');
+      const work_checkbox = document.getElementById('work_check_sm');
+      const license_checkbox = document.getElementById('license_check_sm');
+      const up_checkbox = document.getElementById('up_check_sm');
+
+      const alumni_fields = document.querySelectorAll('#alumni_div_sm input, #alumni_div_sm select');
+      const pgh_fields = document.querySelectorAll('#pgh_div_sm input, #pgh_div_sm select');
+      const work_fields = document.querySelectorAll('#work_div_sm input, #work_div_sm select');
+      const license_fields = document.querySelectorAll('#license_div_sm input, #license_div_sm select');
+      const up_fields = document.querySelectorAll('#up_div_sm input, #up_div_sm select');
+
+      const checkboxes = [alumni_checkbox, pgh_checkbox, work_checkbox, license_checkbox, up_checkbox];
+      const fields = [alumni_fields, pgh_fields, work_fields, license_fields, up_fields];
+
+      // Function to clear the fields
+      function clearFields(fields) {
+          fields.forEach(function(field) {
+              if (field.tagName.toLowerCase() === 'select') {
+                  field.selectedIndex = 0; // Reset select fields
+              } else {
+                  field.value = ''; // Clear input fields
+              }
+          });
+      }
+
+      // Event listener for checkbox change
+      checkboxes.forEach(function(checkbox, index) {
+          checkbox.addEventListener('change', function() {
+              if (!checkbox.checked) {
+                  clearFields(fields[index]); // Clear fields corresponding to the checkbox
+              }
+          });
+      });
+  });
+
     
 
     dropWork();
     dropDate();
     window.onload = startWindows;
-
 </script>
 
 {% endblock %}

@@ -1,5 +1,6 @@
 from django import forms
-from django.forms import ModelForm, ModelMultipleChoiceField
+from django.forms import ModelForm
+from django.contrib.auth.forms import AuthenticationForm
 from volunteer_forms.models import Program, Volunteer
 
 class VolunteerForm(ModelForm):
@@ -52,6 +53,22 @@ class VolunteerForm(ModelForm):
         'yearLvl' : 'Enter your year level here'
     }
 
+    licenseStudentFields = ['prcLicense',
+                    'company',
+                    'dept', 
+                    'officeAdd',
+                    'license_telephone',
+                    'license_email',
+                    'workSched',
+                    'beneficiaries',
+                    'relation',
+                    'contactNum',
+                    'contactEmail',
+                    'idNum',
+                    'course',
+                    'college',
+                    'yearLvl']
+
     def __init__(self, *args, **kwargs):
         super(VolunteerForm, self).__init__(*args, **kwargs)
 
@@ -81,10 +98,31 @@ class VolunteerForm(ModelForm):
 
             if field_name == 'programs':
                 field.widget.attrs['size'] = '7'
+
+            if field_name == 'address':
+                field.widget.attrs['style'] = 'width: 100%'
+
+            if field_name == 'telephone':
+                field.widget.attrs['style'] = 'width: 100%'
+
+            if field_name == 'bloodType':
+                field.widget.attrs['style'] = 'width: 100%'
+
+            if field_name == 'constituentUnit':
+                field.widget.attrs['style'] = 'width: 100%'
+
+            if field_name == 'otherOccu':
+                field.widget.attrs['style'] = 'width: 100%'
+
+            if field_name == 'specification':
+                field.widget.attrs['style'] = 'width: 100%'
             
             if field_name in self.placeholders:
                 field.widget.attrs['placeholder'] = self.placeholders[field_name]
             
+            if field_name in self.licenseStudentFields:
+                field.widget.attrs['style'] = 'width: 100%'
+
 class ProgramForm(ModelForm):
 
     class Meta:
@@ -104,7 +142,7 @@ class ProgramForm(ModelForm):
 
             if isinstance(field, forms.CharField):
                 field.widget.attrs.update({
-                    'class': 'form-control'
+                    'class': 'form-control',
                 })
 
             if field_name in self.program_placeholders:

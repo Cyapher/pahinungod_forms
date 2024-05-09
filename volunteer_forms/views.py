@@ -5,11 +5,13 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.db.models import Q
 from django.core.paginator import Paginator
+from faker import Faker
 
 from pahinungod_forms import settings
 from volunteer_forms.models import Volunteer, Program
 from .forms import VolunteerForm, ProgramForm
 from django.contrib.auth.decorators import login_required, user_passes_test
+
 
 logger = logging.getLogger(__name__)
 pagination_count = 5
@@ -57,11 +59,13 @@ dateFields = ['startDate',
               'customStartDate']
 
 def is_superuser(user):
+    
     return user.is_authenticated and (user.is_superuser or user.is_staff)
 
 def homePage(request):
-    
-    return render(request, "volunteerHome.html")
+    print(request.META.get('HTTP_USER_AGENT'))
+    programs = Program.objects.all()
+    return render(request, "volunteerHome.html", {'programs': programs})
 
 def index(request):
     
@@ -102,7 +106,7 @@ def index(request):
 @user_passes_test(is_superuser, login_url='home_vol')
 def printVolunteers(request):
     volunteers = Volunteer.objects.all()
-    volunteers = volunteers.filter(Q(is_superuser=False))
+    volunteers = volunteers.filter(Q(is_superuser=False) and Q(is_staff=False))
 
     p = Paginator(volunteers, pagination_count)
     page = request.GET.get("page")
@@ -287,7 +291,7 @@ def filterVolunteers(request):
     order = request.GET.get('order')
 
     volunteers = Volunteer.objects.all()
-    volunteers = volunteers.filter(Q(is_superuser=False))
+    volunteers = volunteers.filter(Q(is_superuser=False) and Q(is_staff=False))
 
     if (query):
         print("search = true")
@@ -309,7 +313,7 @@ def filterVolunteers(request):
 @user_passes_test(is_superuser, login_url='home_vol')
 def searchFilter(request, volunteers):
     query = request.GET.get('q')
-
+    
     if query:
         volunteers = volunteers.filter(
             Q(first_name__icontains=query) |
@@ -368,3 +372,59 @@ def sort_data(request, volunteers):
 def client_view(request, volunteer_id):
 
     return render(request, "volunteerProfile.html")
+
+def generate_sample_objects(request, num_samples=10):
+    # Initialize Faker
+    fake = Faker()
+
+    # Generate sample objects and save them to the database
+    for _ in range(num_samples):
+
+        # Create and save object to the database
+        volunteer = Volunteer.objects.create_user(
+                first_name=Faker().first_name(),
+                last_name=Faker().first_name(),
+                username=Faker().user_name(),           # Random username
+                email=Faker().email(),                  # Random email
+                password=Faker().password(),            # Random password
+                middle_name=Faker().first_name(),       # Random middle name
+                address=Faker().address(),              # Random address
+                mobile=Faker().phone_number()[:10],          # Random phone number
+                telephone=Faker().phone_number()[:10],       # Random phone number
+                birthdate=Faker().date_of_birth(),      # Random birthdate
+                civilStatus=Faker().random_element(elements=('Single', 'Married')),  # Random civil status
+                sex=Faker().random_element(elements=('Male', 'Female', 'Other/Will not disclose')),  # Random sex
+                bloodType=Faker().random_element(elements=('A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-')),  # Random blood type
+                religion=Faker().word(),                # Random religion
+                healthConditions=Faker().sentence(),    # Random health conditions
+                skillsHobbies=Faker().sentence(),       # Random skills/hobbies
+                foodRestrictions=Faker().sentence(),    # Random food restrictions
+                constituentUnit=Faker().word(),         # Random constituent unit
+                specification=Faker().word(),           # Random specification
+                occupation=Faker().random_element(elements=('Physician', 'Nurse', 'Pharmacist', 'Dentist', 'ENT', 'Teacher', 'Other')),  # Random occupation
+                otherOccu=Faker().word(),               # Random other occupation
+                beneficiaries=Faker().name(),           # Random beneficiaries
+                relation=Faker().word(),                # Random relation
+                contactNum=Faker().phone_number()[:10],      # Random contact number
+                contactEmail=Faker().email(),           # Random contact email
+                prcLicense=Faker().random_number(digits=7),  # Random PRC license number
+                dept=Faker().word(),                    # Random department
+                company=Faker().company(),              # Random company
+                officeAdd=Faker().address(),            # Random office address
+                license_telephone=Faker().phone_number()[:10],  # Random license telephone
+                license_email=Faker().email(),          # Random license email
+                workSched=Faker().sentence(),           # Random work schedule
+                idNum=Faker().random_number(digits=5),  # Random ID number
+                course=Faker().sentence(),              # Random course
+                college=Faker().sentence(),             # Random college
+                yearLvl=Faker().random_element(elements=('1', '2', '3', '4', '5')),  # Random year level
+                startDate=Faker().random_element(elements=('immediately', 'next_week', 'next_month')),  # Random start date
+                alumnusCheck=Faker().boolean(),         # Random boolean value
+                pghCheck=Faker().boolean(),             # Random boolean value
+                workCheck=Faker().boolean(),            # Random boolean value
+                licenseCheck=Faker().boolean(),         # Random boolean value
+                studentCheck=Faker().boolean()          # Random boolean value
+            )
+        volunteer.save()
+    
+    print("Volunteers generated!")
