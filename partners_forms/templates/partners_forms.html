@@ -19,6 +19,14 @@
             margin: auto;
         }
 
+        @media (max-width: 768px) {
+            .hide_date_field {
+                display: none;
+            }
+        }
+
+        
+
     </style>
 
     <h1 style="margin: auto; text-align: center;"> Partner Form </h1>
@@ -72,7 +80,26 @@
                     </div>
 
                     <!-- Date Fields -->
+                    <!-- DESKTOP VIEW -->
                     <div class="mb-2 form-row align-items-center justify-content-center d-flex">
+                        <div class="form-group row col-auto m-2 hide_date_field">
+                            <!-- Start Date -->
+                            <label for="id_Agreement_Start_Date" class="col-auto col-form-label">Start Date</label>
+                            <div class="col-auto">
+                                {% render_field form.Agreement_Start_Date type="date" class='form-control' placeholder="mm/dd/yyyy" %}
+                            </div>        
+                        </div>
+                        <div class="form-group row col-auto m-2 hide_date_field">
+                            <!-- End Date -->
+                            <label for="id_Agreement_End_Date" class="col-auto col-form-label">End Date</label>
+                            <div class="col-auto">
+                                {% render_field form.Agreement_End_Date type="date" class='form-control' placeholder="mm/dd/yyyy" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MOBILE VIEW -->
+                    <div class="mb-2 form-row align-items-center justify-content-center d-flex-col d-lg-none d-md-none">
                         <div class="form-group row col-auto m-2">
                             <!-- Start Date -->
                             <label for="id_Agreement_Start_Date" class="col-auto col-form-label">Start Date</label>
@@ -88,7 +115,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <!-- File Field -->
                     {{ file_form.file_field }}
 
