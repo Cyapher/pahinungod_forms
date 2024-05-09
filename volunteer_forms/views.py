@@ -60,8 +60,8 @@ def is_superuser(user):
     return user.is_authenticated and (user.is_superuser or user.is_staff)
 
 def homePage(request):
-    
-    return render(request, "volunteerHome.html")
+    programs = Program.objects.all()
+    return render(request, "volunteerHome.html", {'programs': programs})
 
 def index(request):
     
@@ -102,7 +102,7 @@ def index(request):
 @user_passes_test(is_superuser, login_url='home_vol')
 def printVolunteers(request):
     volunteers = Volunteer.objects.all()
-    volunteers = volunteers.filter(Q(is_superuser=False))
+    volunteers = volunteers.filter(Q(is_superuser=False) and Q(is_staff=False))
 
     p = Paginator(volunteers, pagination_count)
     page = request.GET.get("page")
@@ -287,7 +287,7 @@ def filterVolunteers(request):
     order = request.GET.get('order')
 
     volunteers = Volunteer.objects.all()
-    volunteers = volunteers.filter(Q(is_superuser=False))
+    volunteers = volunteers.filter(Q(is_superuser=False) and Q(is_staff=False))
 
     if (query):
         print("search = true")

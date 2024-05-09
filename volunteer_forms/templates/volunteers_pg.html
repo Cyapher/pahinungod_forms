@@ -4,6 +4,10 @@
 
 <style>
 
+    body {
+        overflow-y: scroll; /* Always show vertical scrollbar */
+    }
+
     #navigation {
         background-color: #7B0100;
     }
@@ -172,7 +176,7 @@
   <br>
   {% if volunteers %}
   <!-- default -->
-  <div class="table-responsive">
+  <div class="table-responsive vw-75">
     <table id="volunteer_list" class="table table-bordered caption-top" align="center">
         {% if request.GET %}
         <caption>
